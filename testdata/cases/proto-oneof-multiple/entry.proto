@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message Values {
+  string value = 1;
+  int32 count = 2;
+  oneof value_type {
+    string string_value = 3;
+    int32 int_value = 4;
+  }
+  int64 timestamp = 7;
+  string unit = 8;
+  string description = 9;
+  oneof types {
+    string type_name = 10;
+    string type_id = 11;
+  }
+}

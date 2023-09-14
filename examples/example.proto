@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package schema;
+
+import "jsonschema.proto";
+option go_package = "github.com/utrack/pubg-jsonschema/pkg/schema";
+
+option (pubg.jsonschema.file) = {
+  entrypoint_message: "ArrayOfEnums";
+};
+
+message Values {
+  // This is a comment
+  FirstForm first = 1 [(pubg.jsonschema.field) = {title: "A lorem ipsum", nullable: true}];
+  FirstForm second = 2;
+  oneof oneof {
+    string a = 3;
+    string b = 4;
+  };
+}
+
+message ArrayOfEnums {
+  string description = 1;
+  enum inline {
+    FOO = 0;
+    BAR = 1;
+    FIZZ = 2;
+    BUZZ = 3;
+  }
+  repeated inline stuff = 2;
+}
+
+message Values2 {
+}
+
+message FirstForm {
+  string name = 1 ;
+  SecondMessage second_message = 2;
+  MyEnum my_enum = 3;
+  map<string, string> mymap = 4;
+
+  string v1 = 5 ;
+  int32 v2 = 6 ;
+  double v3 = 7 ;
+}
+
+message SecondMessage {
+  string a = 1;
+  string b = 2;
+}
+
+enum MyEnum {
+  FOO = 0;
+  BAR = 1;
+  BAZ = 2;
+}

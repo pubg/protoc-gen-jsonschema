@@ -1,0 +1,173 @@
+syntax = "proto3";
+
+package pubg.jsonschema;
+option go_package = "github.com/pubg/protoc-gen-jsonschema/pkg/proto";
+
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/any.proto";
+
+// Not extendable, just define structure
+// Plugin wide options
+message PluginOptions {
+  /**
+    WIP: visibility_level is used to determine which message should be generated.
+    Currently not work.
+  */
+  uint32 visibility_level = 1;
+
+  /**
+    entrypoint_message is used which message should be entrypoint object of schema.
+    default: null or empty
+    example:
+      - --jsonschema_opt=entrypoint_message=MyMessage
+   */
+  string entrypoint_message = 2;
+
+  /**
+    output_file_suffix is used to determine output file name suffix.
+    Values should end with '.json' or '.yaml' or '.yml'.
+    default: .schema.json
+    example:
+      - --jsonschema_opt=output_file_suffix=.schema.json
+      - --jsonschema_opt=output_file_suffix=.schema.yaml
+   */
+  string output_file_suffix = 3;
+
+  /**
+    pretty_json_output is used to determine output json should be pretty printed.
+    This option is only used when output_file_suffix is '.json'.
+    default: true
+    example:
+      - --jsonschema_opt=pretty_json_output=true
+      - --jsonschema_opt=pretty_json_output=false
+   */
+  bool pretty_json_output = 4;
+}
+
+message FileOptions {
+  /**
+    WIP: visibility_level is used to determine which message should be generated.
+    Currently not work.
+  */
+  uint32 visibility_level = 1;
+
+  /**
+    entrypoint_message is used which message should be entrypoint object of schema.
+    default: inherit from PluginOptions.entrypoint_message
+  */
+  string entrypoint_message = 2;
+  /**
+    output_file_suffix is used to determine output file name suffix.
+    Values should end with '.json' or '.yaml' or '.yml'.
+    default: inherit from PluginOptions.output_file_suffix
+   */
+  string output_file_suffix = 3;
+
+  /**
+    pretty_json_output is used to determine output json should be pretty printed.
+    This option is only used when output_file_suffix is '.json'.
+    default: inherit from PluginOptions.pretty_json_output
+   */
+  optional bool pretty_json_output = 4;
+}
+
+message MessageOptions {
+  /**
+    WIP: visibility_level is used to determine which message should be generated.
+    Currently not work.
+  */
+  uint32 visibility_level = 1;
+
+  string title = 2;
+  string description = 3;
+
+  ObjectKeywords object = 10;
+}
+
+message ObjectKeywords {
+  optional bool additional_properties = 1;
+  // repeated JsonSchema additional_properties = 10;
+  optional uint32 min_properties = 2;
+  optional uint32 max_properties = 3;
+}
+
+message FieldOptions {
+  /**
+    WIP: visibility_level is used to determine which message should be generated.
+    Currently not work.
+  */
+  uint32 visibility_level = 1;
+
+  string title = 2;
+  string description = 3;
+  bool nullable = 5;
+
+  google.protobuf.Any default = 10;
+  ArrayKeywords array = 11;
+  NumericKeywords numeric = 12;
+  StringKeywords string = 13;
+}
+
+message ArrayKeywords {
+  optional uint32 min_items = 1;
+  optional uint32 max_items = 2;
+  optional bool unique_items = 3;
+  // repeated JsonSchema contains = 3;
+  // uint32 min_contains = 4;
+  // uint32 max_contains = 5;
+}
+
+message NumericKeywords {
+  oneof min {
+    double inclusive_minimum = 1;
+    double exclusive_minimum = 3;
+  }
+  oneof max {
+    double inclusive_maximum = 2;
+    double exclusive_maximum = 4;
+  }
+  optional int32 multiple_of = 5;
+}
+
+message StringKeywords {
+  optional uint32 min_length = 1;
+  optional uint32 max_length = 2;
+  string pattern = 3;
+  string format = 4;
+}
+
+message EnumOptions {
+  MappingType mapping_type = 1;
+  string title = 2;
+  string description = 3;
+
+  enum MappingType {
+    MapToString = 0;
+    MapToNumber = 1;
+    MapToCustom = 2;
+  }
+}
+
+message EnumValueOptions {
+  google.protobuf.Any custom_value = 10;
+}
+
+extend google.protobuf.FileOptions {
+  FileOptions file = 11341;
+}
+
+extend google.protobuf.MessageOptions {
+  MessageOptions message = 11342;
+}
+
+extend google.protobuf.FieldOptions {
+  FieldOptions field = 11343;
+}
+
+extend google.protobuf.EnumOptions {
+  EnumOptions enum = 11344;
+}
+
+extend google.protobuf.EnumValueOptions {
+  EnumValueOptions enum_value = 11345;
+}
