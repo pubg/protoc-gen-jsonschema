@@ -21,13 +21,13 @@ message Values {
 
 message ArrayOfEnums {
   string description = 1;
-  enum inline {
+  enum InlineEnum {
     FOO = 0;
     BAR = 1;
     FIZZ = 2;
     BUZZ = 3;
   }
-  repeated inline stuff = 2;
+  repeated InlineEnum stuff = 2;
 }
 
 message Values2 {

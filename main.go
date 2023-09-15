@@ -26,6 +26,6 @@ func main() {
 	pgs.Init(
 		pgs.DebugEnv("DEBUG"),
 		pgs.SupportedFeatures(&feature)).
-		RegisterModule(modules.NewJsonSchemaModule()).
+		RegisterModule(modules.NewModule()).
 		Render()
 }

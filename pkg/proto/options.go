@@ -15,6 +15,14 @@ func GetPluginOptions(params pgs.Parameters) *PluginOptions {
 	options.EntrypointMessage = params.StrDefault("entrypoint_message", "")
 	options.OutputFileSuffix = params.StrDefault("output_file_suffix", ".schema.json")
 	options.PrettyJsonOutput, _ = params.BoolDefault("pretty_json_output", true)
+
+	// Default Value
+	options.Draft = Draft_Draft202012
+	for draft, index := range Draft_value {
+		if params.Str("draft") == draft {
+			options.Draft = Draft(index)
+		}
+	}
 	return options
 }
 

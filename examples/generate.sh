@@ -11,6 +11,7 @@ export DEBUG=true
 protoc \
   --plugin=protoc-gen-jsonschema=./protoc-gen-jsonschema \
   --jsonschema_out=./ \
+  --jsonschema_opt=draft=Draft07 \
   -I ./ \
   -I ../proto \
   ./example.proto

@@ -42,6 +42,22 @@ message PluginOptions {
       - --jsonschema_opt=pretty_json_output=false
    */
   bool pretty_json_output = 4;
+
+  /**
+    draft is used to determine which draft version should be used.
+    default: Draft202012
+    example:
+      - --jsonschema_opt=draft=Draft202012
+   */
+  Draft draft = 5;
+}
+
+enum Draft {
+  Draft202012 = 0;
+  Draft201909 = 1;
+  Draft07 = 2;
+  Draft06 = 3;
+  Draft04 = 4;
 }
 
 message FileOptions {

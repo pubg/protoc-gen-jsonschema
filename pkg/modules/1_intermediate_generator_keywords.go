@@ -1,8 +1,9 @@
 package modules
 
 import (
-	"github.com/invopop/jsonschema"
+	"github.com/pubg/protoc-gen-jsonschema/pkg/jsonschema"
 	"github.com/pubg/protoc-gen-jsonschema/pkg/proto"
+	"github.com/pubg/protoc-gen-jsonschema/pkg/utils"
 )
 
 func fillSchemaByObjectKeywords(schema *jsonschema.Schema, keywords *proto.ObjectKeywords) {
@@ -11,17 +12,13 @@ func fillSchemaByObjectKeywords(schema *jsonschema.Schema, keywords *proto.Objec
 	}
 
 	if keywords.AdditionalProperties != nil {
-		if keywords.GetAdditionalProperties() {
-			schema.AdditionalProperties = jsonschema.TrueSchema
-		} else {
-			schema.AdditionalProperties = jsonschema.FalseSchema
-		}
+		schema.AdditionalProperties = jsonschema.NewBooleanSchema(keywords.GetAdditionalProperties())
 	}
 	if keywords.MinProperties != nil {
-		schema.MinProperties = int(keywords.GetMinProperties())
+		schema.MinProperties = utils.UInt32(keywords.GetMinProperties())
 	}
 	if keywords.MaxProperties != nil {
-		schema.MaxProperties = int(keywords.GetMaxProperties())
+		schema.MaxProperties = utils.UInt32(keywords.GetMaxProperties())
 	}
 }
 
@@ -32,22 +29,20 @@ func fillSchemaByNumericKeywords(schema *jsonschema.Schema, keywords *proto.Nume
 
 	// TODO: type 없애야 함 (min, max 모두 double이 맞음)
 	if val, ok := keywords.Max.(*proto.NumericKeywords_InclusiveMaximum); ok {
-		schema.Minimum = int(val.InclusiveMaximum)
+		schema.Minimum = &val.InclusiveMaximum
 	}
 	if val, ok := keywords.Min.(*proto.NumericKeywords_InclusiveMinimum); ok {
-		schema.Maximum = int(val.InclusiveMinimum)
+		schema.Maximum = &val.InclusiveMinimum
 	}
 	if val, ok := keywords.Max.(*proto.NumericKeywords_ExclusiveMaximum); ok {
-		schema.Maximum = int(val.ExclusiveMaximum)
-		schema.ExclusiveMaximum = true
+		schema.ExclusiveMaximum = &val.ExclusiveMaximum
 	}
 	if val, ok := keywords.Min.(*proto.NumericKeywords_ExclusiveMinimum); ok {
-		schema.Minimum = int(val.ExclusiveMinimum)
-		schema.ExclusiveMinimum = true
+		schema.ExclusiveMinimum = &val.ExclusiveMinimum
 	}
 
 	if keywords.MultipleOf != nil {
-		schema.MultipleOf = int(keywords.GetMultipleOf())
+		schema.MultipleOf = utils.Int32(keywords.GetMultipleOf())
 	}
 }
 
@@ -64,10 +59,10 @@ func fillSchemaByStringKeywords(schema *jsonschema.Schema, keywords *proto.Strin
 	}
 
 	if keywords.MaxLength != nil {
-		schema.MaxLength = int(keywords.GetMaxLength())
+		schema.MaxLength = utils.UInt32(keywords.GetMaxLength())
 	}
 	if keywords.MinLength != nil {
-		schema.MinLength = int(keywords.GetMinLength())
+		schema.MinLength = utils.UInt32(keywords.GetMinLength())
 	}
 }
 
@@ -77,12 +72,12 @@ func fillSchemaByArrayKeywords(schema *jsonschema.Schema, keywords *proto.ArrayK
 	}
 
 	if keywords.MaxItems != nil {
-		schema.MaxItems = int(keywords.GetMaxItems())
+		schema.MaxItems = utils.UInt32(keywords.GetMaxItems())
 	}
 	if keywords.MinItems != nil {
-		schema.MinItems = int(keywords.GetMinItems())
+		schema.MinItems = utils.UInt32(keywords.GetMinItems())
 	}
 	if keywords.UniqueItems != nil {
-		schema.UniqueItems = keywords.GetUniqueItems()
+		schema.UniqueItems = keywords.UniqueItems
 	}
 }

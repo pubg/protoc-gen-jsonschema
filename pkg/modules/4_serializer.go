@@ -5,41 +5,32 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/invopop/jsonschema"
 	pgs "github.com/lyft/protoc-gen-star/v2"
 	"github.com/pubg/protoc-gen-jsonschema/pkg/proto"
 	"gopkg.in/yaml.v3"
 )
 
 type Serializer interface {
-	Serialize(schema *jsonschema.Schema, pluginOptions *proto.PluginOptions, file pgs.File) (string, []byte, error)
+	Serialize(schema any, file pgs.File) ([]byte, error)
+	ToFileName(file pgs.File) string
 }
 
 var _ Serializer = (*SerializerImpl)(nil)
 
 type SerializerImpl struct {
+	pluginOptions *proto.PluginOptions
 }
 
-func NewSerializerImpl() *SerializerImpl {
-	return &SerializerImpl{}
+func NewSerializerImpl(pluginOptions *proto.PluginOptions) *SerializerImpl {
+	return &SerializerImpl{pluginOptions: pluginOptions}
 }
 
-func (s *SerializerImpl) Serialize(schema *jsonschema.Schema, pluginOptions *proto.PluginOptions, file pgs.File) (string, []byte, error) {
+func (s *SerializerImpl) Serialize(schema any, file pgs.File) ([]byte, error) {
 	fileOptions := proto.GetFileOptions(file)
-	content, err := s.serializeToBytes(schema, pluginOptions, fileOptions)
-	if err != nil {
-		return "", nil, err
-	}
+	outputFileSuffix := proto.GetOutputFileSuffix(s.pluginOptions, fileOptions)
 
-	outputFileSuffix := proto.GetOutputFileSuffix(pluginOptions, fileOptions)
-	fileName := file.InputPath().SetExt(outputFileSuffix).String()
-	return fileName, content, nil
-}
-
-func (s *SerializerImpl) serializeToBytes(schema *jsonschema.Schema, pluginOptions *proto.PluginOptions, fileOptions *proto.FileOptions) ([]byte, error) {
-	outputFileSuffix := proto.GetOutputFileSuffix(pluginOptions, fileOptions)
 	if strings.HasSuffix(outputFileSuffix, ".json") {
-		if proto.GetPrettyJsonOutput(pluginOptions, fileOptions) {
+		if proto.GetPrettyJsonOutput(s.pluginOptions, fileOptions) {
 			return json.MarshalIndent(schema, "", "  ")
 		} else {
 			return json.Marshal(schema)
@@ -49,4 +40,10 @@ func (s *SerializerImpl) serializeToBytes(schema *jsonschema.Schema, pluginOptio
 	} else {
 		return nil, fmt.Errorf("unsupported output file suffix: `%s`, suffix should be endsWith `.json`, `.yaml`, `.yml`", outputFileSuffix)
 	}
+}
+
+func (s *SerializerImpl) ToFileName(file pgs.File) string {
+	fileOptions := proto.GetFileOptions(file)
+	outputFileSuffix := proto.GetOutputFileSuffix(s.pluginOptions, fileOptions)
+	return file.InputPath().SetExt(outputFileSuffix).String()
 }

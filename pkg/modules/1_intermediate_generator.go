@@ -3,9 +3,8 @@ package modules
 import (
 	"encoding/json"
 
-	"github.com/iancoleman/orderedmap"
-	"github.com/invopop/jsonschema"
 	pgs "github.com/lyft/protoc-gen-star/v2"
+	"github.com/pubg/protoc-gen-jsonschema/pkg/jsonschema"
 	"github.com/pubg/protoc-gen-jsonschema/pkg/proto"
 	"github.com/samber/lo"
 	"google.golang.org/protobuf/types/known/anypb"
@@ -16,7 +15,7 @@ func buildFromMessage(message pgs.Message, mo *proto.MessageOptions) *jsonschema
 	schema.Type = "object"
 	schema.Title = message.Name().UpperCamelCase().String()
 	schema.Description = message.SourceCodeInfo().LeadingComments()
-	schema.Properties = orderedmap.New()
+	schema.Properties = jsonschema.NewOrderedSchemaMap()
 
 	fillSchemaByObjectKeywords(schema, mo.GetObject())
 
@@ -27,7 +26,7 @@ func buildFromMessage(message pgs.Message, mo *proto.MessageOptions) *jsonschema
 		//}
 
 		propName := toPropertyName(field.Name())
-		schema.Properties.Set(propName, &jsonschema.Schema{Ref: toDef(field)})
+		schema.Properties.Set(propName, &jsonschema.Schema{Ref: toRefId(field)})
 
 		// If field is not a member of oneOf
 		if !field.InRealOneOf() && !field.HasOptionalKeyword() {
@@ -59,9 +58,9 @@ func buildFromMessageField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.
 	schema.Description = proto.GetDescription(field, fo)
 
 	if field.Type().IsRepeated() {
-		schema.Ref = toDef(field.Type().Element().Embed())
+		schema.Ref = toRefId(field.Type().Element().Embed())
 	} else {
-		schema.Ref = toDef(field.Type().Embed())
+		schema.Ref = toRefId(field.Type().Embed())
 	}
 
 	if field.Type().IsRepeated() {
@@ -82,13 +81,13 @@ func buildFromMapField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Sche
 	value := field.Type().Element()
 	protoType := value.ProtoType()
 	if protoType == pgs.MessageT {
-		valueSchema.Ref = toDef(value.Embed())
+		valueSchema.Ref = toRefId(value.Embed())
 	} else if protoType.IsNumeric() {
 		valueSchema.Type = "number"
 	} else if protoType == pgs.BoolT {
 		valueSchema.Type = "boolean"
 	} else if protoType == pgs.EnumT {
-		valueSchema.Ref = toDef(value.Enum())
+		valueSchema.Ref = toRefId(value.Enum())
 	} else if protoType == pgs.StringT || protoType == pgs.BytesT {
 		valueSchema.Type = "string"
 	}
@@ -109,9 +108,9 @@ func buildFromScalaField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Sc
 		schema.Type = "boolean"
 	} else if protoType == pgs.EnumT {
 		if field.Type().IsRepeated() {
-			schema.Ref = toDef(field.Type().Element().Enum())
+			schema.Ref = toRefId(field.Type().Element().Enum())
 		} else {
-			schema.Ref = toDef(field.Type().Enum())
+			schema.Ref = toRefId(field.Type().Enum())
 		}
 	} else if protoType == pgs.StringT || protoType == pgs.BytesT {
 		schema.Type = "string"
@@ -214,6 +213,6 @@ type FqdnResolver interface {
 	FullyQualifiedName() string
 }
 
-func toDef(resolver FqdnResolver) string {
-	return jsonschema.EmptyID.Def(resolver.FullyQualifiedName()).String()
+func toRefId(resolver FqdnResolver) jsonschema.RefId {
+	return jsonschema.RefId(resolver.FullyQualifiedName())
 }

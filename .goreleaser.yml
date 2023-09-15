@@ -1,0 +1,33 @@
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - id: protoc-gen-jsonschema
+    main: main.go
+    binary: protoc-gen-jsonschema
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -X main.version={{ .Version }}
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    goarm:
+      - 8
+archives:
+  - id: protoc-gen-jsonschema-archive
+    name_template: |-
+      protoc-gen-jsonschema_{{ .Tag }}_{{ .Os }}_{{ .Arch -}}
+    builds:
+      - protoc-gen-jsonschema
+    format_overrides:
+      - goos: windows
+        format: zip
+    files: [""]
+checksum:
+  name_template: "checksums.txt"
+  algorithm: sha256
