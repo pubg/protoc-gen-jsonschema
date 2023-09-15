@@ -1,4 +1,8 @@
 syntax = "proto3";
+package samples;
+
+import "jsonschema.proto";
+option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
 
 message Values {
   string value = 1;

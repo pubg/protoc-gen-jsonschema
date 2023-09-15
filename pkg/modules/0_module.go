@@ -30,40 +30,53 @@ func (m *Module) InitContext(c pgs.BuildContext) {
 }
 
 func (m *Module) Execute(targets map[string]pgs.File, packages map[string]pgs.Package) []pgs.Artifact {
-	// Phase: IntermediateSchemaGenerate
+	// Phase: Middleend IntermediateSchemaGenerate
 	visitor := NewVisitor(m)
 	for _, pkg := range packages {
 		m.CheckErr(pgs.Walk(visitor, pkg), fmt.Sprintf("failed to walk package %s", pkg.ProtoName().String()))
 	}
 	m.Debugf("# of IntermediateSchemas: %d", len(visitor.registry.GetKeys()))
 
-	// Phase: TargetSchemaGenerate
-	var optimizer Optimizer = NewOptimizerImpl(m.pluginOptions)
-	var generator TargetSchemaGenerator = NewMultiDraftGenerator(m.pluginOptions)
-	var serializer Serializer = NewSerializerImpl(m.pluginOptions)
+	// Phase: Backend TargetSchemaGenerate
+	var optimizer BackendOptimizer = NewOptimizerImpl(m.pluginOptions)
+	var generator BackendTargetGenerator = NewMultiDraftGenerator(m.pluginOptions)
+	var serializer BackendSerializer = NewSerializerImpl(m.pluginOptions)
+	m.Push("BackendPhase")
 	for _, file := range targets {
-		m.Push("TargetSchemaGenerate")
-		m.Push(file.Name().String())
-		m.Debugf("FileOptions: %v", protojson.MarshalOptions{EmitUnpopulated: true}.Format(proto.GetFileOptions(file)))
-
-		copiedRegistry := jsonschema.DeepCopyRegistry(visitor.registry)
-
-		optimizer.Optimize(copiedRegistry, file)
-		m.Debugf("# of Schemas After Optimized : %d", len(copiedRegistry.GetKeys()))
-
-		rootSchema := generator.Generate(copiedRegistry, file)
-		if rootSchema == nil {
-			m.Logf("Cannot find matched entrypointMessage in %s", file.Name().String())
-			continue
+		artifact := m.BackendPhase(file, visitor.registry, optimizer, generator, serializer)
+		if artifact != nil {
+			m.AddArtifact(artifact)
 		}
-
-		content, err := serializer.Serialize(rootSchema, file)
-		m.CheckErr(err, fmt.Sprintf("failed to serialize file %s", file.Name().String()))
-		fileName := serializer.ToFileName(file)
-		m.Debugf("GeneratedFileName: %s", fileName)
-
-		m.AddGeneratorFile(fileName, string(content))
 	}
 
 	return m.Artifacts()
+}
+
+func (m *Module) BackendPhase(file pgs.File, registry *jsonschema.Registry, optimizer BackendOptimizer, generator BackendTargetGenerator, serializer BackendSerializer) pgs.Artifact {
+	m.Push(file.Name().String())
+	defer m.Pop()
+	m.Debugf("FileOptions: %v", protojson.MarshalOptions{EmitUnpopulated: true}.Format(proto.GetFileOptions(file)))
+
+	entrypointMessage := getEntrypointFromFile(file, m.pluginOptions)
+	if entrypointMessage == nil {
+		m.Logf("Cannot find matched entrypointMessage, Please check FileOptions")
+		return nil
+	}
+
+	copiedRegistry := jsonschema.DeepCopyRegistry(registry)
+	optimizer.Optimize(copiedRegistry, entrypointMessage)
+	m.Debugf("# of Schemas After Optimized : %d", len(copiedRegistry.GetKeys()))
+
+	rootSchema := generator.Generate(copiedRegistry, entrypointMessage)
+	if rootSchema == nil {
+		m.Logf("Cannot generate rootSchema, Please check FileOptions or PluginOptions")
+		return nil
+	}
+
+	content, err := serializer.Serialize(rootSchema, file)
+	m.CheckErr(err, fmt.Sprintf("Failed to serialize file %s", file.Name().String()))
+	fileName := serializer.ToFileName(file)
+	m.Debugf("GeneratedFileName: %s", fileName)
+
+	return pgs.GeneratorFile{Name: fileName, Contents: string(content)}
 }

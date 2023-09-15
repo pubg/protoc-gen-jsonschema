@@ -1,18 +1,16 @@
 package modules
 
 import (
-	"strings"
-
 	pgs "github.com/lyft/protoc-gen-star/v2"
 	"github.com/pubg/protoc-gen-jsonschema/pkg/jsonschema"
 	"github.com/pubg/protoc-gen-jsonschema/pkg/proto"
 )
 
-type Optimizer interface {
-	Optimize(registry *jsonschema.Registry, file pgs.File)
+type BackendOptimizer interface {
+	Optimize(registry *jsonschema.Registry, entrypointMessage pgs.Message)
 }
 
-var _ Optimizer = (*OptimizerImpl)(nil)
+var _ BackendOptimizer = (*OptimizerImpl)(nil)
 
 type OptimizerImpl struct {
 	schemaByRef   jsonschema.SchemaMap
@@ -25,8 +23,7 @@ func NewOptimizerImpl(pluginOptions *proto.PluginOptions) *OptimizerImpl {
 
 const refCountKey = "refCount"
 
-func (o *OptimizerImpl) Optimize(registry *jsonschema.Registry, file pgs.File) {
-	entrypointMessage := o.getEntrypointMessage(file.Messages(), proto.GetFileOptions(file))
+func (o *OptimizerImpl) Optimize(registry *jsonschema.Registry, entrypointMessage pgs.Message) {
 	entrypointSchemaRef := toRefId(entrypointMessage)
 	entrypointSchema := registry.GetSchema(entrypointSchemaRef.String())
 
@@ -50,10 +47,6 @@ func (o *OptimizerImpl) optimizeDefinitions(registry *jsonschema.Registry) {
 	for _, key := range deleteKeys {
 		registry.DeleteSchema(key)
 	}
-}
-
-func (o *OptimizerImpl) idFromRef(ref string) string {
-	return strings.Replace(ref, "#/definitions/", "", 1)
 }
 
 func (o *OptimizerImpl) getEntrypointMessage(messages []pgs.Message, fileOptions *proto.FileOptions) pgs.Message {

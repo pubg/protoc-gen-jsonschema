@@ -10,12 +10,12 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type Serializer interface {
+type BackendSerializer interface {
 	Serialize(schema any, file pgs.File) ([]byte, error)
 	ToFileName(file pgs.File) string
 }
 
-var _ Serializer = (*SerializerImpl)(nil)
+var _ BackendSerializer = (*SerializerImpl)(nil)
 
 type SerializerImpl struct {
 	pluginOptions *proto.PluginOptions
