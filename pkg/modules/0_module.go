@@ -53,8 +53,7 @@ func (m *Module) Execute(targets map[string]pgs.File, packages map[string]pgs.Pa
 }
 
 func (m *Module) BackendPhase(file pgs.File, registry *jsonschema.Registry, optimizer BackendOptimizer, generator BackendTargetGenerator, serializer BackendSerializer) pgs.Artifact {
-	m.Push(file.Name().String())
-	defer m.Pop()
+	defer m.Push(file.Name().String()).Pop()
 	m.Debugf("FileOptions: %v", protojson.MarshalOptions{EmitUnpopulated: true}.Format(proto.GetFileOptions(file)))
 
 	entrypointMessage := getEntrypointFromFile(file, m.pluginOptions)
@@ -67,7 +66,8 @@ func (m *Module) BackendPhase(file pgs.File, registry *jsonschema.Registry, opti
 	optimizer.Optimize(copiedRegistry, entrypointMessage)
 	m.Debugf("# of Schemas After Optimized : %d", len(copiedRegistry.GetKeys()))
 
-	rootSchema := generator.Generate(copiedRegistry, entrypointMessage)
+	fileOptions := proto.GetFileOptions(file)
+	rootSchema := generator.Generate(copiedRegistry, entrypointMessage, fileOptions)
 	if rootSchema == nil {
 		m.Logf("Cannot generate rootSchema, Please check FileOptions or PluginOptions")
 		return nil

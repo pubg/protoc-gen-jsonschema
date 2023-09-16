@@ -86,7 +86,14 @@ type NameWithSourceResolver interface {
 	Name() pgs.Name
 }
 
-func GetDescription(name NameWithSourceResolver, description DescriptionResolver) string {
+func GetDescriptionOrEmpty(description DescriptionResolver) string {
+	if description != nil && description.GetDescription() != "" {
+		return description.GetDescription()
+	}
+	return ""
+}
+
+func GetDescriptionOrComment(name NameWithSourceResolver, description DescriptionResolver) string {
 	if description != nil && description.GetDescription() != "" {
 		return description.GetDescription()
 	}

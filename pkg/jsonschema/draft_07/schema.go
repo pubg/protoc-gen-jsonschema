@@ -81,7 +81,9 @@ func deepCopy(origin *jsonschema.Schema) *Schema {
 	dst.Version = origin.Version
 	dst.ID = origin.ID
 	dst.Anchor = origin.Anchor
-	dst.Ref = "#/definitions/" + origin.Ref.String()
+	if origin.Ref.String() != "" {
+		dst.Ref = "#/definitions/" + origin.Ref.String()
+	}
 	dst.DynamicRef = origin.DynamicRef
 	dst.Definitions = deepCopyMap(origin.Definitions)
 	dst.Comments = origin.Comments

@@ -85,6 +85,9 @@ message FileOptions {
     default: inherit from PluginOptions.pretty_json_output
    */
   optional bool pretty_json_output = 4;
+
+  string title = 5;
+  string description = 6;
 }
 
 message MessageOptions {

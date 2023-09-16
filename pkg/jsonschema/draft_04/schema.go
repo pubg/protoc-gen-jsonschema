@@ -65,7 +65,9 @@ func deepCopy(origin *jsonschema.Schema) *Schema {
 	dst := &Schema{}
 	dst.Version = origin.Version
 	dst.ID = origin.ID
-	dst.Ref = "#/definitions/" + origin.Ref.String()
+	if origin.Ref.String() != "" {
+		dst.Ref = "#/definitions/" + origin.Ref.String()
+	}
 	dst.Definitions = deepCopyMap(origin.Definitions)
 
 	dst.AllOf = deepCopyArray(origin.AllOf)

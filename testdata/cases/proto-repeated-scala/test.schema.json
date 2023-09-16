@@ -1,15 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$ref": "#/$defs/.samples.ArrayOfEnums",
+  "$ref": "#/$defs/.tests.ArrayOfEnums",
   "$defs": {
-    ".samples.ArrayOfEnums": {
-      "$ref": "#/$defs/",
+    ".tests.ArrayOfEnums": {
       "properties": {
         "description": {
-          "$ref": "#/$defs/.samples.ArrayOfEnums.description"
+          "$ref": "#/$defs/.tests.ArrayOfEnums.description"
         },
         "stuff": {
-          "$ref": "#/$defs/.samples.ArrayOfEnums.stuff"
+          "$ref": "#/$defs/.tests.ArrayOfEnums.stuff"
         }
       },
       "type": "object",
@@ -19,8 +18,7 @@
       ],
       "title": "ArrayOfEnums"
     },
-    ".samples.ArrayOfEnums.inline": {
-      "$ref": "#/$defs/",
+    ".tests.ArrayOfEnums.inline": {
       "type": "string",
       "enum": [
         "FOO",
@@ -29,14 +27,12 @@
         "BUZZ"
       ]
     },
-    ".samples.ArrayOfEnums.description": {
-      "$ref": "#/$defs/",
+    ".tests.ArrayOfEnums.description": {
       "type": "string"
     },
-    ".samples.ArrayOfEnums.stuff": {
-      "$ref": "#/$defs/",
+    ".tests.ArrayOfEnums.stuff": {
       "items": {
-        "$ref": "#/$defs/.samples.ArrayOfEnums.inline"
+        "$ref": "#/$defs/.tests.ArrayOfEnums.inline"
       },
       "type": "array"
     }

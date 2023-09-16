@@ -1,5 +1,5 @@
 syntax = "proto3";
-package samples;
+package tests;
 
 import "jsonschema.proto";
 

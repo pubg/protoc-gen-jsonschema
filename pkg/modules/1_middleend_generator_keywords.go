@@ -27,7 +27,6 @@ func fillSchemaByNumericKeywords(schema *jsonschema.Schema, keywords *proto.Nume
 		return
 	}
 
-	// TODO: type 없애야 함 (min, max 모두 double이 맞음)
 	if val, ok := keywords.Max.(*proto.NumericKeywords_InclusiveMaximum); ok {
 		schema.Minimum = &val.InclusiveMaximum
 	}

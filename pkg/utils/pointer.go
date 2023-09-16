@@ -10,6 +10,10 @@ func Int32(i int32) *int {
 	return &ii
 }
 
+func Int(i int) *int {
+	return &i
+}
+
 func Bool(b bool) *bool {
 	return &b
 }

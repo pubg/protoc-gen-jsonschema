@@ -55,7 +55,7 @@ func buildFromMessage(message pgs.Message, mo *proto.MessageOptions) *jsonschema
 func buildFromMessageField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Schema {
 	schema := &jsonschema.Schema{}
 	schema.Title = proto.GetTitleOrEmpty(fo)
-	schema.Description = proto.GetDescription(field, fo)
+	schema.Description = proto.GetDescriptionOrComment(field, fo)
 
 	if field.Type().IsRepeated() {
 		schema.Ref = toRefId(field.Type().Element().Embed())
@@ -74,7 +74,7 @@ func buildFromMessageField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.
 func buildFromMapField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Schema {
 	schema := &jsonschema.Schema{}
 	schema.Title = proto.GetTitleOrEmpty(fo)
-	schema.Description = proto.GetDescription(field, fo)
+	schema.Description = proto.GetDescriptionOrComment(field, fo)
 	schema.Type = "object"
 
 	valueSchema := &jsonschema.Schema{}
@@ -98,10 +98,13 @@ func buildFromMapField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Sche
 func buildFromScalaField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Schema {
 	schema := &jsonschema.Schema{}
 	schema.Title = proto.GetTitleOrEmpty(fo)
-	schema.Description = proto.GetDescription(field, fo)
+	schema.Description = proto.GetDescriptionOrComment(field, fo)
 
 	protoType := field.Type().ProtoType()
-	if protoType.IsNumeric() {
+	if protoType.IsInt() {
+		schema.Type = "integer"
+		fillSchemaByNumericKeywords(schema, fo.GetNumeric())
+	} else if protoType == pgs.DoubleT || protoType == pgs.FloatT {
 		schema.Type = "number"
 		fillSchemaByNumericKeywords(schema, fo.GetNumeric())
 	} else if protoType == pgs.BoolT {
@@ -112,8 +115,13 @@ func buildFromScalaField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Sc
 		} else {
 			schema.Ref = toRefId(field.Type().Enum())
 		}
-	} else if protoType == pgs.StringT || protoType == pgs.BytesT {
+	} else if protoType == pgs.StringT {
 		schema.Type = "string"
+		fillSchemaByStringKeywords(schema, fo.GetString_())
+	} else if protoType == pgs.BytesT {
+		schema.Type = "string"
+		// Base64 Regex Expression
+		schema.Pattern = "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
 		fillSchemaByStringKeywords(schema, fo.GetString_())
 	}
 
@@ -137,7 +145,7 @@ func buildFromEnum(enum pgs.Enum) (*jsonschema.Schema, error) {
 		schema.Type = "string"
 	}
 	schema.Title = proto.GetTitleOrEmpty(eo)
-	schema.Description = proto.GetDescription(enum, eo)
+	schema.Description = proto.GetDescriptionOrComment(enum, eo)
 
 	for _, enumValue := range enum.Values() {
 		switch eo.GetMappingType() {
@@ -159,9 +167,7 @@ func buildFromEnum(enum pgs.Enum) (*jsonschema.Schema, error) {
 				schema.Enum = append(schema.Enum, customValue)
 			}
 		}
-
 	}
-	// TODO: if allow additional values
 	return schema, nil
 }
 
@@ -174,6 +180,86 @@ func wrapSchemaInArray(schema *jsonschema.Schema, field pgs.Field, fo *proto.Fie
 
 	fillSchemaByArrayKeywords(repeatedSchema, fo.GetArray())
 	return repeatedSchema
+}
+
+func buildFromWellKnownField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Schema {
+	schema := &jsonschema.Schema{}
+	schema.Title = proto.GetTitleOrEmpty(fo)
+	schema.Description = proto.GetDescriptionOrComment(field, fo)
+
+	wellKnownType := getWellKnownType(field)
+	if wellKnownType == WellKnownTypeNone {
+		panic("not well known type")
+	}
+
+	switch wellKnownType {
+	case WellKnownTypeTimestamp:
+		schema.Type = "string"
+		schema.Format = "date-time"
+		fillSchemaByStringKeywords(schema, fo.GetString_())
+	case WellKnownTypeDuration:
+		schema.Type = "string"
+		schema.Format = "duration"
+		fillSchemaByStringKeywords(schema, fo.GetString_())
+	case WellKnownTypeAny:
+		schema.Type = "object"
+	case WellKnownTypeNullValue:
+		schema.Type = "null"
+	case WellKnownTypeK8sIntOrString:
+		schema.OneOf = []*jsonschema.Schema{
+			{Type: "string"},
+			{Type: "integer"},
+		}
+	}
+
+	if field.Type().IsRepeated() {
+		return wrapSchemaInArray(schema, field, fo)
+	} else {
+		return schema
+	}
+	return schema
+}
+
+func isWellKnownType(field pgs.Field) bool {
+	return getWellKnownType(field) != WellKnownTypeNone
+}
+
+type WellKnownType int
+
+const (
+	WellKnownTypeNone WellKnownType = iota
+	WellKnownTypeTimestamp
+	WellKnownTypeDuration
+	WellKnownTypeAny
+	WellKnownTypeNullValue
+	WellKnownTypeK8sIntOrString
+)
+
+func getWellKnownType(field pgs.Field) WellKnownType {
+	if field.Type().IsMap() || field.Type().ProtoType() != pgs.MessageT {
+		return WellKnownTypeNone
+	}
+	var message pgs.Message
+	if field.Type().IsRepeated() {
+		message = field.Type().Element().Embed()
+	} else {
+		message = field.Type().Embed()
+	}
+
+	switch message.FullyQualifiedName() {
+	case ".google.protobuf.Timestamp":
+		return WellKnownTypeTimestamp
+	case ".google.protobuf.Duration":
+		return WellKnownTypeDuration
+	case ".google.protobuf.Any":
+		return WellKnownTypeAny
+	case ".google.protobuf.NullValue":
+		return WellKnownTypeNullValue
+	case ".k8s.io.apimachinery.pkg.apis.util.v1.IntOrString":
+		return WellKnownTypeK8sIntOrString
+	default:
+		return WellKnownTypeNone
+	}
 }
 
 func parseScalaValueFromAny(anyValue *anypb.Any) (any, error) {

@@ -1,0 +1,11 @@
+name: "array of enums"
+description: ""
+
+inputFiles: ["test.proto"]
+inputParameters: {}
+
+expectResultFiles: ["test.schema"]
+expectResultIsNull: false
+expectFail: false
+
+expectedBehaviorDescription: ""

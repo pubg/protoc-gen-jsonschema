@@ -45,6 +45,11 @@ func (v *MiddleendVisitor) VisitField(field pgs.Field) (pgs.Visitor, error) {
 	}
 
 	// TODO: if field is well-known type
+	if isWellKnownType(field) {
+		schema := buildFromWellKnownField(field, fo)
+		v.registry.AddSchema(field.FullyQualifiedName(), schema)
+		return v, nil
+	}
 
 	// if field is message or map type
 	fieldType := field.Type()
