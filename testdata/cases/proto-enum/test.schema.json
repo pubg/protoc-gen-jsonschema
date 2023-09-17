@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.Default": {
+      "type": "string",
+      "enum": [
+        "FOODefault0",
+        "FOODefault1"
+      ]
+    },
+    ".tests.MapToNumber": {
+      "type": "number",
+      "enum": [
+        0,
+        1
+      ]
+    },
+    ".tests.MapToString": {
+      "type": "string",
+      "enum": [
+        "FOOMapToString0",
+        "FOOMapToString1"
+      ]
+    },
+    ".tests.MapToCustom": {
+      "type": "string",
+      "enum": [
+        "foo",
+        123
+      ]
+    },
+    ".tests.MapToCustomIncomplete": {
+      "type": "string",
+      "enum": [
+        "foo",
+        123,
+        "FOOMapToCustomIncomplete2"
+      ]
+    },
+    ".tests.Values": {
+      "properties": {
+        "default": {
+          "$ref": "#/$defs/.tests.Values.default"
+        },
+        "map_to_number": {
+          "$ref": "#/$defs/.tests.Values.map_to_number"
+        },
+        "map_to_string": {
+          "$ref": "#/$defs/.tests.Values.map_to_string"
+        },
+        "map_to_custom": {
+          "$ref": "#/$defs/.tests.Values.map_to_custom"
+        },
+        "map_to_custom_incomplete": {
+          "$ref": "#/$defs/.tests.Values.map_to_custom_incomplete"
+        },
+        "inline_enum": {
+          "$ref": "#/$defs/.tests.Values.inline_enum"
+        }
+      },
+      "type": "object",
+      "required": [
+        "default",
+        "map_to_number",
+        "map_to_string",
+        "map_to_custom",
+        "map_to_custom_incomplete",
+        "inline_enum"
+      ]
+    },
+    ".tests.Values.InlineEnum": {
+      "type": "string",
+      "enum": [
+        "FOO",
+        "BAR"
+      ]
+    },
+    ".tests.Values.default": {
+      "$ref": "#/$defs/.tests.Default"
+    },
+    ".tests.Values.map_to_number": {
+      "$ref": "#/$defs/.tests.MapToNumber"
+    },
+    ".tests.Values.map_to_string": {
+      "$ref": "#/$defs/.tests.MapToString"
+    },
+    ".tests.Values.map_to_custom": {
+      "$ref": "#/$defs/.tests.MapToCustom"
+    },
+    ".tests.Values.map_to_custom_incomplete": {
+      "$ref": "#/$defs/.tests.MapToCustomIncomplete"
+    },
+    ".tests.Values.inline_enum": {
+      "$ref": "#/$defs/.tests.Values.InlineEnum"
+    }
+  },
+  "type": "object"
+}

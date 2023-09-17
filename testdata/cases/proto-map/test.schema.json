@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.Enum": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "ONE",
+        "TWO",
+        "THREE"
+      ]
+    },
+    ".tests.Values": {
+      "properties": {
+        "basic_map": {
+          "$ref": "#/$defs/.tests.Values.basic_map"
+        },
+        "int_map": {
+          "$ref": "#/$defs/.tests.Values.int_map"
+        },
+        "float_map": {
+          "$ref": "#/$defs/.tests.Values.float_map"
+        },
+        "bool_map": {
+          "$ref": "#/$defs/.tests.Values.bool_map"
+        },
+        "string_map": {
+          "$ref": "#/$defs/.tests.Values.string_map"
+        },
+        "nested_map": {
+          "$ref": "#/$defs/.tests.Values.nested_map"
+        },
+        "enum_map": {
+          "$ref": "#/$defs/.tests.Values.enum_map"
+        }
+      },
+      "type": "object",
+      "required": [
+        "basic_map",
+        "int_map",
+        "float_map",
+        "bool_map",
+        "string_map",
+        "nested_map",
+        "enum_map"
+      ]
+    },
+    ".tests.Values.basic_map": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    ".tests.Values.int_map": {
+      "additionalProperties": {},
+      "type": "integer"
+    },
+    ".tests.Values.float_map": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "type": "object"
+    },
+    ".tests.Values.bool_map": {
+      "additionalProperties": {
+        "type": "boolean"
+      },
+      "type": "object"
+    },
+    ".tests.Values.string_map": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    ".tests.Values.nested_map": {
+      "additionalProperties": {
+        "$ref": "#/$defs/.tests.Nested"
+      },
+      "type": "object"
+    },
+    ".tests.Values.enum_map": {
+      "additionalProperties": {
+        "$ref": "#/$defs/.tests.Enum"
+      },
+      "type": "object"
+    },
+    ".tests.Nested": {
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/.tests.Nested.value"
+        }
+      },
+      "type": "object",
+      "required": [
+        "value"
+      ]
+    },
+    ".tests.Nested.value": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

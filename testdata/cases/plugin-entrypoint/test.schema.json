@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values2",
+  "$defs": {
+    ".tests.Values2": {
+      "properties": {
+        "int32": {
+          "$ref": "#/$defs/.tests.Values2.int32"
+        },
+        "int32_2": {
+          "$ref": "#/$defs/.tests.Values2.int32_2"
+        },
+        "string": {
+          "$ref": "#/$defs/.tests.Values2.string"
+        },
+        "map": {
+          "$ref": "#/$defs/.tests.Values2.map"
+        }
+      },
+      "type": "object",
+      "required": [
+        "int32",
+        "int32_2",
+        "string",
+        "map"
+      ],
+      "description": "This is values2 message"
+    },
+    ".tests.Values2.int32": {
+      "type": "integer",
+      "exclusiveMinimum": 10
+    },
+    ".tests.Values2.int32_2": {
+      "type": "integer",
+      "exclusiveMaximum": 20,
+      "exclusiveMinimum": 10
+    },
+    ".tests.Values2.string": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9]+$"
+    },
+    ".tests.Values2.map": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    }
+  },
+  "type": "object"
+}

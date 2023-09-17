@@ -7,7 +7,7 @@ import (
 
 	pgs "github.com/lyft/protoc-gen-star/v2"
 	"github.com/pubg/protoc-gen-jsonschema/pkg/proto"
-	"gopkg.in/yaml.v3"
+	"sigs.k8s.io/yaml"
 )
 
 type BackendSerializer interface {

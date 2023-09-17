@@ -1,0 +1,12 @@
+name: "plugin-draft-06"
+description: ""
+
+inputFiles: ["test.proto"]
+inputParameters:
+  draft: Draft06
+
+expectResultFiles: ["test.schema.json"]
+expectResultIsNull: false
+expectFail: false
+
+expectedBehaviorDescription: ""

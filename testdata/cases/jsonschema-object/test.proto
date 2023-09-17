@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package tests;
+
+import "jsonschema.proto";
+
+option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
+
+message Values {
+  MyMessage messages = 1;
+
+  MyMessage2 messages2 = 2;
+}
+
+message MyMessage {
+  option (pubg.jsonschema.message) = {
+    title: "MyMessage";
+    object:{
+      additional_properties: true
+    }
+  };
+
+  string val1 = 1;
+
+  repeated int64 val2 = 2;
+}
+
+message MyMessage2 {
+  option (pubg.jsonschema.message) = {
+    title: "MyMessage";
+    object:{
+      additional_properties: true
+      min_properties: 0
+      max_properties: 10
+    }
+  };
+
+  string val1 = 1;
+
+  repeated int64 val2 = 2;
+}

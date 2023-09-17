@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tests;
+
+import "jsonschema.proto";
+
+option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
+
+// TODO: import k8s proto files
+message Values {
+  // corev1 int or string
+  // corev1 volumes
+  // corev1 ...
+}

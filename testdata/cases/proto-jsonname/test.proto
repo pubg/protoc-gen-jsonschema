@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package tests;
+
+import "jsonschema.proto";
+
+option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
+
+message Values {
+  optional string string_value = 1 [json_name = "string-value"];
+
+  optional int32 int32_value = 2 [json_name = "int32-value"];
+
+  optional int64 int64_value = 3 [json_name = "int64-value"];
+
+  Nested nested_value = 6;
+
+  Enum enum_value = 7;
+}
+
+message Nested {
+  string value = 1;
+}
+
+enum Enum {
+  UNKNOWN = 0;
+  ONE = 1;
+  TWO = 2;
+  THREE = 3;
+}
+
+

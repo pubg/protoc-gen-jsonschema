@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package tests;
+
+import "jsonschema.proto";
+
+option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
+
+message Values {
+  Default default = 1;
+
+  MapToNumber map_to_number = 2;
+
+  MapToString map_to_string = 3;
+
+  MapToCustom map_to_custom = 4;
+
+  MapToCustomIncomplete map_to_custom_incomplete = 5;
+
+  InlineEnum inline_enum = 6;
+
+  enum InlineEnum {
+    FOO = 0;
+    BAR = 1;
+  }
+}
+
+enum Default {
+  FOODefault0 = 0;
+  FOODefault1 = 1;
+}
+
+enum MapToNumber {
+  option (pubg.jsonschema.enum) = {mapping_type: MapToNumber};
+
+  FOOMapToNumber0 = 0;
+  FOOMapToNumber1 = 1;
+}
+
+enum MapToString {
+  option (pubg.jsonschema.enum) = {mapping_type: MapToString};
+
+  FOOMapToString0 = 0;
+  FOOMapToString1 = 1;
+}
+
+enum MapToCustom {
+  option (pubg.jsonschema.enum) = {mapping_type: MapToCustom};
+
+  FOOMapToCustom0 = 0 [(pubg.jsonschema.enum_value) = {custom_value: {value:"\"foo\""}}];
+  FOOMapToCustom1 = 1 [(pubg.jsonschema.enum_value) = {custom_value: {value:"123"}}];
+}
+
+enum MapToCustomIncomplete {
+  option (pubg.jsonschema.enum) = {mapping_type: MapToCustom};
+
+  FOOMapToCustomIncomplete0 = 0 [(pubg.jsonschema.enum_value) = {custom_value: {value:"\"foo\""}}];
+  FOOMapToCustomIncomplete1 = 1 [(pubg.jsonschema.enum_value) = {custom_value: {value:"123"}}];
+  FOOMapToCustomIncomplete2 = 2;
+}

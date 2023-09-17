@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.Values": {
+      "properties": {
+        "string1": {
+          "$ref": "#/$defs/.tests.Values.string1"
+        },
+        "string2": {
+          "$ref": "#/$defs/.tests.Values.string2"
+        },
+        "string3": {
+          "$ref": "#/$defs/.tests.Values.string3"
+        },
+        "int64": {
+          "$ref": "#/$defs/.tests.Values.int64"
+        }
+      },
+      "type": "object",
+      "required": [
+        "string1",
+        "string2",
+        "string3",
+        "int64"
+      ]
+    },
+    ".tests.Values.string1": {
+      "type": "string",
+      "description": "default option"
+    },
+    ".tests.Values.string2": {
+      "type": "string",
+      "maxLength": 100,
+      "minLength": 1,
+      "description": "min/max"
+    },
+    ".tests.Values.string3": {
+      "type": "string",
+      "maxLength": 0,
+      "minLength": 0,
+      "description": "min/max with zero value"
+    },
+    ".tests.Values.int64": {
+      "type": "integer",
+      "exclusiveMaximum": 10
+    }
+  },
+  "type": "object"
+}

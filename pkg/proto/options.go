@@ -99,12 +99,10 @@ func GetDescriptionOrComment(name NameWithSourceResolver, description Descriptio
 	}
 
 	builder := &strings.Builder{}
-	builder.WriteString(name.SourceCodeInfo().LeadingComments())
-	builder.WriteString("\n")
 	for _, comment := range name.SourceCodeInfo().LeadingDetachedComments() {
 		builder.WriteString(comment)
-		builder.WriteString("\n")
 	}
+	builder.WriteString(name.SourceCodeInfo().LeadingComments())
 	builder.WriteString(name.SourceCodeInfo().TrailingComments())
 	comment := strings.TrimSpace(strings.Trim(builder.String(), "\n"))
 

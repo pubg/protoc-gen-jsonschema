@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package tests;
+
+import "jsonschema.proto";
+
+option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
+
+message Values {
+  repeated string val1 = 1;
+
+  repeated int64 val2 = 2
+  [(pubg.jsonschema.field) = {
+    title: "My Title"
+    description: "My Description"
+    nullable: true
+  }];
+
+  repeated float optioned1 = 3
+  [(pubg.jsonschema.field) = {array:{
+    max_items: 3
+    min_items: 1
+  }}];
+
+  repeated double optioned2 = 4
+  [(pubg.jsonschema.field) = {array:{
+    max_items: 3
+    min_items: 1
+    unique_items: true
+  }}];
+
+  repeated double optioned3 = 5
+  [(pubg.jsonschema.field) = {array:{
+    max_items: 3
+    min_items: 1
+    unique_items: false
+  }}];
+
+  repeated MyMessage message = 6;
+
+  repeated MyEnum enum = 7;
+}
+
+message MyMessage {
+  repeated string val1 = 1;
+
+  repeated int64 val2 = 2;
+}
+
+enum MyEnum {
+  FOO = 0;
+  BAR = 1;
+  BAZ = 2;
+}

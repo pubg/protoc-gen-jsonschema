@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package tests;
+
+import "jsonschema.proto";
+
+option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
+
+// 1. Leading Comment of Values
+message Values {
+// 2. Trailing Comment of Values
+
+  // 1. Leading Detached Comment of default
+
+  // 2. Leading Comment of default
+  Default default = 1;
+  // 3. Trailing Comment of default
+
+  // 1. Leading Detached Comment of inline_enum
+
+  // 2. Leading Comment of inline_enum
+  InlineEnum inline_enum = 6;
+  // 3. Trailing Comment of inline_enum
+
+  // 1. Leading Comment of InlineEnum
+  enum InlineEnum {
+    FOO = 0;
+    BAR = 1;
+  }
+
+  // A Leading Comment will be override
+  string str = 7 [(pubg.jsonschema.field) = {description:"This description "}];
+}
+
+// 1. Leading Detached Comment of Default
+
+// 2. Leading Comment of Default
+enum Default {
+  // 3. Trailing Comment of Default
+
+  FOODefault0 = 0;
+  FOODefault1 = 1;
+}

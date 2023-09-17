@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.Default": {
+      "type": "string",
+      "enum": [
+        "FOODefault0",
+        "FOODefault1"
+      ],
+      "description": "1. Leading Detached Comment of Default\n 2. Leading Comment of Default\n 3. Trailing Comment of Default"
+    },
+    ".tests.Values": {
+      "properties": {
+        "default": {
+          "$ref": "#/$defs/.tests.Values.default"
+        },
+        "inline_enum": {
+          "$ref": "#/$defs/.tests.Values.inline_enum"
+        },
+        "str": {
+          "$ref": "#/$defs/.tests.Values.str"
+        }
+      },
+      "type": "object",
+      "required": [
+        "default",
+        "inline_enum",
+        "str"
+      ],
+      "description": "1. Leading Comment of Values\n 2. Trailing Comment of Values"
+    },
+    ".tests.Values.InlineEnum": {
+      "type": "string",
+      "enum": [
+        "FOO",
+        "BAR"
+      ],
+      "description": "1. Leading Comment of InlineEnum"
+    },
+    ".tests.Values.default": {
+      "$ref": "#/$defs/.tests.Default",
+      "description": "1. Leading Detached Comment of default\n 2. Leading Comment of default\n 3. Trailing Comment of default"
+    },
+    ".tests.Values.inline_enum": {
+      "$ref": "#/$defs/.tests.Values.InlineEnum",
+      "description": "1. Leading Detached Comment of inline_enum\n 2. Leading Comment of inline_enum\n 3. Trailing Comment of inline_enum"
+    },
+    ".tests.Values.str": {
+      "type": "string",
+      "description": "This description "
+    }
+  },
+  "type": "object"
+}

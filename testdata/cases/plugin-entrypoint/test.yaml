@@ -1,10 +1,11 @@
-name: "array of enums"
+name: "plugin-entrypoint"
 description: ""
 
 inputFiles: ["test.proto"]
-inputParameters: {}
+inputParameters:
+  entrypoint_message: "Values2"
 
-expectResultFiles: ["test.schema"]
+expectResultFiles: ["test.schema.json"]
 expectResultIsNull: false
 expectFail: false
 

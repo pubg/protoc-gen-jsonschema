@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.MyEnum": {
+      "type": "string",
+      "enum": [
+        "FOO",
+        "BAR",
+        "BAZ"
+      ]
+    },
+    ".tests.Values": {
+      "properties": {
+        "messages": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.messages"
+            }
+          ]
+        },
+        "enums": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.enums"
+            }
+          ]
+        },
+        "strings": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.strings"
+            }
+          ]
+        },
+        "ints": {
+          "$ref": "#/$defs/.tests.Values.ints"
+        }
+      },
+      "type": "object",
+      "required": [
+        "messages",
+        "enums",
+        "strings",
+        "ints"
+      ]
+    },
+    ".tests.Values.messages": {
+      "$ref": "#/$defs/.tests.MyMessage"
+    },
+    ".tests.Values.enums": {
+      "$ref": "#/$defs/.tests.MyEnum"
+    },
+    ".tests.Values.strings": {
+      "type": "string"
+    },
+    ".tests.Values.ints": {
+      "type": "integer"
+    },
+    ".tests.MyMessage": {
+      "properties": {
+        "val1": {
+          "$ref": "#/$defs/.tests.MyMessage.val1"
+        },
+        "val2": {
+          "$ref": "#/$defs/.tests.MyMessage.val2"
+        }
+      },
+      "type": "object",
+      "required": [
+        "val1",
+        "val2"
+      ]
+    },
+    ".tests.MyMessage.val1": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    ".tests.MyMessage.val2": {
+      "items": {
+        "type": "integer"
+      },
+      "type": "array"
+    }
+  },
+  "type": "object"
+}

@@ -72,6 +72,7 @@ message FileOptions {
     default: inherit from PluginOptions.entrypoint_message
   */
   string entrypoint_message = 2;
+
   /**
     output_file_suffix is used to determine output file name suffix.
     Values should end with '.json' or '.yaml' or '.yml'.

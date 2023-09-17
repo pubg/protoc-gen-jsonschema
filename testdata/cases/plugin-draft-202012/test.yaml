@@ -1,0 +1,12 @@
+name: "plugin-draft-202012"
+description: ""
+
+inputFiles: ["test.proto"]
+inputParameters:
+  draft: Draft202012
+
+expectResultFiles: ["test.schema.json"]
+expectResultIsNull: false
+expectFail: false
+
+expectedBehaviorDescription: ""

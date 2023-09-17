@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.MyEnum": {
+      "type": "string",
+      "enum": [
+        "FOO",
+        "BAR",
+        "BAZ"
+      ]
+    },
+    ".tests.Values": {
+      "properties": {
+        "val1": {
+          "$ref": "#/$defs/.tests.Values.val1"
+        },
+        "val2": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.val2"
+            }
+          ]
+        },
+        "optioned1": {
+          "$ref": "#/$defs/.tests.Values.optioned1"
+        },
+        "optioned2": {
+          "$ref": "#/$defs/.tests.Values.optioned2"
+        },
+        "optioned3": {
+          "$ref": "#/$defs/.tests.Values.optioned3"
+        },
+        "message": {
+          "$ref": "#/$defs/.tests.Values.message"
+        },
+        "enum": {
+          "$ref": "#/$defs/.tests.Values.enum"
+        }
+      },
+      "type": "object",
+      "required": [
+        "val1",
+        "val2",
+        "optioned1",
+        "optioned2",
+        "optioned3",
+        "message",
+        "enum"
+      ]
+    },
+    ".tests.Values.val1": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    ".tests.Values.val2": {
+      "items": {
+        "type": "integer",
+        "title": "My Title",
+        "description": "My Description"
+      },
+      "type": "array",
+      "title": "My Title",
+      "description": "My Description"
+    },
+    ".tests.Values.optioned1": {
+      "items": {
+        "type": "number"
+      },
+      "type": "array",
+      "maxItems": 3,
+      "minItems": 1
+    },
+    ".tests.Values.optioned2": {
+      "items": {
+        "type": "number"
+      },
+      "type": "array",
+      "maxItems": 3,
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    ".tests.Values.optioned3": {
+      "items": {
+        "type": "number"
+      },
+      "type": "array",
+      "maxItems": 3,
+      "minItems": 1,
+      "uniqueItems": false
+    },
+    ".tests.Values.message": {
+      "items": {
+        "$ref": "#/$defs/.tests.MyMessage"
+      },
+      "type": "array"
+    },
+    ".tests.Values.enum": {
+      "items": {
+        "$ref": "#/$defs/.tests.MyEnum"
+      },
+      "type": "array"
+    },
+    ".tests.MyMessage": {
+      "properties": {
+        "val1": {
+          "$ref": "#/$defs/.tests.MyMessage.val1"
+        },
+        "val2": {
+          "$ref": "#/$defs/.tests.MyMessage.val2"
+        }
+      },
+      "type": "object",
+      "required": [
+        "val1",
+        "val2"
+      ]
+    },
+    ".tests.MyMessage.val1": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    ".tests.MyMessage.val2": {
+      "items": {
+        "type": "integer"
+      },
+      "type": "array"
+    }
+  },
+  "type": "object"
+}

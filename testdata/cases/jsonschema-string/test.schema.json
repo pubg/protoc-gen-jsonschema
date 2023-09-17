@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.Values": {
+      "properties": {
+        "string1": {
+          "$ref": "#/$defs/.tests.Values.string1"
+        },
+        "string2": {
+          "$ref": "#/$defs/.tests.Values.string2"
+        },
+        "string3": {
+          "$ref": "#/$defs/.tests.Values.string3"
+        },
+        "string4": {
+          "$ref": "#/$defs/.tests.Values.string4"
+        },
+        "string6": {
+          "$ref": "#/$defs/.tests.Values.string6"
+        }
+      },
+      "type": "object",
+      "required": [
+        "string1",
+        "string2",
+        "string3",
+        "string4",
+        "string6"
+      ]
+    },
+    ".tests.Values.string1": {
+      "type": "string",
+      "description": "default option"
+    },
+    ".tests.Values.string2": {
+      "type": "string",
+      "maxLength": 100,
+      "minLength": 1,
+      "description": "min/max"
+    },
+    ".tests.Values.string3": {
+      "type": "string",
+      "maxLength": 0,
+      "minLength": 0,
+      "description": "min/max with zero value"
+    },
+    ".tests.Values.string4": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9]+$",
+      "description": "pattern\n TODO: pattern이 regex가 아닌 경우 에러내야 함"
+    },
+    ".tests.Values.string6": {
+      "type": "string",
+      "format": "date-time",
+      "description": "format\n TODO: 논의) pre-defined format이 아니면 경고해야 하나?"
+    }
+  },
+  "type": "object"
+}

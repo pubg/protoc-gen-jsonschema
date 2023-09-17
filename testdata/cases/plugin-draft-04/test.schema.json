@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/.tests.Values",
+  "definitions": {
+    ".tests.Values": {
+      "properties": {
+        "string1": {
+          "$ref": "#/definitions/.tests.Values.string1"
+        },
+        "string2": {
+          "$ref": "#/definitions/.tests.Values.string2"
+        },
+        "string3": {
+          "$ref": "#/definitions/.tests.Values.string3"
+        },
+        "int64": {
+          "$ref": "#/definitions/.tests.Values.int64"
+        }
+      },
+      "type": "object",
+      "required": [
+        "string1",
+        "string2",
+        "string3",
+        "int64"
+      ]
+    },
+    ".tests.Values.string1": {
+      "type": "string",
+      "description": "default option"
+    },
+    ".tests.Values.string2": {
+      "type": "string",
+      "maxLength": 100,
+      "minLength": 1,
+      "description": "min/max"
+    },
+    ".tests.Values.string3": {
+      "type": "string",
+      "maxLength": 0,
+      "minLength": 0,
+      "description": "min/max with zero value"
+    },
+    ".tests.Values.int64": {
+      "type": "integer",
+      "maximum": 10,
+      "exclusiveMaximum": true,
+      "description": "Exclusive maximum should convert to maximum: 10 and exclusive_maximum: true"
+    }
+  },
+  "type": "object"
+}

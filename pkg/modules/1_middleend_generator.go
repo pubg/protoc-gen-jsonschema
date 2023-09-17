@@ -13,8 +13,8 @@ import (
 func buildFromMessage(message pgs.Message, mo *proto.MessageOptions) *jsonschema.Schema {
 	schema := &jsonschema.Schema{}
 	schema.Type = "object"
-	schema.Title = message.Name().UpperCamelCase().String()
-	schema.Description = message.SourceCodeInfo().LeadingComments()
+	schema.Title = proto.GetTitleOrEmpty(mo)
+	schema.Description = proto.GetDescriptionOrComment(message, mo)
 	schema.Properties = jsonschema.NewOrderedSchemaMap()
 
 	fillSchemaByObjectKeywords(schema, mo.GetObject())
@@ -26,7 +26,14 @@ func buildFromMessage(message pgs.Message, mo *proto.MessageOptions) *jsonschema
 		//}
 
 		propName := toPropertyName(field.Name())
-		schema.Properties.Set(propName, &jsonschema.Schema{Ref: toRefId(field)})
+		fieldSchema := &jsonschema.Schema{Ref: toRefId(field)}
+		if proto.GetFieldOptions(field).GetNullable() {
+			fieldSchema = &jsonschema.Schema{AnyOf: []*jsonschema.Schema{
+				{Type: "null"},
+				fieldSchema,
+			}}
+		}
+		schema.Properties.Set(propName, fieldSchema)
 
 		// If field is not a member of oneOf
 		if !field.InRealOneOf() && !field.HasOptionalKeyword() {
@@ -70,7 +77,6 @@ func buildFromMessageField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.
 	}
 }
 
-// TODO: 미완성
 func buildFromMapField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Schema {
 	schema := &jsonschema.Schema{}
 	schema.Title = proto.GetTitleOrEmpty(fo)
@@ -80,10 +86,12 @@ func buildFromMapField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Sche
 	valueSchema := &jsonschema.Schema{}
 	value := field.Type().Element()
 	protoType := value.ProtoType()
-	if protoType == pgs.MessageT {
-		valueSchema.Ref = toRefId(value.Embed())
+	if protoType.IsInt() {
+		schema.Type = "integer"
 	} else if protoType.IsNumeric() {
 		valueSchema.Type = "number"
+	} else if protoType == pgs.MessageT {
+		valueSchema.Ref = toRefId(value.Embed())
 	} else if protoType == pgs.BoolT {
 		valueSchema.Type = "boolean"
 	} else if protoType == pgs.EnumT {
@@ -156,7 +164,7 @@ func buildFromEnum(enum pgs.Enum) (*jsonschema.Schema, error) {
 		case proto.EnumOptions_MapToCustom:
 			evo := proto.GetEnumValueOptions(enumValue)
 
-			customValue, err := parseScalaValueFromAny(evo.CustomValue)
+			customValue, err := parseScalaValueFromAny(evo.GetCustomValue())
 			if err != nil {
 				return nil, err
 			}
@@ -263,7 +271,7 @@ func getWellKnownType(field pgs.Field) WellKnownType {
 }
 
 func parseScalaValueFromAny(anyValue *anypb.Any) (any, error) {
-	if anyValue.Value == nil {
+	if anyValue == nil || anyValue.Value == nil {
 		return nil, nil
 	}
 

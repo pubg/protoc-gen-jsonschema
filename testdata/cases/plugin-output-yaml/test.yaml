@@ -1,0 +1,12 @@
+name: "plugin-output-yaml"
+description: ""
+
+inputFiles: ["test.proto"]
+inputParameters:
+  output_file_suffix: ".schema.yaml"
+
+expectResultFiles: ["test.schema.yaml"]
+expectResultIsNull: false
+expectFail: false
+
+expectedBehaviorDescription: ""

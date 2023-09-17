@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.Values": {
+      "properties": {},
+      "type": "object",
+      "description": "TODO: import k8s proto files\n corev1 int or string\n corev1 volumes\n corev1 ..."
+    }
+  },
+  "type": "object"
+}

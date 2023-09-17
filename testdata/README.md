@@ -17,8 +17,9 @@ jsonschema-number number validation keyword 테스트
 jsonschema-string string validation keyword 테스트
 jsonschema-array array validation keyword 테스트
 jsonschema-object object validation keyword 테스트
-jsonschema-enum enum validation keyword 테스트
-jsonschema-const const validation keyword 테스트
+
+[//]: # (jsonschema-enum enum validation keyword 테스트)
+[//]: # (jsonschema-const const validation keyword 테스트)
 
 plugin-entrypoint-options plugin entrypoint가 잘 작동하는지 테스트
 plugin-output-options output 관련 옵션이 잘 작동하는지 테스트

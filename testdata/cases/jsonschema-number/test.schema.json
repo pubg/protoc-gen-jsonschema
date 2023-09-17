@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.Values": {
+      "properties": {
+        "int321": {
+          "$ref": "#/$defs/.tests.Values.int321"
+        },
+        "int322": {
+          "$ref": "#/$defs/.tests.Values.int322"
+        },
+        "int323": {
+          "$ref": "#/$defs/.tests.Values.int323"
+        },
+        "int324": {
+          "$ref": "#/$defs/.tests.Values.int324"
+        },
+        "int325": {
+          "$ref": "#/$defs/.tests.Values.int325"
+        },
+        "int326": {
+          "$ref": "#/$defs/.tests.Values.int326"
+        },
+        "int327": {
+          "$ref": "#/$defs/.tests.Values.int327"
+        },
+        "int328": {
+          "$ref": "#/$defs/.tests.Values.int328"
+        }
+      },
+      "type": "object",
+      "required": [
+        "int321",
+        "int322",
+        "int323",
+        "int324",
+        "int325",
+        "int326",
+        "int327",
+        "int328"
+      ]
+    },
+    ".tests.Values.int321": {
+      "type": "integer",
+      "description": "default option"
+    },
+    ".tests.Values.int322": {
+      "type": "integer",
+      "maximum": 1,
+      "minimum": 100,
+      "description": "inclusive min/max"
+    },
+    ".tests.Values.int323": {
+      "type": "integer",
+      "exclusiveMaximum": 100,
+      "exclusiveMinimum": 1,
+      "description": "exclusive min/max"
+    },
+    ".tests.Values.int324": {
+      "type": "integer",
+      "maximum": 0,
+      "minimum": 0,
+      "description": "Inclusive Min/Max with zero value"
+    },
+    ".tests.Values.int325": {
+      "type": "integer",
+      "exclusiveMaximum": 0,
+      "exclusiveMinimum": 0,
+      "description": "Exclusive Min/Max with zero value"
+    },
+    ".tests.Values.int326": {
+      "type": "integer",
+      "maximum": -1,
+      "minimum": -100,
+      "description": "Inclusive Min/Max with negative value"
+    },
+    ".tests.Values.int327": {
+      "type": "integer",
+      "exclusiveMaximum": -100,
+      "exclusiveMinimum": -1,
+      "description": "Exclusive Min/Max with negative value"
+    },
+    ".tests.Values.int328": {
+      "type": "integer",
+      "multipleOf": 2,
+      "description": "multiple of"
+    }
+  },
+  "type": "object"
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.Values": {
+      "properties": {
+        "messages": {
+          "$ref": "#/$defs/.tests.Values.messages"
+        },
+        "messages2": {
+          "$ref": "#/$defs/.tests.Values.messages2"
+        }
+      },
+      "type": "object",
+      "required": [
+        "messages",
+        "messages2"
+      ]
+    },
+    ".tests.Values.messages": {
+      "$ref": "#/$defs/.tests.MyMessage"
+    },
+    ".tests.Values.messages2": {
+      "$ref": "#/$defs/.tests.MyMessage2"
+    },
+    ".tests.MyMessage": {
+      "properties": {
+        "val1": {
+          "$ref": "#/$defs/.tests.MyMessage.val1"
+        },
+        "val2": {
+          "$ref": "#/$defs/.tests.MyMessage.val2"
+        }
+      },
+      "additionalProperties": {},
+      "type": "object",
+      "required": [
+        "val1",
+        "val2"
+      ],
+      "title": "MyMessage"
+    },
+    ".tests.MyMessage.val1": {
+      "type": "string"
+    },
+    ".tests.MyMessage.val2": {
+      "items": {
+        "type": "integer"
+      },
+      "type": "array"
+    },
+    ".tests.MyMessage2": {
+      "properties": {
+        "val1": {
+          "$ref": "#/$defs/.tests.MyMessage2.val1"
+        },
+        "val2": {
+          "$ref": "#/$defs/.tests.MyMessage2.val2"
+        }
+      },
+      "additionalProperties": {},
+      "type": "object",
+      "maxProperties": 10,
+      "minProperties": 0,
+      "required": [
+        "val1",
+        "val2"
+      ],
+      "title": "MyMessage"
+    },
+    ".tests.MyMessage2.val1": {
+      "type": "string"
+    },
+    ".tests.MyMessage2.val2": {
+      "items": {
+        "type": "integer"
+      },
+      "type": "array"
+    }
+  },
+  "type": "object"
+}

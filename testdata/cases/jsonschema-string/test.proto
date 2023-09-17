@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package tests;
+
+import "jsonschema.proto";
+
+option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
+
+message Values {
+  // default option
+  string string1 = 1;
+
+  // min/max
+  string string2 = 2 [(pubg.jsonschema.field) = {string: {min_length: 1, max_length: 100, }}];
+
+  // min/max with zero value
+  string string3 = 3 [(pubg.jsonschema.field) = {string: {min_length: 0, max_length: 0, }}];
+
+  // pattern
+  // TODO: pattern이 regex가 아닌 경우 에러내야 함
+  string string4 = 4 [(pubg.jsonschema.field) = {string: {pattern: "^[a-zA-Z0-9]+$", }}];
+
+  // format
+  // TODO: 논의) pre-defined format이 아니면 경고해야 하나?
+  string string6 = 6 [(pubg.jsonschema.field) = {string: {format: "date-time", }}];
+}
