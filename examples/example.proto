@@ -9,13 +9,13 @@ import "google/protobuf/any.proto";
 import "google/protobuf/duration.proto";
 
 option (pubg.jsonschema.file) = {
-  entrypoint_message: "ArrayOfEnums";
+  entrypoint_message: "Values";
 };
 
 message Values {
   // This is a comment
-  FirstForm first = 1 [(pubg.jsonschema.field) = {title: "A lorem ipsum", nullable: true}];
-  FirstForm second = 2;
+  optional FirstForm first = 1 [(pubg.jsonschema.field) = {title: "A lorem ipsum", nullable: true}];
+  optional FirstForm second = 2;
   oneof oneof {
     string a = 3;
     string b = 4;
@@ -55,7 +55,9 @@ message SecondMessage {
 }
 
 enum MyEnum {
-  FOO = 0;
-  BAR = 1;
-  BAZ = 2;
+  option allow_alias = true;
+  ME_FOO = 0;
+  ME_BAR = 1;
+  ME_AAA = 1;
+  ME_BAZ = 2;
 }

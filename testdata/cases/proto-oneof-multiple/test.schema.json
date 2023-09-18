@@ -73,10 +73,24 @@
           "$ref": "#/$defs/.samples.Values.count"
         },
         "string_value": {
-          "$ref": "#/$defs/.samples.Values.string_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.samples.Values.string_value"
+            }
+          ]
         },
         "int_value": {
-          "$ref": "#/$defs/.samples.Values.int_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.samples.Values.int_value"
+            }
+          ]
         },
         "timestamp": {
           "$ref": "#/$defs/.samples.Values.timestamp"
@@ -88,10 +102,24 @@
           "$ref": "#/$defs/.samples.Values.description"
         },
         "type_name": {
-          "$ref": "#/$defs/.samples.Values.type_name"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.samples.Values.type_name"
+            }
+          ]
         },
         "type_id": {
-          "$ref": "#/$defs/.samples.Values.type_id"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.samples.Values.type_id"
+            }
+          ]
         }
       },
       "type": "object",

@@ -63,16 +63,44 @@
           "$ref": "#/$defs/.samples.Values.count"
         },
         "string_value": {
-          "$ref": "#/$defs/.samples.Values.string_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.samples.Values.string_value"
+            }
+          ]
         },
         "int_value": {
-          "$ref": "#/$defs/.samples.Values.int_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.samples.Values.int_value"
+            }
+          ]
         },
         "bool_value": {
-          "$ref": "#/$defs/.samples.Values.bool_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.samples.Values.bool_value"
+            }
+          ]
         },
         "double_value": {
-          "$ref": "#/$defs/.samples.Values.double_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.samples.Values.double_value"
+            }
+          ]
         }
       },
       "type": "object",

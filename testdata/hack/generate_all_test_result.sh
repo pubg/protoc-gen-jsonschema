@@ -12,7 +12,7 @@ for proto_dir in $proto_dirs; do
 
   command="protoc \
   --plugin=protoc-gen-jsonschema=./testdata/hack/protoc-gen-jsonschema \
-  --jsonschema_out=./testdata/cases/$proto_dir "  # 결과 문자열 초기화
+  --jsonschema_out=. "  # 결과 문자열 초기화
 
   # test.yaml 파일의 존재 여부 확인
   if [[ -f "./testdata/cases/$proto_dir/test.yaml" ]]; then
@@ -31,7 +31,7 @@ for proto_dir in $proto_dirs; do
   fi
 
   command="$command \
-  -I proto \
+  -I ./ \
   -I testdata/cases/$proto_dir \
   testdata/cases/$proto_dir/*.proto
   "

@@ -17,47 +17,84 @@ message PluginOptions {
 
   /**
     entrypoint_message is used which message should be entrypoint object of schema.
+
     default: null or empty
     example:
       - --jsonschema_opt=entrypoint_message=MyMessage
    */
   string entrypoint_message = 2;
 
+  /*
+    Plugin Level Feature Gates
+   */
+
   /**
     output_file_suffix is used to determine output file name suffix.
     Values should end with '.json' or '.yaml' or '.yml'.
+
     default: .schema.json
     example:
       - --jsonschema_opt=output_file_suffix=.schema.json
       - --jsonschema_opt=output_file_suffix=.schema.yaml
    */
-  string output_file_suffix = 3;
+  string output_file_suffix = 10;
 
   /**
     pretty_json_output is used to determine output json should be pretty printed.
     This option is only used when output_file_suffix is '.json'.
+
     default: true
     example:
       - --jsonschema_opt=pretty_json_output=true
       - --jsonschema_opt=pretty_json_output=false
    */
-  bool pretty_json_output = 4;
+  bool pretty_json_output = 11;
 
   /**
     draft is used to determine which draft version should be used.
+
     default: Draft202012
     example:
       - --jsonschema_opt=draft=Draft202012
    */
-  Draft draft = 5;
+  Draft draft = 12;
+
+  /**
+    mandatory_nullable determines whether this plugin should treat optional field as nullable.
+    Many programming languages do not differentiate between undefined and null.
+    However, scripting languages like JavaScript and TypeScript can distinguish between them.
+    By default, optional field is treated as nullable and undefined.
+
+    default: false
+    example:
+      - --jsonschema_opt=mandatory_nullable=true
+      - --jsonschema_opt=mandatory_nullable=false
+   */
+  bool mandatory_nullable = 13;
+
+  /**
+    int64_as_string determines whether int64 field treat as string.
+    Depends on Javascript specification, The JS stores integer to only 53bits.
+    So, if you want to use int64 field in JS, you should use string type.
+    References:
+
+
+    default: false
+    example:
+      - --jsonschema_opt=int64_as_string=true
+      - --jsonschema_opt=int64_as_string=false
+   */
+  bool int64_as_string = 14;
 }
 
 enum Draft {
-  Draft202012 = 0;
-  Draft201909 = 1;
-  Draft07 = 2;
+  DraftDefault = 0;
+  Draft04 = 1;
+  Draft05 = 2;
   Draft06 = 3;
-  Draft04 = 4;
+  Draft07 = 4;
+  Draft201909 = 5;
+  Draft202012 = 6;
 }
 
 message FileOptions {
@@ -72,20 +109,6 @@ message FileOptions {
     default: inherit from PluginOptions.entrypoint_message
   */
   string entrypoint_message = 2;
-
-  /**
-    output_file_suffix is used to determine output file name suffix.
-    Values should end with '.json' or '.yaml' or '.yml'.
-    default: inherit from PluginOptions.output_file_suffix
-   */
-  string output_file_suffix = 3;
-
-  /**
-    pretty_json_output is used to determine output json should be pretty printed.
-    This option is only used when output_file_suffix is '.json'.
-    default: inherit from PluginOptions.pretty_json_output
-   */
-  optional bool pretty_json_output = 4;
 
   string title = 5;
   string description = 6;

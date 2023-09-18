@@ -34,7 +34,7 @@ type Testcase struct {
 }
 
 const testdataDir = "./cases"
-const optionsDir = "../proto"
+const optionsDir = "../"
 
 func TestPlugin(t *testing.T) {
 	dirs, err := os.ReadDir(testdataDir)

@@ -3,9 +3,26 @@
   "$ref": "#/$defs/.tests.Values",
   "$defs": {
     ".tests.Values": {
-      "properties": {},
+      "properties": {
+        "int_or_string": {
+          "$ref": "#/$defs/.tests.Values.int_or_string"
+        }
+      },
       "type": "object",
-      "description": "TODO: import k8s proto files\n corev1 int or string\n corev1 volumes\n corev1 ..."
+      "required": [
+        "int_or_string"
+      ],
+      "description": "TODO: import k8s proto files"
+    },
+    ".tests.Values.int_or_string": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        }
+      ]
     }
   },
   "type": "object"

@@ -10,7 +10,7 @@ import (
 	"google.golang.org/protobuf/types/known/anypb"
 )
 
-func buildFromMessage(message pgs.Message, mo *proto.MessageOptions) *jsonschema.Schema {
+func buildFromMessage(pluginOptions *proto.PluginOptions, message pgs.Message, mo *proto.MessageOptions) *jsonschema.Schema {
 	schema := &jsonschema.Schema{}
 	schema.Type = "object"
 	schema.Title = proto.GetTitleOrEmpty(mo)
@@ -27,18 +27,19 @@ func buildFromMessage(message pgs.Message, mo *proto.MessageOptions) *jsonschema
 
 		propName := toPropertyName(field.Name())
 		fieldSchema := &jsonschema.Schema{Ref: toRefId(field)}
-		if proto.GetFieldOptions(field).GetNullable() {
-			fieldSchema = &jsonschema.Schema{AnyOf: []*jsonschema.Schema{
+		if !pluginOptions.GetMandatoryNullable() && (field.InRealOneOf() || field.HasOptionalKeyword()) || proto.GetFieldOptions(field).GetNullable() {
+			fieldSchema = &jsonschema.Schema{OneOf: []*jsonschema.Schema{
 				{Type: "null"},
 				fieldSchema,
 			}}
 		}
-		schema.Properties.Set(propName, fieldSchema)
 
-		// If field is not a member of oneOf
 		if !field.InRealOneOf() && !field.HasOptionalKeyword() {
+			// If field is not a member of oneOf
 			schema.Required = append(schema.Required, propName)
 		}
+
+		schema.Properties.Set(propName, fieldSchema)
 	}
 
 	// Convert Protobuf OneOfs to JSONSchema keywords
@@ -77,7 +78,7 @@ func buildFromMessageField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.
 	}
 }
 
-func buildFromMapField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Schema {
+func buildFromMapField(pluginOptions *proto.PluginOptions, field pgs.Field, fo *proto.FieldOptions) *jsonschema.Schema {
 	schema := &jsonschema.Schema{}
 	schema.Title = proto.GetTitleOrEmpty(fo)
 	schema.Description = proto.GetDescriptionOrComment(field, fo)
@@ -87,7 +88,13 @@ func buildFromMapField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Sche
 	value := field.Type().Element()
 	protoType := value.ProtoType()
 	if protoType.IsInt() {
-		schema.Type = "integer"
+		if pluginOptions.GetInt64AsString() && isInt64(protoType) {
+			schema.Type = "string"
+			schema.Format = "int64"
+		} else {
+			schema.Type = "integer"
+			fillSchemaByNumericKeywords(schema, fo.GetNumeric())
+		}
 	} else if protoType.IsNumeric() {
 		valueSchema.Type = "number"
 	} else if protoType == pgs.MessageT {
@@ -96,22 +103,31 @@ func buildFromMapField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Sche
 		valueSchema.Type = "boolean"
 	} else if protoType == pgs.EnumT {
 		valueSchema.Ref = toRefId(value.Enum())
-	} else if protoType == pgs.StringT || protoType == pgs.BytesT {
+	} else if protoType == pgs.StringT {
 		valueSchema.Type = "string"
+	} else if protoType == pgs.BytesT {
+		valueSchema.Type = "string"
+		// Base64 Regex Expression
+		valueSchema.Pattern = "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
 	}
 	schema.AdditionalProperties = valueSchema
 	return schema
 }
 
-func buildFromScalaField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Schema {
+func buildFromScalaField(pluginOptions *proto.PluginOptions, field pgs.Field, fo *proto.FieldOptions) *jsonschema.Schema {
 	schema := &jsonschema.Schema{}
 	schema.Title = proto.GetTitleOrEmpty(fo)
 	schema.Description = proto.GetDescriptionOrComment(field, fo)
 
 	protoType := field.Type().ProtoType()
 	if protoType.IsInt() {
-		schema.Type = "integer"
-		fillSchemaByNumericKeywords(schema, fo.GetNumeric())
+		if pluginOptions.GetInt64AsString() && isInt64(protoType) {
+			schema.Type = "string"
+			schema.Format = "int64"
+		} else {
+			schema.Type = "integer"
+			fillSchemaByNumericKeywords(schema, fo.GetNumeric())
+		}
 	} else if protoType == pgs.DoubleT || protoType == pgs.FloatT {
 		schema.Type = "number"
 		fillSchemaByNumericKeywords(schema, fo.GetNumeric())
@@ -263,7 +279,7 @@ func getWellKnownType(field pgs.Field) WellKnownType {
 		return WellKnownTypeAny
 	case ".google.protobuf.NullValue":
 		return WellKnownTypeNullValue
-	case ".k8s.io.apimachinery.pkg.apis.util.v1.IntOrString":
+	case ".k8s.io.apimachinery.pkg.util.intstr.IntOrString":
 		return WellKnownTypeK8sIntOrString
 	default:
 		return WellKnownTypeNone
@@ -309,4 +325,12 @@ type FqdnResolver interface {
 
 func toRefId(resolver FqdnResolver) jsonschema.RefId {
 	return jsonschema.RefId(resolver.FullyQualifiedName())
+}
+
+func isInt64(protoType pgs.ProtoType) bool {
+	switch protoType {
+	case pgs.Int64T, pgs.UInt64T, pgs.SFixed64, pgs.SInt64, pgs.Fixed64T:
+		return true
+	}
+	return false
 }

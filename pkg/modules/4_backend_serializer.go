@@ -26,11 +26,10 @@ func NewSerializerImpl(pluginOptions *proto.PluginOptions) *SerializerImpl {
 }
 
 func (s *SerializerImpl) Serialize(schema any, file pgs.File) ([]byte, error) {
-	fileOptions := proto.GetFileOptions(file)
-	outputFileSuffix := proto.GetOutputFileSuffix(s.pluginOptions, fileOptions)
+	outputFileSuffix := s.ToFileName(file)
 
 	if strings.HasSuffix(outputFileSuffix, ".json") {
-		if proto.GetPrettyJsonOutput(s.pluginOptions, fileOptions) {
+		if s.pluginOptions.GetPrettyJsonOutput() {
 			return json.MarshalIndent(schema, "", "  ")
 		} else {
 			return json.Marshal(schema)
@@ -43,7 +42,6 @@ func (s *SerializerImpl) Serialize(schema any, file pgs.File) ([]byte, error) {
 }
 
 func (s *SerializerImpl) ToFileName(file pgs.File) string {
-	fileOptions := proto.GetFileOptions(file)
-	outputFileSuffix := proto.GetOutputFileSuffix(s.pluginOptions, fileOptions)
+	outputFileSuffix := s.pluginOptions.OutputFileSuffix
 	return file.InputPath().SetExt(outputFileSuffix).String()
 }

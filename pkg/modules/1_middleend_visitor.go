@@ -33,7 +33,7 @@ func (v *MiddleendVisitor) VisitMessage(message pgs.Message) (pgs.Visitor, error
 		return nil, nil
 	}
 
-	schema := buildFromMessage(message, mo)
+	schema := buildFromMessage(v.pluginOptions, message, mo)
 	v.registry.AddSchema(message.FullyQualifiedName(), schema)
 	return v, nil
 }
@@ -54,7 +54,7 @@ func (v *MiddleendVisitor) VisitField(field pgs.Field) (pgs.Visitor, error) {
 	// if field is message or map type
 	fieldType := field.Type()
 	if fieldType.IsMap() {
-		schema := buildFromMapField(field, fo)
+		schema := buildFromMapField(v.pluginOptions, field, fo)
 		v.registry.AddSchema(field.FullyQualifiedName(), schema)
 		return v, nil
 	} else if fieldType.ProtoType() == pgs.MessageT {
@@ -66,7 +66,7 @@ func (v *MiddleendVisitor) VisitField(field pgs.Field) (pgs.Visitor, error) {
 	// if field is scala type
 	// scala = boolean, string, number
 	if isScalarType(field) {
-		schema := buildFromScalaField(field, fo)
+		schema := buildFromScalaField(v.pluginOptions, field, fo)
 		v.registry.AddSchema(field.FullyQualifiedName(), schema)
 		return v, nil
 	}

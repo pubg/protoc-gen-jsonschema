@@ -13,7 +13,7 @@
     ".tests.Values": {
       "properties": {
         "messages": {
-          "anyOf": [
+          "oneOf": [
             {
               "type": "null"
             },
@@ -23,7 +23,7 @@
           ]
         },
         "enums": {
-          "anyOf": [
+          "oneOf": [
             {
               "type": "null"
             },
@@ -33,7 +33,7 @@
           ]
         },
         "strings": {
-          "anyOf": [
+          "oneOf": [
             {
               "type": "null"
             },

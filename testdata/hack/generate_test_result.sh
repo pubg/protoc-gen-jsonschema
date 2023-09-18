@@ -34,7 +34,7 @@ function generateProtoFile() {
   fi
 
   command="$command \
-  -I proto \
+  -I ./ \
   -I testdata/cases/$proto_dir \
   testdata/cases/$proto_dir/*.proto
   "

@@ -6,8 +6,12 @@ import "jsonschema.proto";
 
 option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
 
+import "k8s.io/apimachinery/pkg/util/intstr/generated.proto";
+
 // TODO: import k8s proto files
 message Values {
+  k8s.io.apimachinery.pkg.util.intstr.IntOrString int_or_string = 1;
+
   // corev1 int or string
   // corev1 volumes
   // corev1 ...

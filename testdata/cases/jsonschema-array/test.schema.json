@@ -16,7 +16,7 @@
           "$ref": "#/$defs/.tests.Values.val1"
         },
         "val2": {
-          "anyOf": [
+          "oneOf": [
             {
               "type": "null"
             },

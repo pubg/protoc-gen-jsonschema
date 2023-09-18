@@ -15,6 +15,8 @@ func GetPluginOptions(params pgs.Parameters) *PluginOptions {
 	options.EntrypointMessage = params.StrDefault("entrypoint_message", "")
 	options.OutputFileSuffix = params.StrDefault("output_file_suffix", ".schema.json")
 	options.PrettyJsonOutput, _ = params.BoolDefault("pretty_json_output", true)
+	options.MandatoryNullable, _ = params.BoolDefault("mandatory_nullable", false)
+	options.Int64AsString, _ = params.BoolDefault("int64_as_string", false)
 
 	// Default Value
 	options.Draft = Draft_Draft202012
@@ -111,23 +113,6 @@ func GetDescriptionOrComment(name NameWithSourceResolver, description Descriptio
 	}
 	return ""
 }
-
-func GetOutputFileSuffix(pluginOptions *PluginOptions, fileOptions *FileOptions) string {
-	if fileOptions != nil && fileOptions.GetOutputFileSuffix() != "" {
-		return fileOptions.GetOutputFileSuffix()
-	} else {
-		return pluginOptions.GetOutputFileSuffix()
-	}
-}
-
-func GetPrettyJsonOutput(pluginOptions *PluginOptions, fileOptions *FileOptions) bool {
-	if fileOptions != nil && fileOptions.PrettyJsonOutput != nil {
-		return fileOptions.GetPrettyJsonOutput()
-	} else {
-		return pluginOptions.GetPrettyJsonOutput()
-	}
-}
-
 func GetEntrypointMessage(pluginOptions *PluginOptions, fileOptions *FileOptions) string {
 	if fileOptions != nil && fileOptions.GetEntrypointMessage() != "" {
 		return fileOptions.GetEntrypointMessage()

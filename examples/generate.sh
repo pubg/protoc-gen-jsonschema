@@ -13,7 +13,7 @@ protoc \
   --jsonschema_out=./ \
   --jsonschema_opt=draft=Draft07 \
   -I ./ \
-  -I ../proto \
+  -I ../ \
   ./example.proto
 
 rm protoc-gen-jsonschema

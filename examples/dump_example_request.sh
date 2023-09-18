@@ -6,6 +6,6 @@ cd $(dirname $0)
 
 protoc \
 --debug_out="." \
--I ../proto \
+-I ../ \
 -I ./ \
 ./example.proto

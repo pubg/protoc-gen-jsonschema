@@ -116,13 +116,34 @@
       ],
       "properties": {
         "string_value": {
-          "$ref": "#/$defs/.tests.Values.string_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.string_value"
+            }
+          ]
         },
         "int32_value": {
-          "$ref": "#/$defs/.tests.Values.int32_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.int32_value"
+            }
+          ]
         },
         "int64_value": {
-          "$ref": "#/$defs/.tests.Values.int64_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.int64_value"
+            }
+          ]
         },
         "string_value2": {
           "$ref": "#/$defs/.tests.Values.string_value2"
@@ -137,10 +158,24 @@
           "$ref": "#/$defs/.tests.Values.enum_value"
         },
         "optional_nested_value": {
-          "$ref": "#/$defs/.tests.Values.optional_nested_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.optional_nested_value"
+            }
+          ]
         },
         "optional_enum_value": {
-          "$ref": "#/$defs/.tests.Values.optional_enum_value"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.optional_enum_value"
+            }
+          ]
         }
       },
       "type": "object",
