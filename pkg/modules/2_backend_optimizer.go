@@ -1,6 +1,8 @@
 package modules
 
 import (
+	"fmt"
+
 	pgs "github.com/lyft/protoc-gen-star/v2"
 	"github.com/pubg/protoc-gen-jsonschema/pkg/jsonschema"
 	"github.com/pubg/protoc-gen-jsonschema/pkg/proto"
@@ -66,6 +68,9 @@ func (o *OptimizerImpl) getEntrypointMessage(messages []pgs.Message, fileOptions
 
 func (o *OptimizerImpl) increaseSchemaRefCount(registry *jsonschema.Registry, ref string) {
 	schema := registry.GetSchema(ref)
+	if schema == nil {
+		panic(fmt.Sprintf("schema not found: %s", ref))
+	}
 
 	rawValue := schema.GetExtrasItem(refCountKey)
 	if rawValue == nil {

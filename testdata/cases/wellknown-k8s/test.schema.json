@@ -2,6 +2,17 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$ref": "#/$defs/.tests.Values",
   "$defs": {
+    ".k8s.io.apimachinery.pkg.util.intstr.IntOrString": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "description": "IntOrString is a type that can hold an int32 or a string.  When used in\n JSON or YAML marshalling and unmarshalling, it produces or consumes the\n inner type.  This allows you to have, for example, a JSON field that can\n accept a name or number.\n TODO: Rename to Int32OrString\n\n +protobuf=true\n +protobuf.options.(gogoproto.goproto_stringer)=false\n +k8s:openapi-gen=true"
+    },
     ".tests.Values": {
       "properties": {
         "int_or_string": {
@@ -15,14 +26,7 @@
       "description": "TODO: import k8s proto files"
     },
     ".tests.Values.int_or_string": {
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "integer"
-        }
-      ]
+      "$ref": "#/$defs/.k8s.io.apimachinery.pkg.util.intstr.IntOrString"
     }
   },
   "type": "object"

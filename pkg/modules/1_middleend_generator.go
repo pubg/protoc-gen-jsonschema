@@ -2,6 +2,7 @@ package modules
 
 import (
 	"encoding/json"
+	"slices"
 
 	pgs "github.com/lyft/protoc-gen-star/v2"
 	"github.com/pubg/protoc-gen-jsonschema/pkg/jsonschema"
@@ -58,6 +59,117 @@ func buildFromMessage(pluginOptions *proto.PluginOptions, message pgs.Message, m
 		schema.AllOf = append(schema.AllOf, &jsonschema.Schema{OneOf: combinedSchemas})
 	}
 	return schema
+}
+
+func buildFromWellKnownMessage(pluginOptions *proto.PluginOptions, message pgs.Message, mo *proto.MessageOptions) *jsonschema.Schema {
+	baseSchema := buildFromMessage(pluginOptions, message, mo)
+
+	wellKnownType := getWellKnownMessageType(message)
+	if wellKnownType == WellKnownMessageTypeNone {
+		panic("not well known type")
+	}
+	switch wellKnownType {
+	case WellKnownMessageTypeK8sIntOrString:
+		schema := &jsonschema.Schema{}
+		schema.Title = baseSchema.Title
+		schema.Description = baseSchema.Description
+		schema.OneOf = []*jsonschema.Schema{
+			{Type: "string"},
+			{Type: "integer"},
+		}
+		return schema
+	case WellKnownMessageTypeK8sVolume:
+		baseSchema.OneOf = []*jsonschema.Schema{{Ref: ".k8s.io.api.core.v1.VolumeSource"}}
+		baseSchema.Required = deletePropertyInRequired(baseSchema.Required, "volumeSource")
+		baseSchema.Properties.Delete("volumeSource")
+	case WellKnownMessageTypeK8sSecretProjection:
+		baseSchema.OneOf = []*jsonschema.Schema{{Ref: ".k8s.io.api.core.v1.LocalObjectReference"}}
+		baseSchema.Required = deletePropertyInRequired(baseSchema.Required, "localObjectReference")
+		baseSchema.Properties.Delete("localObjectReference")
+	case WellKnownMessageTypeK8sConfigMapVolumeSource:
+		baseSchema.OneOf = []*jsonschema.Schema{{Ref: ".k8s.io.api.core.v1.LocalObjectReference"}}
+		baseSchema.Required = deletePropertyInRequired(baseSchema.Required, "localObjectReference")
+		baseSchema.Properties.Delete("localObjectReference")
+	case WellKnownMessageTypeK8sConfigMapProjection:
+		baseSchema.OneOf = []*jsonschema.Schema{{Ref: ".k8s.io.api.core.v1.LocalObjectReference"}}
+		baseSchema.Required = deletePropertyInRequired(baseSchema.Required, "localObjectReference")
+		baseSchema.Properties.Delete("localObjectReference")
+	case WellKnownMessageTypeK8sConfigMapKeySelector:
+		baseSchema.OneOf = []*jsonschema.Schema{{Ref: ".k8s.io.api.core.v1.LocalObjectReference"}}
+		baseSchema.Required = deletePropertyInRequired(baseSchema.Required, "localObjectReference")
+		baseSchema.Properties.Delete("localObjectReference")
+	case WellKnownMessageTypeK8sSecretKeySelector:
+		baseSchema.OneOf = []*jsonschema.Schema{{Ref: ".k8s.io.api.core.v1.LocalObjectReference"}}
+		baseSchema.Required = deletePropertyInRequired(baseSchema.Required, "localObjectReference")
+		baseSchema.Properties.Delete("localObjectReference")
+	case WellKnownMessageTypeK8sConfigMapEnvSource:
+		baseSchema.OneOf = []*jsonschema.Schema{{Ref: ".k8s.io.api.core.v1.LocalObjectReference"}}
+		baseSchema.Required = deletePropertyInRequired(baseSchema.Required, "localObjectReference")
+		baseSchema.Properties.Delete("localObjectReference")
+	case WellKnownMessageTypeK8sSecretEnvSource:
+		baseSchema.OneOf = []*jsonschema.Schema{{Ref: ".k8s.io.api.core.v1.LocalObjectReference"}}
+		baseSchema.Required = deletePropertyInRequired(baseSchema.Required, "localObjectReference")
+		baseSchema.Properties.Delete("localObjectReference")
+	case WellKnownMessageTypeK8sProbe:
+		baseSchema.OneOf = []*jsonschema.Schema{{Ref: ".k8s.io.api.core.v1.ProbeHandler"}}
+		baseSchema.Required = deletePropertyInRequired(baseSchema.Required, "handler")
+		baseSchema.Properties.Delete("handler")
+	case WellKnownMessageTypeK8sEphemeralContainer:
+		baseSchema.OneOf = []*jsonschema.Schema{{Ref: ".k8s.io.api.core.v1.EphemeralContainerCommon"}}
+		baseSchema.Required = deletePropertyInRequired(baseSchema.Required, "ephemeralContainerCommon")
+		baseSchema.Properties.Delete("ephemeralContainerCommon")
+	}
+	return baseSchema
+}
+
+type WellKnownMessageType int
+
+const (
+	WellKnownMessageTypeNone WellKnownMessageType = iota
+	WellKnownMessageTypeK8sIntOrString
+	WellKnownMessageTypeK8sVolume
+	WellKnownMessageTypeK8sSecretProjection
+	WellKnownMessageTypeK8sConfigMapVolumeSource
+	WellKnownMessageTypeK8sConfigMapProjection
+	WellKnownMessageTypeK8sConfigMapKeySelector
+	WellKnownMessageTypeK8sSecretKeySelector
+	WellKnownMessageTypeK8sConfigMapEnvSource
+	WellKnownMessageTypeK8sSecretEnvSource
+	WellKnownMessageTypeK8sProbe
+	WellKnownMessageTypeK8sEphemeralContainer
+)
+
+func isWellKnownMessage(message pgs.Message) bool {
+	return getWellKnownMessageType(message) != WellKnownMessageTypeNone
+}
+
+func getWellKnownMessageType(message pgs.Message) WellKnownMessageType {
+	switch message.FullyQualifiedName() {
+	case ".k8s.io.apimachinery.pkg.util.intstr.IntOrString":
+		return WellKnownMessageTypeK8sIntOrString
+	case ".k8s.io.api.core.v1.Volume":
+		return WellKnownMessageTypeK8sVolume
+	case ".k8s.io.api.core.v1.SecretProjection":
+		return WellKnownMessageTypeK8sSecretProjection
+	case ".k8s.io.api.core.v1.ConfigMapVolumeSource":
+		return WellKnownMessageTypeK8sConfigMapVolumeSource
+	case ".k8s.io.api.core.v1.ConfigMapProjection":
+		return WellKnownMessageTypeK8sConfigMapProjection
+	case ".k8s.io.api.core.v1.ConfigMapKeySelector":
+		return WellKnownMessageTypeK8sConfigMapKeySelector
+	case ".k8s.io.api.core.v1.SecretKeySelector":
+		return WellKnownMessageTypeK8sSecretKeySelector
+	case ".k8s.io.api.core.v1.ConfigMapEnvSource":
+		return WellKnownMessageTypeK8sConfigMapEnvSource
+	case ".k8s.io.api.core.v1.SecretEnvSource":
+		return WellKnownMessageTypeK8sSecretEnvSource
+	case ".k8s.io.api.core.v1.Probe":
+		return WellKnownMessageTypeK8sProbe
+	case ".k8s.io.api.core.v1.EphemeralContainer":
+		return WellKnownMessageTypeK8sEphemeralContainer
+	}
+
+	return WellKnownMessageTypeNone
 }
 
 func buildFromMessageField(field pgs.Field, fo *proto.FieldOptions) *jsonschema.Schema {
@@ -211,7 +323,7 @@ func buildFromWellKnownField(field pgs.Field, fo *proto.FieldOptions) *jsonschem
 	schema.Title = proto.GetTitleOrEmpty(fo)
 	schema.Description = proto.GetDescriptionOrComment(field, fo)
 
-	wellKnownType := getWellKnownType(field)
+	wellKnownType := getWellKnownFieldType(field)
 	if wellKnownType == WellKnownTypeNone {
 		panic("not well known type")
 	}
@@ -229,11 +341,6 @@ func buildFromWellKnownField(field pgs.Field, fo *proto.FieldOptions) *jsonschem
 		schema.Type = "object"
 	case WellKnownTypeNullValue:
 		schema.Type = "null"
-	case WellKnownTypeK8sIntOrString:
-		schema.OneOf = []*jsonschema.Schema{
-			{Type: "string"},
-			{Type: "integer"},
-		}
 	}
 
 	if field.Type().IsRepeated() {
@@ -244,22 +351,21 @@ func buildFromWellKnownField(field pgs.Field, fo *proto.FieldOptions) *jsonschem
 	return schema
 }
 
-func isWellKnownType(field pgs.Field) bool {
-	return getWellKnownType(field) != WellKnownTypeNone
+func isWellKnownField(field pgs.Field) bool {
+	return getWellKnownFieldType(field) != WellKnownTypeNone
 }
 
-type WellKnownType int
+type WellKnownFieldType int
 
 const (
-	WellKnownTypeNone WellKnownType = iota
+	WellKnownTypeNone WellKnownFieldType = iota
 	WellKnownTypeTimestamp
 	WellKnownTypeDuration
 	WellKnownTypeAny
 	WellKnownTypeNullValue
-	WellKnownTypeK8sIntOrString
 )
 
-func getWellKnownType(field pgs.Field) WellKnownType {
+func getWellKnownFieldType(field pgs.Field) WellKnownFieldType {
 	if field.Type().IsMap() || field.Type().ProtoType() != pgs.MessageT {
 		return WellKnownTypeNone
 	}
@@ -279,8 +385,6 @@ func getWellKnownType(field pgs.Field) WellKnownType {
 		return WellKnownTypeAny
 	case ".google.protobuf.NullValue":
 		return WellKnownTypeNullValue
-	case ".k8s.io.apimachinery.pkg.util.intstr.IntOrString":
-		return WellKnownTypeK8sIntOrString
 	default:
 		return WellKnownTypeNone
 	}
@@ -333,4 +437,10 @@ func isInt64(protoType pgs.ProtoType) bool {
 		return true
 	}
 	return false
+}
+
+func deletePropertyInRequired(required []string, item string) []string {
+	return slices.DeleteFunc(required, func(val string) bool {
+		return val == item
+	})
 }

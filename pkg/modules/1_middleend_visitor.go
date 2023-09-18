@@ -33,7 +33,13 @@ func (v *MiddleendVisitor) VisitMessage(message pgs.Message) (pgs.Visitor, error
 		return nil, nil
 	}
 
-	schema := buildFromMessage(v.pluginOptions, message, mo)
+	var schema *jsonschema.Schema
+	// if message is well-known type
+	if isWellKnownMessage(message) {
+		schema = buildFromWellKnownMessage(v.pluginOptions, message, mo)
+	} else {
+		schema = buildFromMessage(v.pluginOptions, message, mo)
+	}
 	v.registry.AddSchema(message.FullyQualifiedName(), schema)
 	return v, nil
 }
@@ -44,8 +50,8 @@ func (v *MiddleendVisitor) VisitField(field pgs.Field) (pgs.Visitor, error) {
 		return nil, nil
 	}
 
-	// TODO: if field is well-known type
-	if isWellKnownType(field) {
+	// if field is well-known type
+	if isWellKnownField(field) {
 		schema := buildFromWellKnownField(field, fo)
 		v.registry.AddSchema(field.FullyQualifiedName(), schema)
 		return v, nil
