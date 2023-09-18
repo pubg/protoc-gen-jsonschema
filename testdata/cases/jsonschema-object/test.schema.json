@@ -35,8 +35,7 @@
       "additionalProperties": {},
       "type": "object",
       "required": [
-        "val1",
-        "val2"
+        "val1"
       ],
       "title": "MyMessage"
     },
@@ -63,8 +62,7 @@
       "maxProperties": 10,
       "minProperties": 0,
       "required": [
-        "val1",
-        "val2"
+        "val1"
       ],
       "title": "MyMessage"
     },

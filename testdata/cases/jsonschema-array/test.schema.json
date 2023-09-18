@@ -41,16 +41,7 @@
           "$ref": "#/$defs/.tests.Values.enum"
         }
       },
-      "type": "object",
-      "required": [
-        "val1",
-        "val2",
-        "optioned1",
-        "optioned2",
-        "optioned3",
-        "message",
-        "enum"
-      ]
+      "type": "object"
     },
     ".tests.Values.val1": {
       "items": {
@@ -115,11 +106,7 @@
           "$ref": "#/$defs/.tests.MyMessage.val2"
         }
       },
-      "type": "object",
-      "required": [
-        "val1",
-        "val2"
-      ]
+      "type": "object"
     },
     ".tests.MyMessage.val1": {
       "items": {

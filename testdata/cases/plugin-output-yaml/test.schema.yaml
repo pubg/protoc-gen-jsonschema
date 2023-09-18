@@ -11,9 +11,6 @@ $defs:
         $ref: '#/$defs/.tests.MyMessage.val1'
       val2:
         $ref: '#/$defs/.tests.MyMessage.val2'
-    required:
-    - val1
-    - val2
     type: object
   .tests.MyMessage.val1:
     items:
@@ -41,14 +38,6 @@ $defs:
         oneOf:
         - type: "null"
         - $ref: '#/$defs/.tests.Values.val2'
-    required:
-    - val1
-    - val2
-    - optioned1
-    - optioned2
-    - optioned3
-    - message
-    - enum
     type: object
   .tests.Values.enum:
     items:

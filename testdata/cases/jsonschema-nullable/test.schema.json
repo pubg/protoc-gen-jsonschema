@@ -75,11 +75,7 @@
           "$ref": "#/$defs/.tests.MyMessage.val2"
         }
       },
-      "type": "object",
-      "required": [
-        "val1",
-        "val2"
-      ]
+      "type": "object"
     },
     ".tests.MyMessage.val1": {
       "items": {
