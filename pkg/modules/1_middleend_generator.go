@@ -34,7 +34,7 @@ func buildFromMessage(pluginOptions *proto.PluginOptions, message pgs.Message, m
 			}}
 		}
 
-		if !field.InRealOneOf() && !field.HasOptionalKeyword() && !field.Type().IsRepeated() {
+		if !field.InRealOneOf() && !field.HasOptionalKeyword() && !field.Type().IsRepeated() && !field.Type().IsMap() {
 			// If field is not a member of oneOf
 			schema.Required = append(schema.Required, propName)
 		}

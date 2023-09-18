@@ -21,8 +21,7 @@
       "required": [
         "int32",
         "int32_2",
-        "string",
-        "map"
+        "string"
       ],
       "description": "This is values2 message"
     },

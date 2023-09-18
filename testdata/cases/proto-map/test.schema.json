@@ -35,16 +35,7 @@
           "$ref": "#/$defs/.tests.Values.enum_map"
         }
       },
-      "type": "object",
-      "required": [
-        "basic_map",
-        "int_map",
-        "float_map",
-        "bool_map",
-        "string_map",
-        "nested_map",
-        "enum_map"
-      ]
+      "type": "object"
     },
     ".tests.Values.basic_map": {
       "additionalProperties": {
