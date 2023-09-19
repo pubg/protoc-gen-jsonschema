@@ -32,7 +32,7 @@ protoc --jsonschema_out=. --jsonschema_opt=pretty_json_output=false
 ```
 
 #### I'd like to comply with the protobuf JSON mapping standard
-By default, this plugin does not comply to the Protobuf standard because most plugins and other JSON libraries do not address integers larger than a 53-bit value. To ensure greater compatibility with other libraries, this plugin converts int64 values to integers instead of strings. However, to comply with the Protobuf standard, int64 values should be converted to strings. If you wish to comply to the Protocol Buffer standard, the option below will assist you.
+By default, this plugin does not comply to the Protobuf standard because most plugins and other JSON libraries do not address integers larger than a 53-bit value. To ensure greater compatibility with other libraries, this plugin converts int64 values to integers instead of strings. However, to comply with the Protobuf standard, int64 values should be converted to strings. Below options will assist you.
 ```
 protoc --jsonschema_out=. --jsonschema_opt=int64_as_string=true
 ```
