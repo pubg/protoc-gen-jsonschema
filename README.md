@@ -26,7 +26,7 @@ protoc --jsonschema_out=. *.proto
 protoc --jsonschema_out=. --jsonschema_opt=output_file_suffix=.yaml *.proto
 ```
 
-#### Shrink bytes for transfer over network.
+#### Shrink bytes for transfer over network
 ```
 protoc --jsonschema_out=. --jsonschema_opt=pretty_json_output=false
 ```
