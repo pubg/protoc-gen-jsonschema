@@ -1,6 +1,6 @@
 # protoc-gen-jsonschema
 
-`protoc-gen-jsonschema` is a plugin that converts `protocol buffer` formats to `json-schema`. It doesn't aim to support the entire json-schema specification, but rather focuses solely on converting the protobuf specification. Support json-schema `draft-04, draft-06, draft-07, draft-2019-09, draft-2020-12` versions.
+`protoc-gen-jsonschema` is a plugin that converts `protocol buffer` files to `json-schema`. It doesn't aim to support the entire json-schema specification, but rather focuses solely on converting the protobuf specification. Support json-schema `draft-04, draft-06, draft-07, draft-2019-09, draft-2020-12` versions.
 
 # Installation
 
