@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/.schema.Values",
+  "definitions": {
+    ".schema.MyEnum": {
+      "type": "string",
+      "enum": [
+        "ME_FOO",
+        "ME_BAR",
+        "ME_AAA",
+        "ME_BAZ"
+      ]
+    },
+    ".schema.Values": {
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "required": [
+                "a"
+              ]
+            },
+            {
+              "required": [
+                "b"
+              ]
+            },
+            {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "a"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "b"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "required": [
+                "first"
+              ]
+            },
+            {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "first"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "required": [
+                "second"
+              ]
+            },
+            {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "second"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "first": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/.schema.Values.first"
+            }
+          ]
+        },
+        "second": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/.schema.Values.second"
+            }
+          ]
+        },
+        "a": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/.schema.Values.a"
+            }
+          ]
+        },
+        "b": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/.schema.Values.b"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    ".schema.Values.first": {
+      "$ref": "#/definitions/.schema.FirstForm",
+      "title": "A lorem ipsum",
+      "description": "This is a comment"
+    },
+    ".schema.Values.second": {
+      "$ref": "#/definitions/.schema.FirstForm"
+    },
+    ".schema.Values.a": {
+      "type": "string"
+    },
+    ".schema.Values.b": {
+      "type": "string"
+    },
+    ".schema.FirstForm": {
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/.schema.FirstForm.name"
+        },
+        "second_message": {
+          "$ref": "#/definitions/.schema.FirstForm.second_message"
+        },
+        "my_enum": {
+          "$ref": "#/definitions/.schema.FirstForm.my_enum"
+        },
+        "mymap": {
+          "$ref": "#/definitions/.schema.FirstForm.mymap"
+        },
+        "v1": {
+          "$ref": "#/definitions/.schema.FirstForm.v1"
+        },
+        "v2": {
+          "$ref": "#/definitions/.schema.FirstForm.v2"
+        },
+        "v3": {
+          "$ref": "#/definitions/.schema.FirstForm.v3"
+        }
+      },
+      "type": "object",
+      "required": [
+        "name",
+        "second_message",
+        "my_enum",
+        "v1",
+        "v2",
+        "v3"
+      ]
+    },
+    ".schema.FirstForm.name": {
+      "type": "string"
+    },
+    ".schema.FirstForm.second_message": {
+      "$ref": "#/definitions/.schema.SecondMessage"
+    },
+    ".schema.FirstForm.my_enum": {
+      "$ref": "#/definitions/.schema.MyEnum"
+    },
+    ".schema.FirstForm.mymap": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    ".schema.FirstForm.v1": {
+      "type": "string"
+    },
+    ".schema.FirstForm.v2": {
+      "type": "integer"
+    },
+    ".schema.FirstForm.v3": {
+      "type": "number"
+    },
+    ".schema.SecondMessage": {
+      "properties": {
+        "a": {
+          "$ref": "#/definitions/.schema.SecondMessage.a"
+        },
+        "b": {
+          "$ref": "#/definitions/.schema.SecondMessage.b"
+        }
+      },
+      "type": "object",
+      "required": [
+        "a",
+        "b"
+      ]
+    },
+    ".schema.SecondMessage.a": {
+      "type": "string"
+    },
+    ".schema.SecondMessage.b": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

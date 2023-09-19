@@ -52,6 +52,7 @@ message PluginOptions {
 
   /**
     draft is used to determine which draft version should be used.
+    The value should be one of Draft04, Draft05, Draft06, Draft07, Draft201909, Draft202012.
 
     default: Draft202012
     example:
@@ -77,7 +78,6 @@ message PluginOptions {
     Depends on Javascript specification, The JS stores integer to only 53bits.
     So, if you want to use int64 field in JS, you should use string type.
     References:
-
 
     default: false
     example:
@@ -155,6 +155,7 @@ message ArrayKeywords {
   optional uint32 min_items = 1;
   optional uint32 max_items = 2;
   optional bool unique_items = 3;
+
   // repeated JsonSchema contains = 3;
   // uint32 min_contains = 4;
   // uint32 max_contains = 5;

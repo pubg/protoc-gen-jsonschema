@@ -1,3 +1,4 @@
 .idea/
-proto2/
 **/request.pb.bin
+
+protoc-gen-jsonschema
