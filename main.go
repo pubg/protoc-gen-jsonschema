@@ -28,6 +28,10 @@ protoc --jsonschema_out=. --jsonschema_opt=pretty_json_output=false
 EXAMPLE: I'd like to comply with the protobuf JSON mapping standard
 protoc --jsonschema_out=. --jsonschema_opt=int64_as_string=true
 
+EXAMPLE: I'm not satisfied with the plugin's options. I want to customize every fields
+cp jsonschema.proto examples/jsonschema.proto
+protoc --jsonschema_out=. --proto_path=examples examples/jsonschema.proto
+
 Please check https://github.com/pubg/protoc-gen-jsonschema for more details.
 
 FLAGS:

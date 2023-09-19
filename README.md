@@ -15,26 +15,33 @@ Alternatively, you can download pre-built binary from [Github Release](https://g
 
 Refer to the [Plugin Options](#plguin-options) section below for various options available for this plugin.
 
-#### I'm not sure which options to use
+### I'm not sure which options to use
 This plugin provides default options that are ready to use. For testing or generating a basic json-schema file, the following command is sufficient without extra options.
 ```
 protoc --jsonschema_out=. *.proto
 ```
 
-#### Generate with yaml format
+### Generate with yaml format
 ```
 protoc --jsonschema_out=. --jsonschema_opt=output_file_suffix=.yaml *.proto
 ```
 
-#### Shrink bytes for transfer over network
+### Shrink bytes for transfer over network
 ```
-protoc --jsonschema_out=. --jsonschema_opt=pretty_json_output=false
+protoc --jsonschema_out=. --jsonschema_opt=pretty_json_output=false *.proto
 ```
 
-#### I'd like to comply with the protobuf JSON mapping standard
+### I'd like to comply with the protobuf JSON mapping standard
 By default, this plugin does not comply to the Protobuf standard because most plugins and other JSON libraries do not address integers larger than a 53-bit value. To ensure greater compatibility with other libraries, this plugin converts int64 values to integers instead of strings. However, to comply with the Protobuf standard, int64 values should be converted to strings. Below options will assist you.
 ```
-protoc --jsonschema_out=. --jsonschema_opt=int64_as_string=true
+protoc --jsonschema_out=. --jsonschema_opt=int64_as_string=true *.proto
+```
+
+### I'm not satisfied with the plugin's options. I want to customize every fields
+This plugin offers options for fields, messages, and enums. You can utilize these options in the jsonschema.proto file within your proto.
+```
+cp jsonschema.proto examples/jsonschema.proto
+protoc --jsonschema_out=. --proto_path=examples examples/jsonschema.proto
 ```
 
 # Options
