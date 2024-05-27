@@ -1,6 +1,6 @@
 module github.com/pubg/protoc-gen-jsonschema
 
-go 1.21.1
+go 1.22
 
 require (
 	github.com/iancoleman/orderedmap v0.0.0-20190318233801-ac98e3ecb4b0
