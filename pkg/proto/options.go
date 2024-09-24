@@ -100,12 +100,17 @@ func GetDescriptionOrComment(name NameWithSourceResolver, description Descriptio
 		return description.GetDescription()
 	}
 
+	srcInfo := name.SourceCodeInfo()
+	if srcInfo == nil {
+		return ""
+	}
+
 	builder := &strings.Builder{}
-	for _, comment := range name.SourceCodeInfo().LeadingDetachedComments() {
+	for _, comment := range srcInfo.LeadingDetachedComments() {
 		builder.WriteString(comment)
 	}
-	builder.WriteString(name.SourceCodeInfo().LeadingComments())
-	builder.WriteString(name.SourceCodeInfo().TrailingComments())
+	builder.WriteString(srcInfo.LeadingComments())
+	builder.WriteString(srcInfo.TrailingComments())
 	comment := strings.TrimSpace(strings.Trim(builder.String(), "\n"))
 
 	if comment != "" {
@@ -113,6 +118,7 @@ func GetDescriptionOrComment(name NameWithSourceResolver, description Descriptio
 	}
 	return ""
 }
+
 func GetEntrypointMessage(pluginOptions *PluginOptions, fileOptions *FileOptions) string {
 	if fileOptions != nil && fileOptions.GetEntrypointMessage() != "" {
 		return fileOptions.GetEntrypointMessage()
