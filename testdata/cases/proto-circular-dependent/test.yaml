@@ -1,0 +1,11 @@
+name: "proto-circular-dependent"
+description: "Test for circular dependent message in proto file"
+
+inputFiles: ["test.proto"]
+inputParameters: {}
+
+expectResultFiles: ["test.schema.json"]
+expectResultIsNull: false
+expectFail: false
+
+expectedBehaviorDescription: ""

@@ -23,13 +23,13 @@ func NewOptimizerImpl(pluginOptions *proto.PluginOptions) *OptimizerImpl {
 	return &OptimizerImpl{schemaByRef: jsonschema.NewOrderedSchemaMap(), pluginOptions: pluginOptions}
 }
 
-const refCountKey = "refCount"
+const linkedFromEntrypoint = "linkedFromEntrypoint"
 
 func (o *OptimizerImpl) Optimize(registry *jsonschema.Registry, entrypointMessage pgs.Message) {
 	entrypointSchemaRef := toRefId(entrypointMessage)
 	entrypointSchema := registry.GetSchema(entrypointSchemaRef.String())
 
-	o.increaseSchemaRefCount(registry, entrypointSchemaRef.String())
+	o.checkAndMarkSchemaToVisitable(registry, entrypointSchemaRef.String())
 	o.visitSchema(registry, entrypointSchema)
 
 	o.optimizeDefinitions(registry)
@@ -39,9 +39,9 @@ func (o *OptimizerImpl) optimizeDefinitions(registry *jsonschema.Registry) {
 	var deleteKeys []string
 	for _, key := range registry.GetKeys() {
 		schema := registry.GetSchema(key)
-		if schema.GetExtrasItem(refCountKey) == nil {
+		if schema.GetExtrasItem(linkedFromEntrypoint) == nil {
 			deleteKeys = append(deleteKeys, key)
-		} else if schema.GetExtrasItem(refCountKey).(int) == 0 {
+		} else if schema.GetExtrasItem(linkedFromEntrypoint).(bool) == false {
 			deleteKeys = append(deleteKeys, key)
 		}
 	}
@@ -66,17 +66,19 @@ func (o *OptimizerImpl) getEntrypointMessage(messages []pgs.Message, fileOptions
 	return nil
 }
 
-func (o *OptimizerImpl) increaseSchemaRefCount(registry *jsonschema.Registry, ref string) {
+// return true if first visit to schema
+func (o *OptimizerImpl) checkAndMarkSchemaToVisitable(registry *jsonschema.Registry, ref string) bool {
 	schema := registry.GetSchema(ref)
 	if schema == nil {
 		panic(fmt.Sprintf("schema not found: %s", ref))
 	}
 
-	rawValue := schema.GetExtrasItem(refCountKey)
+	rawValue := schema.GetExtrasItem(linkedFromEntrypoint)
 	if rawValue == nil {
-		schema.SetExtrasItem(refCountKey, int(1))
+		schema.SetExtrasItem(linkedFromEntrypoint, true)
+		return true
 	} else {
-		schema.SetExtrasItem(refCountKey, rawValue.(int)+1)
+		return false
 	}
 }
 
@@ -86,8 +88,9 @@ func (o *OptimizerImpl) visitSchema(registry *jsonschema.Registry, schema *jsons
 	}
 
 	if !schema.Ref.IsEmpty() {
-		o.increaseSchemaRefCount(registry, schema.Ref.String())
-		o.visitSchema(registry, registry.GetSchema(schema.Ref.String()))
+		if o.checkAndMarkSchemaToVisitable(registry, schema.Ref.String()) {
+			o.visitSchema(registry, registry.GetSchema(schema.Ref.String()))
+		}
 	}
 	o.visitSchemaMap(registry, schema.Definitions)
 

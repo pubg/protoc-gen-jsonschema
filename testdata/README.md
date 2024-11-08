@@ -82,6 +82,8 @@ proto-optional optional이 있다면 required에서 빠지는지 테스트
 
 proto-message message가 object로 잘 전환되는지 테스트
 
+proto-circular-dependent 순환 의존성이 있는 메시지를 잘 전환하는지 테스트
+
 proto-enum enum이 enum으로 잘 전환되는지 테스트
 
 plugin-preserve-field-name-false json_name이 잘 적용되는지 테스트
