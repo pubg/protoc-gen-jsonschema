@@ -26,7 +26,8 @@ func buildFromMessage(pluginOptions *proto.PluginOptions, message pgs.Message, m
 		//	continue
 		//}
 
-		propName := toPropertyName(field.Name())
+		propName := toPropertyName(field)
+
 		fieldSchema := &jsonschema.Schema{Ref: toRefId(field)}
 		if !pluginOptions.GetMandatoryNullable() && (field.InRealOneOf() || field.HasOptionalKeyword()) || proto.GetFieldOptions(field).GetNullable() {
 			fieldSchema = &jsonschema.Schema{OneOf: []*jsonschema.Schema{
@@ -46,7 +47,7 @@ func buildFromMessage(pluginOptions *proto.PluginOptions, message pgs.Message, m
 	// Convert Protobuf OneOfs to JSONSchema keywords
 	for _, oneOf := range message.OneOfs() {
 		propertyNames := lo.Map[pgs.Field, string](oneOf.Fields(), func(item pgs.Field, _ int) string {
-			return toPropertyName(item.Name())
+			return toPropertyName(item)
 		})
 		oneOfSchemas := lo.Map[string, *jsonschema.Schema](propertyNames, func(item string, _ int) *jsonschema.Schema {
 			return &jsonschema.Schema{Required: []string{item}}
@@ -419,8 +420,12 @@ func isScalarType(field pgs.Field) bool {
 	return false
 }
 
-func toPropertyName(name pgs.Name) string {
-	return name.String()
+func toPropertyName(field pgs.Field) string {
+	if field.Descriptor().JsonName != nil {
+		return field.Descriptor().GetJsonName()
+	}
+
+	return field.Name().String()
 }
 
 type FqdnResolver interface {
