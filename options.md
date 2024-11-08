@@ -197,7 +197,7 @@ default: .schema.json example: - --jsonschema_opt=output_file_suffix=.schema.jso
 | pretty_json_output | [bool](#bool) |  | pretty_json_output is used to determine output json should be pretty printed. This option is only used when output_file_suffix is &#39;.json&#39;.
 
 default: true example: - --jsonschema_opt=pretty_json_output=true - --jsonschema_opt=pretty_json_output=false |
-| draft | [Draft](#pubg-jsonschema-Draft) |  | draft is used to determine which draft version should be used.
+| draft | [Draft](#pubg-jsonschema-Draft) |  | draft is used to determine which draft version should be used. The value should be one of Draft04, Draft05, Draft06, Draft07, Draft201909, Draft202012.
 
 default: Draft202012 example: - --jsonschema_opt=draft=Draft202012 |
 | mandatory_nullable | [bool](#bool) |  | mandatory_nullable determines whether this plugin should treat optional field as nullable. Many programming languages do not differentiate between undefined and null. However, scripting languages like JavaScript and TypeScript can distinguish between them. By default, optional field is treated as nullable and undefined.
@@ -206,6 +206,9 @@ default: false example: - --jsonschema_opt=mandatory_nullable=true - --jsonschem
 | int64_as_string | [bool](#bool) |  | int64_as_string determines whether int64 field treat as string. Depends on Javascript specification, The JS stores integer to only 53bits. So, if you want to use int64 field in JS, you should use string type. References:
 
 default: false example: - --jsonschema_opt=int64_as_string=true - --jsonschema_opt=int64_as_string=false |
+| preserve_proto_field_names | [bool](#bool) |  | preserve_proto_field_names is used to determine if output json field names should be identical to the proto field names. Otherwise field names either use the value of the `json_name` field option or they are automatically converted to lowerCamelCase. This default behaviour mirrors the behaviour of Protobuf&#39;s canonical JSON format (ProtoJSON).
+
+default: false example: - --jsonschema_opt=preserve_proto_field_names=true - --jsonschema_opt=preserve_proto_field_names=false |
 
 
 

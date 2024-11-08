@@ -46,7 +46,7 @@ protoc --jsonschema_out=. --proto_path=examples examples/jsonschema.proto
 
 # Options
 
-### Plguin Options
+### Plugin Options
 
 ### entrypoint_message
 ```
@@ -113,6 +113,20 @@ default: false
 example:
     - --jsonschema_opt=int64_as_string=true
     - --jsonschema_opt=int64_as_string=false
+```
+
+### pretty_json_output
+```
+preserve_proto_field_names is used to determine if output json field names
+should be identical to the proto field names.
+Otherwise field names either use the value of the `json_name` field option
+or they are automatically converted to lowerCamelCase.
+This default behaviour mirrors the behaviour of Protobuf's canonical JSON format (ProtoJSON).
+
+default: false
+example:
+    - --jsonschema_opt=preserve_proto_field_names=true
+    - --jsonschema_opt=preserve_proto_field_names=false
 ```
 
 ### Protobuf Options

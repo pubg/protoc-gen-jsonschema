@@ -15,13 +15,13 @@
     },
     ".tests.Values": {
       "properties": {
-        "int_or_string": {
+        "intOrString": {
           "$ref": "#/$defs/.tests.Values.int_or_string"
         }
       },
       "type": "object",
       "required": [
-        "int_or_string"
+        "intOrString"
       ],
       "description": "TODO: import k8s proto files"
     },

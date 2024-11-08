@@ -43,30 +43,30 @@
         "default": {
           "$ref": "#/$defs/.tests.Values.default"
         },
-        "map_to_number": {
+        "mapToNumber": {
           "$ref": "#/$defs/.tests.Values.map_to_number"
         },
-        "map_to_string": {
+        "mapToString": {
           "$ref": "#/$defs/.tests.Values.map_to_string"
         },
-        "map_to_custom": {
+        "mapToCustom": {
           "$ref": "#/$defs/.tests.Values.map_to_custom"
         },
-        "map_to_custom_incomplete": {
+        "mapToCustomIncomplete": {
           "$ref": "#/$defs/.tests.Values.map_to_custom_incomplete"
         },
-        "inline_enum": {
+        "inlineEnum": {
           "$ref": "#/$defs/.tests.Values.inline_enum"
         }
       },
       "type": "object",
       "required": [
         "default",
-        "map_to_number",
-        "map_to_string",
-        "map_to_custom",
-        "map_to_custom_incomplete",
-        "inline_enum"
+        "mapToNumber",
+        "mapToString",
+        "mapToCustom",
+        "mapToCustomIncomplete",
+        "inlineEnum"
       ]
     },
     ".tests.Values.InlineEnum": {
