@@ -23,10 +23,10 @@ message Values {
   int32 int325 = 5 [(pubg.jsonschema.field) = {numeric: {exclusive_minimum: 0, exclusive_maximum: 0}}];
 
   // Inclusive Min/Max with negative value
-  int32 int326 = 6 [(pubg.jsonschema.field) = {numeric: {inclusive_minimum: -1, inclusive_maximum: -100}}];
+  int32 int326 = 6 [(pubg.jsonschema.field) = {numeric: {inclusive_minimum: -100, inclusive_maximum: -1}}];
 
   // Exclusive Min/Max with negative value
-  int32 int327 = 7 [(pubg.jsonschema.field) = {numeric: {exclusive_minimum: -1, exclusive_maximum: -100}}];
+  int32 int327 = 7 [(pubg.jsonschema.field) = {numeric: {exclusive_minimum: -100, exclusive_maximum: -1}}];
 
   // multiple of
   int32 int328 = 8 [(pubg.jsonschema.field) = {numeric: {multiple_of: 2}}];

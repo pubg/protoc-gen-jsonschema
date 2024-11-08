@@ -71,14 +71,14 @@
     },
     ".tests.Values.int326": {
       "type": "integer",
-      "maximum": -100,
-      "minimum": -1,
+      "maximum": -1,
+      "minimum": -100,
       "description": "Inclusive Min/Max with negative value"
     },
     ".tests.Values.int327": {
       "type": "integer",
-      "exclusiveMaximum": -100,
-      "exclusiveMinimum": -1,
+      "exclusiveMaximum": -1,
+      "exclusiveMinimum": -100,
       "description": "Exclusive Min/Max with negative value"
     },
     ".tests.Values.int328": {
