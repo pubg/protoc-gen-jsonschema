@@ -1,8 +1,9 @@
-name: "proto-json-name"
-description: "test for respect proto json_name option"
+name: "proto-json-name-ignore"
+description: "test for ignore proto json_name option"
 
 inputFiles: ["test.proto"]
-inputParameters: {}
+inputParameters:
+  preserve_proto_field_names: true
 
 expectResultFiles: ["test.schema.json"]
 expectResultIsNull: false

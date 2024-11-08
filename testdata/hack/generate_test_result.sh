@@ -15,7 +15,7 @@ function generateProtoFile() {
 
   command="protoc \
   --plugin=protoc-gen-jsonschema=./testdata/hack/protoc-gen-jsonschema \
-  --jsonschema_out=./testdata/cases/$proto_dir "  # 초기 명령어 추가
+  --jsonschema_out=. "  # 초기 명령어 추가
 
   # test.yaml 파일의 존재 여부 확인
   if [[ -f "./testdata/cases/$proto_dir/test.yaml" ]]; then
