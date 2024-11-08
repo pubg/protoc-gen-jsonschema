@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package tests;
+
+import "jsonschema.proto";
+
+option (pubg.jsonschema.file) = {
+  entrypoint_message : "Values"
+};
+
+message Values {
+  string foo_bar_baz = 1 [ json_name = "fooBarBaz" ];
+  string implicit_camel_case = 2;
+  string explicit_snake_case = 3 [ json_name = "explicit_snake_case" ];
+  string arbitrary_value = 4 [ json_name = "abc123" ];
+}

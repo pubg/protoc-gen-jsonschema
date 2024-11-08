@@ -17,6 +17,7 @@ func GetPluginOptions(params pgs.Parameters) *PluginOptions {
 	options.PrettyJsonOutput, _ = params.BoolDefault("pretty_json_output", true)
 	options.MandatoryNullable, _ = params.BoolDefault("mandatory_nullable", false)
 	options.Int64AsString, _ = params.BoolDefault("int64_as_string", false)
+	options.PreserveProtoFieldNames, _ = params.BoolDefault("preserve_proto_field_names", false)
 
 	// Default Value
 	options.Draft = Draft_Draft202012

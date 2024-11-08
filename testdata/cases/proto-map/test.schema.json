@@ -13,25 +13,25 @@
     },
     ".tests.Values": {
       "properties": {
-        "basic_map": {
+        "basicMap": {
           "$ref": "#/$defs/.tests.Values.basic_map"
         },
-        "int_map": {
+        "intMap": {
           "$ref": "#/$defs/.tests.Values.int_map"
         },
-        "float_map": {
+        "floatMap": {
           "$ref": "#/$defs/.tests.Values.float_map"
         },
-        "bool_map": {
+        "boolMap": {
           "$ref": "#/$defs/.tests.Values.bool_map"
         },
-        "string_map": {
+        "stringMap": {
           "$ref": "#/$defs/.tests.Values.string_map"
         },
-        "nested_map": {
+        "nestedMap": {
           "$ref": "#/$defs/.tests.Values.nested_map"
         },
-        "enum_map": {
+        "enumMap": {
           "$ref": "#/$defs/.tests.Values.enum_map"
         }
       },

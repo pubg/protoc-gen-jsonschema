@@ -7,7 +7,7 @@
         "int32": {
           "$ref": "#/$defs/.tests.Values2.int32"
         },
-        "int32_2": {
+        "int322": {
           "$ref": "#/$defs/.tests.Values2.int32_2"
         },
         "string": {
@@ -20,7 +20,7 @@
       "type": "object",
       "required": [
         "int32",
-        "int32_2",
+        "int322",
         "string"
       ],
       "description": "This is values2 message"

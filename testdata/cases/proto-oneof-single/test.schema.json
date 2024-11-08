@@ -8,22 +8,22 @@
           "oneOf": [
             {
               "required": [
-                "string_value"
+                "stringValue"
               ]
             },
             {
               "required": [
-                "int_value"
+                "intValue"
               ]
             },
             {
               "required": [
-                "bool_value"
+                "boolValue"
               ]
             },
             {
               "required": [
-                "double_value"
+                "doubleValue"
               ]
             },
             {
@@ -31,22 +31,22 @@
                 "anyOf": [
                   {
                     "required": [
-                      "string_value"
+                      "stringValue"
                     ]
                   },
                   {
                     "required": [
-                      "int_value"
+                      "intValue"
                     ]
                   },
                   {
                     "required": [
-                      "bool_value"
+                      "boolValue"
                     ]
                   },
                   {
                     "required": [
-                      "double_value"
+                      "doubleValue"
                     ]
                   }
                 ]
@@ -62,7 +62,7 @@
         "count": {
           "$ref": "#/$defs/.samples.Values.count"
         },
-        "string_value": {
+        "stringValue": {
           "oneOf": [
             {
               "type": "null"
@@ -72,7 +72,7 @@
             }
           ]
         },
-        "int_value": {
+        "intValue": {
           "oneOf": [
             {
               "type": "null"
@@ -82,7 +82,7 @@
             }
           ]
         },
-        "bool_value": {
+        "boolValue": {
           "oneOf": [
             {
               "type": "null"
@@ -92,7 +92,7 @@
             }
           ]
         },
-        "double_value": {
+        "doubleValue": {
           "oneOf": [
             {
               "type": "null"

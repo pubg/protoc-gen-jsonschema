@@ -8,12 +8,12 @@
           "oneOf": [
             {
               "required": [
-                "string_value"
+                "stringValue"
               ]
             },
             {
               "required": [
-                "int_value"
+                "intValue"
               ]
             },
             {
@@ -21,12 +21,12 @@
                 "anyOf": [
                   {
                     "required": [
-                      "string_value"
+                      "stringValue"
                     ]
                   },
                   {
                     "required": [
-                      "int_value"
+                      "intValue"
                     ]
                   }
                 ]
@@ -38,12 +38,12 @@
           "oneOf": [
             {
               "required": [
-                "type_name"
+                "typeName"
               ]
             },
             {
               "required": [
-                "type_id"
+                "typeId"
               ]
             },
             {
@@ -51,12 +51,12 @@
                 "anyOf": [
                   {
                     "required": [
-                      "type_name"
+                      "typeName"
                     ]
                   },
                   {
                     "required": [
-                      "type_id"
+                      "typeId"
                     ]
                   }
                 ]
@@ -72,7 +72,7 @@
         "count": {
           "$ref": "#/$defs/.samples.Values.count"
         },
-        "string_value": {
+        "stringValue": {
           "oneOf": [
             {
               "type": "null"
@@ -82,7 +82,7 @@
             }
           ]
         },
-        "int_value": {
+        "intValue": {
           "oneOf": [
             {
               "type": "null"
@@ -101,7 +101,7 @@
         "description": {
           "$ref": "#/$defs/.samples.Values.description"
         },
-        "type_name": {
+        "typeName": {
           "oneOf": [
             {
               "type": "null"
@@ -111,7 +111,7 @@
             }
           ]
         },
-        "type_id": {
+        "typeId": {
           "oneOf": [
             {
               "type": "null"
