@@ -27,11 +27,11 @@ func fillSchemaByNumericKeywords(schema *jsonschema.Schema, keywords *proto.Nume
 		return
 	}
 
-	if val, ok := keywords.Max.(*proto.NumericKeywords_InclusiveMaximum); ok {
-		schema.Minimum = &val.InclusiveMaximum
-	}
 	if val, ok := keywords.Min.(*proto.NumericKeywords_InclusiveMinimum); ok {
-		schema.Maximum = &val.InclusiveMinimum
+		schema.Minimum = &val.InclusiveMinimum
+	}
+	if val, ok := keywords.Max.(*proto.NumericKeywords_InclusiveMaximum); ok {
+		schema.Maximum = &val.InclusiveMaximum
 	}
 	if val, ok := keywords.Max.(*proto.NumericKeywords_ExclusiveMaximum); ok {
 		schema.ExclusiveMaximum = &val.ExclusiveMaximum

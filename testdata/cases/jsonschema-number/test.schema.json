@@ -47,8 +47,8 @@
     },
     ".tests.Values.int322": {
       "type": "integer",
-      "maximum": 1,
-      "minimum": 100,
+      "maximum": 100,
+      "minimum": 1,
       "description": "inclusive min/max"
     },
     ".tests.Values.int323": {
@@ -71,8 +71,8 @@
     },
     ".tests.Values.int326": {
       "type": "integer",
-      "maximum": -1,
-      "minimum": -100,
+      "maximum": -100,
+      "minimum": -1,
       "description": "Inclusive Min/Max with negative value"
     },
     ".tests.Values.int327": {
