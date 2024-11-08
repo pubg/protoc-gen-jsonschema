@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package tests;
+
+import "jsonschema.proto";
+
+option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
+
+message Values {
+  SelfReference entry = 1;
+}
+
+//message CircularDependentTwoDepth {
+//  CircularDependentTwoDepth0 child = 1;
+//}
+//
+//message CircularDependentTwoDepth0 {
+//  CircularDependentTwoDepth parent = 1;
+//}
+
+message SelfReference {
+  SelfReference self = 1;
+}
