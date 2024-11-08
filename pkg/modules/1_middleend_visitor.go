@@ -18,10 +18,11 @@ type MiddleendVisitor struct {
 
 var _ pgs.Visitor = (*MiddleendVisitor)(nil)
 
-func NewVisitor(debugger pgs.DebuggerCommon) *MiddleendVisitor {
+func NewVisitor(debugger pgs.DebuggerCommon, pluginOptions *proto.PluginOptions) *MiddleendVisitor {
 	v := &MiddleendVisitor{
-		debugger: debugger,
-		registry: jsonschema.NewRegistry(),
+		debugger:      debugger,
+		registry:      jsonschema.NewRegistry(),
+		pluginOptions: pluginOptions,
 	}
 	v.Visitor = pgs.PassThroughVisitor(v)
 	return v

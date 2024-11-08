@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.Values": {
+      "properties": {
+        "foo_bar_baz": {
+          "$ref": "#/$defs/.tests.Values.foo_bar_baz"
+        },
+        "implicit_camel_case": {
+          "$ref": "#/$defs/.tests.Values.implicit_camel_case"
+        },
+        "explicit_snake_case": {
+          "$ref": "#/$defs/.tests.Values.explicit_snake_case"
+        },
+        "arbitrary_value": {
+          "$ref": "#/$defs/.tests.Values.arbitrary_value"
+        }
+      },
+      "type": "object",
+      "required": [
+        "foo_bar_baz",
+        "implicit_camel_case",
+        "explicit_snake_case",
+        "arbitrary_value"
+      ]
+    },
+    ".tests.Values.foo_bar_baz": {
+      "type": "string"
+    },
+    ".tests.Values.implicit_camel_case": {
+      "type": "string"
+    },
+    ".tests.Values.explicit_snake_case": {
+      "type": "string"
+    },
+    ".tests.Values.arbitrary_value": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

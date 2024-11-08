@@ -115,7 +115,7 @@ example:
     - --jsonschema_opt=int64_as_string=false
 ```
 
-### pretty_json_output
+### preserve_proto_field_names
 ```
 preserve_proto_field_names is used to determine if output json field names
 should be identical to the proto field names.

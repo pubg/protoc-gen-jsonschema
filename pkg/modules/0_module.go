@@ -31,7 +31,7 @@ func (m *Module) InitContext(c pgs.BuildContext) {
 
 func (m *Module) Execute(targets map[string]pgs.File, packages map[string]pgs.Package) []pgs.Artifact {
 	// Phase: Middleend IntermediateSchemaGenerate
-	visitor := NewVisitor(m)
+	visitor := NewVisitor(m, m.pluginOptions)
 	for _, pkg := range packages {
 		m.CheckErr(pgs.Walk(visitor, pkg), fmt.Sprintf("failed to walk package %s", pkg.ProtoName().String()))
 	}
