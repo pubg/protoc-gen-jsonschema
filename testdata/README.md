@@ -84,9 +84,9 @@ proto-message message가 object로 잘 전환되는지 테스트
 
 proto-enum enum이 enum으로 잘 전환되는지 테스트
 
-proto-json-name json_name이 잘 적용되는지 테스트
+plugin-preserve-field-name-false json_name이 잘 적용되는지 테스트
 
-proto-json-name-ignore json_name이 무시되는지 테스트
+plugin-preserve-field-name-true json_name이 무시되는지 테스트
 
 proto-map map이 object로 잘 전환되는지 테스트, array 속성이 들어가면 안됨
 

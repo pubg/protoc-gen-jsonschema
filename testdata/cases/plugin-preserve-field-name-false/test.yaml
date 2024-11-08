@@ -1,4 +1,4 @@
-name: "proto-json-name"
+name: "plugin-preserve-field-name-false"
 description: "test for respect proto json_name option"
 
 inputFiles: ["test.proto"]

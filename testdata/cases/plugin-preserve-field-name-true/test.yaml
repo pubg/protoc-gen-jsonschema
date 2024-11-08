@@ -1,4 +1,4 @@
-name: "proto-json-name-ignore"
+name: "plugin-preserve-field-name-true"
 description: "test for ignore proto json_name option"
 
 inputFiles: ["test.proto"]
