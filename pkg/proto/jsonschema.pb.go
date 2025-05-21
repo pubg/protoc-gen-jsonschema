@@ -209,7 +209,8 @@ type PluginOptions struct {
 	// example:
 	// - --jsonschema_opt=preserve_proto_field_names=true
 	// - --jsonschema_opt=preserve_proto_field_names=false
-	PreserveProtoFieldNames bool `protobuf:"varint,15,opt,name=preserve_proto_field_names,json=preserveProtoFieldNames,proto3" json:"preserve_proto_field_names,omitempty"`
+	PreserveProtoFieldNames bool  `protobuf:"varint,15,opt,name=preserve_proto_field_names,json=preserveProtoFieldNames,proto3" json:"preserve_proto_field_names,omitempty"`
+	AdditionalProperties    *bool `protobuf:"varint,16,opt,name=additional_properties,json=additionalProperties,proto3,oneof" json:"additional_properties,omitempty"`
 }
 
 func (x *PluginOptions) Reset() {
@@ -296,6 +297,13 @@ func (x *PluginOptions) GetInt64AsString() bool {
 func (x *PluginOptions) GetPreserveProtoFieldNames() bool {
 	if x != nil {
 		return x.PreserveProtoFieldNames
+	}
+	return false
+}
+
+func (x *PluginOptions) GetAdditionalProperties() bool {
+	if x != nil && x.AdditionalProperties != nil {
+		return *x.AdditionalProperties
 	}
 	return false
 }

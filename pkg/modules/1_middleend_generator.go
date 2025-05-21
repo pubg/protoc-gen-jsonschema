@@ -19,6 +19,9 @@ func buildFromMessage(pluginOptions *proto.PluginOptions, message pgs.Message, m
 	schema.Properties = jsonschema.NewOrderedSchemaMap()
 
 	fillSchemaByObjectKeywords(schema, mo.GetObject())
+	if schema.AdditionalProperties == nil && pluginOptions.AdditionalProperties != nil {
+		schema.AdditionalProperties = jsonschema.NewBooleanSchema(pluginOptions.GetAdditionalProperties())
+	}
 
 	for _, field := range message.Fields() {
 		// Skip OneOf Block field

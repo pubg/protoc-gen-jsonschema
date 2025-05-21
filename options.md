@@ -209,6 +209,9 @@ default: false example: - --jsonschema_opt=int64_as_string=true - --jsonschema_o
 | preserve_proto_field_names | [bool](#bool) |  | preserve_proto_field_names is used to determine if output json field names should be identical to the proto field names. Otherwise field names either use the value of the `json_name` field option or they are automatically converted to lowerCamelCase. This default behaviour mirrors the behaviour of Protobuf&#39;s canonical JSON format (ProtoJSON).
 
 default: false example: - --jsonschema_opt=preserve_proto_field_names=true - --jsonschema_opt=preserve_proto_field_names=false |
+| additional_properties | [bool](#bool) | optional | additional_properties determines the default value of `additionalProperties` for all messages.
+
+default: inherit from MessageOptions.object.additional_properties example: - --jsonschema_opt=additional_properties=true - --jsonschema_opt=additional_properties=false |
 
 
 

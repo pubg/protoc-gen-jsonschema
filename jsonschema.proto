@@ -99,6 +99,17 @@ message PluginOptions {
       - --jsonschema_opt=preserve_proto_field_names=false
    */
   bool preserve_proto_field_names = 15;
+
+  /**
+    additional_properties determines the default value of `additionalProperties`
+    for all messages when not specified in MessageOptions.object.
+
+    default: inherit from MessageOptions.object.additional_properties
+    example:
+      - --jsonschema_opt=additional_properties=true
+      - --jsonschema_opt=additional_properties=false
+   */
+  optional bool additional_properties = 16;
 }
 
 enum Draft {
