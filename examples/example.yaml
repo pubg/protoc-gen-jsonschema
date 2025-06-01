@@ -1,13 +1,13 @@
 $defs:
   .schema.FirstForm:
     properties:
-      my_enum:
+      myEnum:
         $ref: '#/$defs/.schema.FirstForm.my_enum'
       mymap:
         $ref: '#/$defs/.schema.FirstForm.mymap'
       name:
         $ref: '#/$defs/.schema.FirstForm.name'
-      second_message:
+      secondMessage:
         $ref: '#/$defs/.schema.FirstForm.second_message'
       v1:
         $ref: '#/$defs/.schema.FirstForm.v1'
@@ -17,8 +17,8 @@ $defs:
         $ref: '#/$defs/.schema.FirstForm.v3'
     required:
     - name
-    - second_message
-    - my_enum
+    - secondMessage
+    - myEnum
     - v1
     - v2
     - v3

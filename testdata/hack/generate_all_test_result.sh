@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -euxo pipefail
 
 cd $(dirname $0)
 proto_dirs=$(ls ../cases)

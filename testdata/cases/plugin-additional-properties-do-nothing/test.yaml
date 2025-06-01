@@ -1,0 +1,12 @@
+name: "plugin-additional-properties-do-nothing"
+description: "The plugin do nothing with additionalProperties"
+
+inputFiles: ["test.proto"]
+inputParameters:
+  additional_properties: DoNothing
+
+expectResultFiles: ["test.schema.json"]
+expectResultIsNull: false
+expectFail: false
+
+expectedBehaviorDescription: ""

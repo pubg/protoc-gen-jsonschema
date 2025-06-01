@@ -2,6 +2,7 @@ package modules
 
 import (
 	"encoding/json"
+	"fmt"
 	"slices"
 
 	pgs "github.com/lyft/protoc-gen-star/v2"
@@ -19,8 +20,24 @@ func buildFromMessage(pluginOptions *proto.PluginOptions, message pgs.Message, m
 	schema.Properties = jsonschema.NewOrderedSchemaMap()
 
 	fillSchemaByObjectKeywords(schema, mo.GetObject())
-	if schema.AdditionalProperties == nil && pluginOptions.AdditionalProperties != nil {
-		schema.AdditionalProperties = jsonschema.NewBooleanSchema(pluginOptions.GetAdditionalProperties())
+
+	switch pluginOptions.AdditionalProperties {
+	case proto.PluginAdditionalProperties_AlwaysTrue:
+		schema.AdditionalProperties = &jsonschema.TrueSchema
+	case proto.PluginAdditionalProperties_AlwaysFalse:
+		schema.AdditionalProperties = &jsonschema.FalseSchema
+	case proto.PluginAdditionalProperties_DefaultTrue:
+		if schema.AdditionalProperties == nil {
+			schema.AdditionalProperties = &jsonschema.TrueSchema
+		}
+	case proto.PluginAdditionalProperties_DefaultFalse:
+		if schema.AdditionalProperties == nil {
+			schema.AdditionalProperties = &jsonschema.FalseSchema
+		}
+	case proto.PluginAdditionalProperties_DoNothing:
+		break
+	default:
+		panic(fmt.Sprintf("not supported additional properties option. parsed option index: '%d'", pluginOptions.AdditionalProperties))
 	}
 
 	for _, field := range message.Fields() {

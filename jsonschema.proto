@@ -101,15 +101,33 @@ message PluginOptions {
   bool preserve_proto_field_names = 15;
 
   /**
-    additional_properties determines the default value of `additionalProperties`
-    for all messages when not specified in MessageOptions.object.
+    additional_properties option can controls all message's additional_properties property.
+    If you want set additional properties for all messages, use always_true or always_false.
+    If you want to set additional properties for not defined messages, use default_true or default_false.
 
-    default: inherit from MessageOptions.object.additional_properties
+    default: 'DoNothing'
     example:
-      - --jsonschema_opt=additional_properties=true
-      - --jsonschema_opt=additional_properties=false
+      - --jsonschema_opt=additional_properties=AlwaysTrue
+      - --jsonschema_opt=additional_properties=AlwaysFalse
+      - --jsonschema_opt=additional_properties=DefaultTrue
+      - --jsonschema_opt=additional_properties=DefaultFalse
+      - --jsonschema_opt=additional_properties=DoNothing
    */
-  optional bool additional_properties = 16;
+  PluginAdditionalProperties additional_properties = 16;
+}
+
+enum PluginAdditionalProperties {
+  DefaultAdditionalProperties = 0;
+  // always_true: all messages to have additional_properties set to true
+  AlwaysTrue = 1;
+  // always_false: all messages to have additional_properties set to false
+  AlwaysFalse = 2;
+  // default_true: all messages will have additional_properties set to true if not defined
+  DefaultTrue = 3;
+  // default_false: all messages will have additional_properties set to false if not defined
+  DefaultFalse = 4;
+  // do_nothing: do not set additional_properties default value
+  DoNothing = 5;
 }
 
 enum Draft {

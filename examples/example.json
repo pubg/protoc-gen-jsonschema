@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
   "$ref": "#/definitions/.schema.Values",
   "definitions": {
     ".schema.MyEnum": {
@@ -126,6 +126,7 @@
           ]
         }
       },
+      "additionalProperties": {},
       "type": "object"
     },
     ".schema.Values.first": {
@@ -166,6 +167,7 @@
           "$ref": "#/definitions/.schema.FirstForm.v3"
         }
       },
+      "additionalProperties": {},
       "type": "object",
       "required": [
         "name",
@@ -209,6 +211,7 @@
           "$ref": "#/definitions/.schema.SecondMessage.b"
         }
       },
+      "additionalProperties": {},
       "type": "object",
       "required": [
         "a",

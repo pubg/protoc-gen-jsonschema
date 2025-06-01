@@ -4,21 +4,19 @@ package tests;
 
 import "jsonschema.proto";
 
-option go_package = "github.com/pubg/fooo";
-
 option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
 
 message Values {
-  MyMessage messages = 1;
+  MandatorySetAdditionalPropertiesToFalse messages = 1;
 
-  MyMessage2 messages2 = 2;
+  MandatorySetAdditionalPropertiesToTrue messages2 = 2;
 }
 
-message MyMessage {
+message MandatorySetAdditionalPropertiesToFalse {
   option (pubg.jsonschema.message) = {
     title: "MyMessage";
     object:{
-      additional_properties: true
+      additional_properties: false
     }
   };
 
@@ -27,11 +25,11 @@ message MyMessage {
   repeated int64 val2 = 2;
 }
 
-message MyMessage2 {
+message MandatorySetAdditionalPropertiesToTrue {
   option (pubg.jsonschema.message) = {
     title: "MyMessage";
     object:{
-      additional_properties: false
+      additional_properties: true
       min_properties: 0
       max_properties: 10
     }

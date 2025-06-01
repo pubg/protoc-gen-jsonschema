@@ -30,7 +30,7 @@ func (m *Module) InitContext(c pgs.BuildContext) {
 }
 
 func (m *Module) Execute(targets map[string]pgs.File, packages map[string]pgs.Package) []pgs.Artifact {
-	// Phase: Middleend IntermediateSchemaGenerate
+	// Phase: Frontend IntermediateSchemaGenerate
 	visitor := NewVisitor(m, m.pluginOptions)
 	for _, pkg := range packages {
 		m.CheckErr(pgs.Walk(visitor, pkg), fmt.Sprintf("failed to walk package %s", pkg.ProtoName().String()))
@@ -79,4 +79,18 @@ func (m *Module) BackendPhase(file pgs.File, registry *jsonschema.Registry, opti
 	m.Debugf("GeneratedFileName: %s", fileName)
 
 	return pgs.GeneratorFile{Name: fileName, Contents: string(content)}
+}
+
+func getEntrypointFromFile(file pgs.File, pluginOptions *proto.PluginOptions) pgs.Message {
+	entryPointMessage := proto.GetEntrypointMessage(pluginOptions, proto.GetFileOptions(file))
+	if entryPointMessage == "" {
+		return nil
+	}
+
+	for _, message := range file.Messages() {
+		if message.Name().String() == entryPointMessage {
+			return message
+		}
+	}
+	return nil
 }
