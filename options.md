@@ -210,7 +210,7 @@ default: false example: - --jsonschema_opt=int64_as_string=true - --jsonschema_o
 | preserve_proto_field_names | [bool](#bool) |  | preserve_proto_field_names is used to determine if output json field names should be identical to the proto field names. Otherwise field names either use the value of the `json_name` field option or they are automatically converted to lowerCamelCase. This default behaviour mirrors the behaviour of Protobuf&#39;s canonical JSON format (ProtoJSON).
 
 default: false example: - --jsonschema_opt=preserve_proto_field_names=true - --jsonschema_opt=preserve_proto_field_names=false |
-| additional_properties | [PluginAdditionalProperties](#pubg-jsonschema-PluginAdditionalProperties) |  | additional_properties option can controls all message&#39;s additional_properties property. If you want set additional properties for all messages, use always_true or always_false. If you want to set additional properties for not defined messages, use default_true or default_false.
+| additional_properties | [PluginAdditionalProperties](#pubg-jsonschema-PluginAdditionalProperties) |  | additional_properties option can control all message&#39;s additional_properties property. If you want set additional properties for all messages, use always_true or always_false. If you want to set additional properties for not defined messages, use default_true or default_false.
 
 default: &#39;DoNothing&#39; example: - --jsonschema_opt=additional_properties=AlwaysTrue - --jsonschema_opt=additional_properties=AlwaysFalse - --jsonschema_opt=additional_properties=DefaultTrue - --jsonschema_opt=additional_properties=DefaultFalse - --jsonschema_opt=additional_properties=DoNothing |
 

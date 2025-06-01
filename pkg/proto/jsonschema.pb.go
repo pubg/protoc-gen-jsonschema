@@ -272,7 +272,7 @@ type PluginOptions struct {
 	// - --jsonschema_opt=preserve_proto_field_names=false
 	PreserveProtoFieldNames bool `protobuf:"varint,15,opt,name=preserve_proto_field_names,json=preserveProtoFieldNames,proto3" json:"preserve_proto_field_names,omitempty"`
 	// *
-	// additional_properties option can controls all message's additional_properties property.
+	// additional_properties option can control all message's additional_properties property.
 	// If you want set additional properties for all messages, use always_true or always_false.
 	// If you want to set additional properties for not defined messages, use default_true or default_false.
 	//
