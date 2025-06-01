@@ -1,9 +1,11 @@
 package proto
 
 import (
+	"fmt"
 	"strings"
 
 	pgs "github.com/lyft/protoc-gen-star/v2"
+	"github.com/pubg/protoc-gen-jsonschema/pkg/utils"
 )
 
 func GetPluginOptions(params pgs.Parameters) *PluginOptions {
@@ -132,5 +134,35 @@ func GetEntrypointMessage(pluginOptions *PluginOptions, fileOptions *FileOptions
 		return fileOptions.GetEntrypointMessage()
 	} else {
 		return pluginOptions.GetEntrypointMessage()
+	}
+}
+
+func GetAdditionalProperties(pluginOptions *PluginOptions, keywords *ObjectKeywords) *bool {
+	switch pluginOptions.AdditionalProperties {
+	case PluginAdditionalProperties_AlwaysTrue:
+		return utils.Bool(true)
+	case PluginAdditionalProperties_AlwaysFalse:
+		return utils.Bool(false)
+	case PluginAdditionalProperties_DefaultTrue:
+		if keywords == nil || keywords.AdditionalProperties == nil {
+			return utils.Bool(true)
+		} else {
+			return keywords.AdditionalProperties
+		}
+	case PluginAdditionalProperties_DefaultFalse:
+		if keywords == nil || keywords.AdditionalProperties == nil {
+			return utils.Bool(false)
+		} else {
+			return keywords.AdditionalProperties
+		}
+	case PluginAdditionalProperties_DoNothing:
+		if keywords == nil {
+			return nil
+		} else {
+			return keywords.AdditionalProperties
+		}
+	default:
+		// Unreachable code
+		panic(fmt.Sprintf("not supported additional properties option. parsed option index: '%d'", pluginOptions.AdditionalProperties))
 	}
 }

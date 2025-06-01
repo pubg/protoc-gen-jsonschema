@@ -6,13 +6,13 @@ import (
 	"github.com/pubg/protoc-gen-jsonschema/pkg/utils"
 )
 
-func fillSchemaByObjectKeywords(schema *jsonschema.Schema, keywords *proto.ObjectKeywords) {
-	if keywords == nil {
-		return
+func fillSchemaByObjectKeywords(pluginOptions *proto.PluginOptions, schema *jsonschema.Schema, keywords *proto.ObjectKeywords) {
+	if additionalProperties := proto.GetAdditionalProperties(pluginOptions, keywords); additionalProperties != nil {
+		schema.AdditionalProperties = jsonschema.NewBooleanSchema(*additionalProperties)
 	}
 
-	if keywords.AdditionalProperties != nil {
-		schema.AdditionalProperties = jsonschema.NewBooleanSchema(keywords.GetAdditionalProperties())
+	if keywords == nil {
+		return
 	}
 	if keywords.MinProperties != nil {
 		schema.MinProperties = utils.UInt32(keywords.GetMinProperties())
