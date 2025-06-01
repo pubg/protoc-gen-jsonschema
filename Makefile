@@ -11,7 +11,7 @@ test-examples:
 	protoc \
 	--plugin=protoc-gen-jsonschema=./protoc-gen-jsonschema \
 	--jsonschema_out=./ \
-	--jsonschema_opt=additional_properties=true \
+	--jsonschema_opt=additional_properties=AlwaysTrue \
 	--jsonschema_opt=draft=Draft04 \
 	--jsonschema_opt=output_file_suffix=.schema.json \
 	-I ./ \
