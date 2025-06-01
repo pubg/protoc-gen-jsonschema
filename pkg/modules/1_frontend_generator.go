@@ -35,7 +35,6 @@ func buildFromMessage(pluginOptions *proto.PluginOptions, message pgs.Message, m
 			schema.AdditionalProperties = &jsonschema.FalseSchema
 		}
 	case proto.PluginAdditionalProperties_DoNothing:
-		break
 	default:
 		panic(fmt.Sprintf("not supported additional properties option. parsed option index: '%d'", pluginOptions.AdditionalProperties))
 	}
