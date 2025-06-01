@@ -1,0 +1,12 @@
+name: "plugin-additional-properties-default-true"
+description: "default additionalProperties is true"
+
+inputFiles: ["test.proto"]
+inputParameters:
+  additional_properties: DefaultTrue
+
+expectResultFiles: ["test.schema.json"]
+expectResultIsNull: false
+expectFail: false
+
+expectedBehaviorDescription: ""

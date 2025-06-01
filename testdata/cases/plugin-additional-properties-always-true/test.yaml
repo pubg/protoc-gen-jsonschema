@@ -1,0 +1,12 @@
+name: "plugin-additional-properties-always-true"
+description: "always set additionalProperties to true"
+
+inputFiles: ["test.proto"]
+inputParameters:
+  additional_properties: AlwaysTrue
+
+expectResultFiles: ["test.schema.json"]
+expectResultIsNull: false
+expectFail: false
+
+expectedBehaviorDescription: ""

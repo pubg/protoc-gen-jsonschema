@@ -19,10 +19,17 @@ func GetPluginOptions(params pgs.Parameters) *PluginOptions {
 	options.Int64AsString, _ = params.BoolDefault("int64_as_string", false)
 	options.PreserveProtoFieldNames, _ = params.BoolDefault("preserve_proto_field_names", false)
 
+	options.AdditionalProperties = PluginAdditionalProperties_DoNothing
+	for additionalPropertiesIter, index := range PluginAdditionalProperties_value {
+		if params.Str("additional_properties") == additionalPropertiesIter {
+			options.AdditionalProperties = PluginAdditionalProperties(index)
+		}
+	}
+
 	// Default Value
 	options.Draft = Draft_Draft202012
-	for draft, index := range Draft_value {
-		if params.Str("draft") == draft {
+	for draftIter, index := range Draft_value {
+		if params.Str("draft") == draftIter {
 			options.Draft = Draft(index)
 		}
 	}

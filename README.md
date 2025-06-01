@@ -131,6 +131,21 @@ example:
     - --jsonschema_opt=preserve_proto_field_names=false
 ```
 
+### additional_properties
+```
+additional_properties option can controls all message's additional_properties property.
+If you want set additional properties for all messages, use always_true or always_false.
+If you want to set additional properties for not defined messages, use default_true or default_false.
+
+default: 'DoNothing'
+example:
+  - --jsonschema_opt=additional_properties=AlwaysTrue
+  - --jsonschema_opt=additional_properties=AlwaysFalse
+  - --jsonschema_opt=additional_properties=DefaultTrue
+  - --jsonschema_opt=additional_properties=DefaultFalse
+  - --jsonschema_opt=additional_properties=DoNothing
+```
+
 ### Protobuf Options
 
 Below tables are not auto-generated features.

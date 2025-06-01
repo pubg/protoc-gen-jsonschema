@@ -17,6 +17,7 @@
   
     - [Draft](#pubg-jsonschema-Draft)
     - [EnumOptions.MappingType](#pubg-jsonschema-EnumOptions-MappingType)
+    - [PluginAdditionalProperties](#pubg-jsonschema-PluginAdditionalProperties)
   
     - [File-level Extensions](#jsonschema-proto-extensions)
     - [File-level Extensions](#jsonschema-proto-extensions)
@@ -209,6 +210,9 @@ default: false example: - --jsonschema_opt=int64_as_string=true - --jsonschema_o
 | preserve_proto_field_names | [bool](#bool) |  | preserve_proto_field_names is used to determine if output json field names should be identical to the proto field names. Otherwise field names either use the value of the `json_name` field option or they are automatically converted to lowerCamelCase. This default behaviour mirrors the behaviour of Protobuf&#39;s canonical JSON format (ProtoJSON).
 
 default: false example: - --jsonschema_opt=preserve_proto_field_names=true - --jsonschema_opt=preserve_proto_field_names=false |
+| additional_properties | [PluginAdditionalProperties](#pubg-jsonschema-PluginAdditionalProperties) |  | additional_properties option can control all message&#39;s additional_properties property. If you want set additional properties for all messages, use always_true or always_false. If you want to set additional properties for not defined messages, use default_true or default_false.
+
+default: &#39;DoNothing&#39; example: - --jsonschema_opt=additional_properties=AlwaysTrue - --jsonschema_opt=additional_properties=AlwaysFalse - --jsonschema_opt=additional_properties=DefaultTrue - --jsonschema_opt=additional_properties=DefaultFalse - --jsonschema_opt=additional_properties=DoNothing |
 
 
 
@@ -262,6 +266,22 @@ default: false example: - --jsonschema_opt=preserve_proto_field_names=true - --j
 | MapToString | 0 |  |
 | MapToNumber | 1 |  |
 | MapToCustom | 2 |  |
+
+
+
+<a name="pubg-jsonschema-PluginAdditionalProperties"></a>
+
+### PluginAdditionalProperties
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| DefaultAdditionalProperties | 0 |  |
+| AlwaysTrue | 1 | always_true: all messages to have additional_properties set to true |
+| AlwaysFalse | 2 | always_false: all messages to have additional_properties set to false |
+| DefaultTrue | 3 | default_true: all messages will have additional_properties set to true if not defined |
+| DefaultFalse | 4 | default_false: all messages will have additional_properties set to false if not defined |
+| DoNothing | 5 | do_nothing: do not set additional_properties default value |
 
 
  

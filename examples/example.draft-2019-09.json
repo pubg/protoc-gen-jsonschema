@@ -147,10 +147,10 @@
         "name": {
           "$ref": "#/$defs/.schema.FirstForm.name"
         },
-        "second_message": {
+        "secondMessage": {
           "$ref": "#/$defs/.schema.FirstForm.second_message"
         },
-        "my_enum": {
+        "myEnum": {
           "$ref": "#/$defs/.schema.FirstForm.my_enum"
         },
         "mymap": {
@@ -169,8 +169,8 @@
       "type": "object",
       "required": [
         "name",
-        "second_message",
-        "my_enum",
+        "secondMessage",
+        "myEnum",
         "v1",
         "v2",
         "v3"

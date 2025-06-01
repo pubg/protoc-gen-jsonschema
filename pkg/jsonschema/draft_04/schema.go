@@ -117,6 +117,12 @@ func deepCopy(origin *jsonschema.Schema) *Schema {
 	dst.Default = utils.CopyAnyP(origin.Default)
 
 	dst.Extras = utils.CopyMapAny(origin.Extras)
+
+	// Do nothing if IsBooleanSchema is true. Cause empty schema means true
+	// If IsBooleanSchema is false, { not: {} } is generated
+	if origin.IsBooleanSchema != nil && !*origin.IsBooleanSchema {
+		dst.Not = &Schema{}
+	}
 	return dst
 }
 

@@ -6,6 +6,20 @@ options:
 	--doc_opt=markdown,options.md \
 	./*.proto
 
+test-examples:
+	go build -o protoc-gen-jsonschema main.go
+	protoc \
+	--plugin=protoc-gen-jsonschema=./protoc-gen-jsonschema \
+	--jsonschema_out=./ \
+	--jsonschema_opt=additional_properties=AlwaysTrue \
+	--jsonschema_opt=draft=Draft04 \
+	--jsonschema_opt=output_file_suffix=.schema.json \
+	-I ./ \
+	-I ./examples \
+	./examples/example.proto
+	rm protoc-gen-jsonschema
+
+
 generate-examples:
 	go build -o protoc-gen-jsonschema main.go
 	protoc \
@@ -37,3 +51,11 @@ generate-examples:
 	./examples/example.proto
 	rm protoc-gen-jsonschema
 
+dump-testdata:
+	protoc \
+    --debug_out=./ \
+    --debug_opt=dump_binary=true \
+    --debug_opt=file_binary=request.pb.bin \
+    -I ./ \
+    -I ./testdata/cases/jsonschema-object \
+    ./testdata/cases/jsonschema-object/test.proto

@@ -69,7 +69,7 @@ type Schema struct {
 	Extras map[string]any
 
 	// Indicated boolean schema or generic schema
-	boolean *bool
+	IsBooleanSchema *bool
 }
 
 func (s *Schema) SetExtrasItem(key string, value any) {
@@ -159,6 +159,8 @@ func DeepCopy(origin *Schema) *Schema {
 	dst.WriteOnly = utils.CopyBoolP(origin.WriteOnly)
 
 	dst.Extras = utils.CopyMapAny(origin.Extras)
+
+	dst.IsBooleanSchema = origin.IsBooleanSchema
 	return dst
 }
 
@@ -196,5 +198,5 @@ var (
 )
 
 func NewBooleanSchema(b bool) *Schema {
-	return &Schema{boolean: &b}
+	return &Schema{IsBooleanSchema: &b}
 }

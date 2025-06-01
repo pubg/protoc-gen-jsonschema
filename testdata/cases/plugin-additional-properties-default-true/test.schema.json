@@ -11,6 +11,7 @@
           "$ref": "#/$defs/.tests.Values.messages2"
         }
       },
+      "additionalProperties": {},
       "type": "object",
       "required": [
         "messages",
@@ -18,48 +19,48 @@
       ]
     },
     ".tests.Values.messages": {
-      "$ref": "#/$defs/.tests.MyMessage"
+      "$ref": "#/$defs/.tests.MandatorySetAdditionalPropertiesToFalse"
     },
     ".tests.Values.messages2": {
-      "$ref": "#/$defs/.tests.MyMessage2"
+      "$ref": "#/$defs/.tests.MandatorySetAdditionalPropertiesToTrue"
     },
-    ".tests.MyMessage": {
+    ".tests.MandatorySetAdditionalPropertiesToFalse": {
       "properties": {
         "val1": {
-          "$ref": "#/$defs/.tests.MyMessage.val1"
+          "$ref": "#/$defs/.tests.MandatorySetAdditionalPropertiesToFalse.val1"
         },
         "val2": {
-          "$ref": "#/$defs/.tests.MyMessage.val2"
+          "$ref": "#/$defs/.tests.MandatorySetAdditionalPropertiesToFalse.val2"
         }
       },
-      "additionalProperties": {},
+      "additionalProperties": {
+        "not": {}
+      },
       "type": "object",
       "required": [
         "val1"
       ],
       "title": "MyMessage"
     },
-    ".tests.MyMessage.val1": {
+    ".tests.MandatorySetAdditionalPropertiesToFalse.val1": {
       "type": "string"
     },
-    ".tests.MyMessage.val2": {
+    ".tests.MandatorySetAdditionalPropertiesToFalse.val2": {
       "items": {
         "type": "integer"
       },
       "type": "array"
     },
-    ".tests.MyMessage2": {
+    ".tests.MandatorySetAdditionalPropertiesToTrue": {
       "properties": {
         "val1": {
-          "$ref": "#/$defs/.tests.MyMessage2.val1"
+          "$ref": "#/$defs/.tests.MandatorySetAdditionalPropertiesToTrue.val1"
         },
         "val2": {
-          "$ref": "#/$defs/.tests.MyMessage2.val2"
+          "$ref": "#/$defs/.tests.MandatorySetAdditionalPropertiesToTrue.val2"
         }
       },
-      "additionalProperties": {
-        "not": {}
-      },
+      "additionalProperties": {},
       "type": "object",
       "maxProperties": 10,
       "minProperties": 0,
@@ -68,10 +69,10 @@
       ],
       "title": "MyMessage"
     },
-    ".tests.MyMessage2.val1": {
+    ".tests.MandatorySetAdditionalPropertiesToTrue.val1": {
       "type": "string"
     },
-    ".tests.MyMessage2.val2": {
+    ".tests.MandatorySetAdditionalPropertiesToTrue.val2": {
       "items": {
         "type": "integer"
       },
