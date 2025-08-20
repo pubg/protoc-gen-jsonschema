@@ -4,6 +4,8 @@ package tests;
 
 import "jsonschema.proto";
 
+option go_package = "github.com/pubg/fooo";
+
 option (pubg.jsonschema.file) = {entrypoint_message: "Values"};
 
 import "k8s.io/apimachinery/pkg/util/intstr/generated.proto";

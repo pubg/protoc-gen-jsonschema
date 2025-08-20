@@ -6,8 +6,8 @@ import (
 	"github.com/pubg/protoc-gen-jsonschema/pkg/proto"
 )
 
-// MiddleendVisitor generate intermediate jsonschema from protobuf
-type MiddleendVisitor struct {
+// FrontendVisitor generate intermediate jsonschema from protobuf
+type FrontendVisitor struct {
 	pgs.Visitor
 
 	debugger pgs.DebuggerCommon
@@ -16,10 +16,10 @@ type MiddleendVisitor struct {
 	pluginOptions *proto.PluginOptions
 }
 
-var _ pgs.Visitor = (*MiddleendVisitor)(nil)
+var _ pgs.Visitor = (*FrontendVisitor)(nil)
 
-func NewVisitor(debugger pgs.DebuggerCommon, pluginOptions *proto.PluginOptions) *MiddleendVisitor {
-	v := &MiddleendVisitor{
+func NewVisitor(debugger pgs.DebuggerCommon, pluginOptions *proto.PluginOptions) *FrontendVisitor {
+	v := &FrontendVisitor{
 		debugger:      debugger,
 		registry:      jsonschema.NewRegistry(),
 		pluginOptions: pluginOptions,
@@ -28,7 +28,7 @@ func NewVisitor(debugger pgs.DebuggerCommon, pluginOptions *proto.PluginOptions)
 	return v
 }
 
-func (v *MiddleendVisitor) VisitMessage(message pgs.Message) (pgs.Visitor, error) {
+func (v *FrontendVisitor) VisitMessage(message pgs.Message) (pgs.Visitor, error) {
 	mo := proto.GetMessageOptions(message)
 	if mo.GetVisibilityLevel() < v.pluginOptions.GetVisibilityLevel() {
 		return nil, nil
@@ -45,7 +45,7 @@ func (v *MiddleendVisitor) VisitMessage(message pgs.Message) (pgs.Visitor, error
 	return v, nil
 }
 
-func (v *MiddleendVisitor) VisitField(field pgs.Field) (pgs.Visitor, error) {
+func (v *FrontendVisitor) VisitField(field pgs.Field) (pgs.Visitor, error) {
 	fo := proto.GetFieldOptions(field)
 	if fo.GetVisibilityLevel() < v.pluginOptions.GetVisibilityLevel() {
 		return nil, nil
@@ -82,7 +82,7 @@ func (v *MiddleendVisitor) VisitField(field pgs.Field) (pgs.Visitor, error) {
 	return v, nil
 }
 
-func (v *MiddleendVisitor) VisitEnum(enum pgs.Enum) (pgs.Visitor, error) {
+func (v *FrontendVisitor) VisitEnum(enum pgs.Enum) (pgs.Visitor, error) {
 	schema, err := buildFromEnum(enum)
 	if err != nil {
 		return nil, err

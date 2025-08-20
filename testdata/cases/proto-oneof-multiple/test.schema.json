@@ -131,31 +131,31 @@
         "description"
       ]
     },
-    ".samples.Values.value": {
-      "type": "string"
-    },
     ".samples.Values.count": {
       "type": "integer"
     },
-    ".samples.Values.string_value": {
+    ".samples.Values.description": {
       "type": "string"
     },
     ".samples.Values.int_value": {
       "type": "integer"
     },
+    ".samples.Values.string_value": {
+      "type": "string"
+    },
     ".samples.Values.timestamp": {
       "type": "integer"
     },
-    ".samples.Values.unit": {
-      "type": "string"
-    },
-    ".samples.Values.description": {
+    ".samples.Values.type_id": {
       "type": "string"
     },
     ".samples.Values.type_name": {
       "type": "string"
     },
-    ".samples.Values.type_id": {
+    ".samples.Values.unit": {
+      "type": "string"
+    },
+    ".samples.Values.value": {
       "type": "string"
     }
   },

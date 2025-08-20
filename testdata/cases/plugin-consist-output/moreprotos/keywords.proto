@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package cloud.ilsa.internal;
+
+option go_package = "src.hexon.nl/ilsa/proto/pb";
+
+message KeywordDefinitionList {
+	repeated KeywordDefinition entries = 1;
+}
+
+message KeywordDefinition {
+	enum KeywordSet {
+		UNKNOWN = 0;
+	}
+}

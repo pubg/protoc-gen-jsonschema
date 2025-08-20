@@ -25,16 +25,16 @@
         "arbitrary_value"
       ]
     },
-    ".tests.Values.foo_bar_baz": {
-      "type": "string"
-    },
-    ".tests.Values.implicit_camel_case": {
+    ".tests.Values.arbitrary_value": {
       "type": "string"
     },
     ".tests.Values.explicit_snake_case": {
       "type": "string"
     },
-    ".tests.Values.arbitrary_value": {
+    ".tests.Values.foo_bar_baz": {
+      "type": "string"
+    },
+    ".tests.Values.implicit_camel_case": {
       "type": "string"
     }
   },

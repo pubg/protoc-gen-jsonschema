@@ -10,6 +10,29 @@
         "BAZ"
       ]
     },
+    ".tests.MyMessage": {
+      "properties": {
+        "val1": {
+          "$ref": "#/$defs/.tests.MyMessage.val1"
+        },
+        "val2": {
+          "$ref": "#/$defs/.tests.MyMessage.val2"
+        }
+      },
+      "type": "object"
+    },
+    ".tests.MyMessage.val1": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    ".tests.MyMessage.val2": {
+      "items": {
+        "type": "integer"
+      },
+      "type": "array"
+    },
     ".tests.Values": {
       "properties": {
         "val1": {
@@ -43,21 +66,17 @@
       },
       "type": "object"
     },
-    ".tests.Values.val1": {
+    ".tests.Values.enum": {
       "items": {
-        "type": "string"
+        "$ref": "#/$defs/.tests.MyEnum"
       },
       "type": "array"
     },
-    ".tests.Values.val2": {
+    ".tests.Values.message": {
       "items": {
-        "type": "integer",
-        "title": "My Title",
-        "description": "My Description"
+        "$ref": "#/$defs/.tests.MyMessage"
       },
-      "type": "array",
-      "title": "My Title",
-      "description": "My Description"
+      "type": "array"
     },
     ".tests.Values.optioned1": {
       "items": {
@@ -85,40 +104,21 @@
       "minItems": 1,
       "uniqueItems": false
     },
-    ".tests.Values.message": {
-      "items": {
-        "$ref": "#/$defs/.tests.MyMessage"
-      },
-      "type": "array"
-    },
-    ".tests.Values.enum": {
-      "items": {
-        "$ref": "#/$defs/.tests.MyEnum"
-      },
-      "type": "array"
-    },
-    ".tests.MyMessage": {
-      "properties": {
-        "val1": {
-          "$ref": "#/$defs/.tests.MyMessage.val1"
-        },
-        "val2": {
-          "$ref": "#/$defs/.tests.MyMessage.val2"
-        }
-      },
-      "type": "object"
-    },
-    ".tests.MyMessage.val1": {
+    ".tests.Values.val1": {
       "items": {
         "type": "string"
       },
       "type": "array"
     },
-    ".tests.MyMessage.val2": {
+    ".tests.Values.val2": {
       "items": {
-        "type": "integer"
+        "type": "integer",
+        "title": "My Title",
+        "description": "My Description"
       },
-      "type": "array"
+      "type": "array",
+      "title": "My Title",
+      "description": "My Description"
     }
   },
   "type": "object"

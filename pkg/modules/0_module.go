@@ -38,10 +38,12 @@ func (m *Module) Execute(targets map[string]pgs.File, packages map[string]pgs.Pa
 	m.Debugf("# of IntermediateSchemas: %d", len(visitor.registry.GetKeys()))
 
 	// Phase: Backend TargetSchemaGenerate
-	var optimizer BackendOptimizer = NewOptimizerImpl(m.pluginOptions)
-	var generator BackendTargetGenerator = NewMultiDraftGenerator(m.pluginOptions)
+	var optimizer BackendOptimizer = NewOptimizerImpl(m.ModuleBase, m.pluginOptions)
+	var generator BackendTargetGenerator = NewMultiDraftGenerator(m.ModuleBase, m.pluginOptions)
 	var serializer BackendSerializer = NewSerializerImpl(m.pluginOptions)
 	m.Push("BackendPhase")
+	visitor.registry.SortSchemas()
+
 	for _, file := range targets {
 		artifact := m.BackendPhase(file, visitor.registry, optimizer, generator, serializer)
 		if artifact != nil {

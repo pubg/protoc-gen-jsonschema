@@ -10,6 +10,29 @@
         "BAZ"
       ]
     },
+    ".tests.MyMessage": {
+      "properties": {
+        "val1": {
+          "$ref": "#/$defs/.tests.MyMessage.val1"
+        },
+        "val2": {
+          "$ref": "#/$defs/.tests.MyMessage.val2"
+        }
+      },
+      "type": "object"
+    },
+    ".tests.MyMessage.val1": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    ".tests.MyMessage.val2": {
+      "items": {
+        "type": "integer"
+      },
+      "type": "array"
+    },
     ".tests.Values": {
       "properties": {
         "messages": {
@@ -54,40 +77,17 @@
         "ints"
       ]
     },
-    ".tests.Values.messages": {
-      "$ref": "#/$defs/.tests.MyMessage"
-    },
     ".tests.Values.enums": {
       "$ref": "#/$defs/.tests.MyEnum"
-    },
-    ".tests.Values.strings": {
-      "type": "string"
     },
     ".tests.Values.ints": {
       "type": "integer"
     },
-    ".tests.MyMessage": {
-      "properties": {
-        "val1": {
-          "$ref": "#/$defs/.tests.MyMessage.val1"
-        },
-        "val2": {
-          "$ref": "#/$defs/.tests.MyMessage.val2"
-        }
-      },
-      "type": "object"
+    ".tests.Values.messages": {
+      "$ref": "#/$defs/.tests.MyMessage"
     },
-    ".tests.MyMessage.val1": {
-      "items": {
-        "type": "string"
-      },
-      "type": "array"
-    },
-    ".tests.MyMessage.val2": {
-      "items": {
-        "type": "integer"
-      },
-      "type": "array"
+    ".tests.Values.strings": {
+      "type": "string"
     }
   },
   "type": "object"

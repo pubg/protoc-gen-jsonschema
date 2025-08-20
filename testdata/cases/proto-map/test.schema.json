@@ -11,6 +11,20 @@
         "THREE"
       ]
     },
+    ".tests.Nested": {
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/.tests.Nested.value"
+        }
+      },
+      "type": "object",
+      "required": [
+        "value"
+      ]
+    },
+    ".tests.Nested.value": {
+      "type": "string"
+    },
     ".tests.Values": {
       "properties": {
         "basicMap": {
@@ -43,31 +57,9 @@
       },
       "type": "object"
     },
-    ".tests.Values.int_map": {
-      "additionalProperties": {},
-      "type": "integer"
-    },
-    ".tests.Values.float_map": {
-      "additionalProperties": {
-        "type": "number"
-      },
-      "type": "object"
-    },
     ".tests.Values.bool_map": {
       "additionalProperties": {
         "type": "boolean"
-      },
-      "type": "object"
-    },
-    ".tests.Values.string_map": {
-      "additionalProperties": {
-        "type": "string"
-      },
-      "type": "object"
-    },
-    ".tests.Values.nested_map": {
-      "additionalProperties": {
-        "$ref": "#/$defs/.tests.Nested"
       },
       "type": "object"
     },
@@ -77,19 +69,27 @@
       },
       "type": "object"
     },
-    ".tests.Nested": {
-      "properties": {
-        "value": {
-          "$ref": "#/$defs/.tests.Nested.value"
-        }
+    ".tests.Values.float_map": {
+      "additionalProperties": {
+        "type": "number"
       },
-      "type": "object",
-      "required": [
-        "value"
-      ]
+      "type": "object"
     },
-    ".tests.Nested.value": {
-      "type": "string"
+    ".tests.Values.int_map": {
+      "additionalProperties": {},
+      "type": "integer"
+    },
+    ".tests.Values.nested_map": {
+      "additionalProperties": {
+        "$ref": "#/$defs/.tests.Nested"
+      },
+      "type": "object"
+    },
+    ".tests.Values.string_map": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
     }
   },
   "type": "object"

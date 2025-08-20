@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Wrapper",
+  "$defs": {
+    ".cloud.ilsa.config.InstanceConfig": {
+      "properties": {
+        "searchableFields": {
+          "$ref": "#/$defs/.cloud.ilsa.config.InstanceConfig.searchable_fields"
+        }
+      },
+      "type": "object"
+    },
+    ".cloud.ilsa.config.InstanceConfig.searchable_fields": {
+      "items": {
+        "$ref": "#/$defs/.cloud.ilsa.config.SearchableField"
+      },
+      "type": "array"
+    },
+    ".cloud.ilsa.config.SearchableField": {
+      "properties": {
+        "keywordSets": {
+          "$ref": "#/$defs/.cloud.ilsa.config.SearchableField.keyword_sets"
+        }
+      },
+      "type": "object"
+    },
+    ".cloud.ilsa.config.SearchableField.keyword_sets": {
+      "items": {
+        "$ref": "#/$defs/.cloud.ilsa.internal.KeywordDefinition.KeywordSet"
+      },
+      "type": "array"
+    },
+    ".cloud.ilsa.internal.KeywordDefinition.KeywordSet": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN"
+      ]
+    },
+    ".tests.Wrapper": {
+      "properties": {
+        "bar": {
+          "$ref": "#/$defs/.tests.Wrapper.bar"
+        }
+      },
+      "type": "object",
+      "required": [
+        "bar"
+      ]
+    },
+    ".tests.Wrapper.bar": {
+      "$ref": "#/$defs/.cloud.ilsa.config.InstanceConfig"
+    }
+  },
+  "type": "object"
+}
