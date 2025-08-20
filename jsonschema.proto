@@ -74,6 +74,10 @@ message PluginOptions {
   bool mandatory_nullable = 13;
 
   /**
+    Deprecated: use `respect_protojson_int64` instead. It's has same functionality.
+    Just change the name to be more clear.
+
+    Old Description:
     int64_as_string determines whether int64 field treat as string.
     Depends on Javascript specification, The JS stores integer to only 53bits.
     So, if you want to use int64 field in JS, you should use string type.
@@ -114,6 +118,30 @@ message PluginOptions {
       - --jsonschema_opt=additional_properties=DoNothing
    */
   PluginAdditionalProperties additional_properties = 16;
+
+  /**
+    This options is used to determine if the plugin should respect the presence of fields
+    in the ProtoJSON format. If set to true and fields that does have presence, plugin will
+    generate the `required` keyword in the output schema for those fields.
+
+    default: false
+    example:
+      - --jsonschema_opt=respect_protojson_presence=true
+      - --jsonschema_opt=respect_protojson_presence=false
+   */
+  bool respect_protojson_presence = 17;
+
+  /**
+    This options is used to determine if the plugin should respect the int64 fields
+    in the ProtoJSON format. If set to true, int64 fields will be treated as strings
+    in the output schema, otherwise they will be treated as numbers.
+
+    default: false
+    example:
+      - --jsonschema_opt=respect_protojson_int64=true
+      - --jsonschema_opt=respect_protojson_int64=false
+   */
+  bool respect_protojson_int64 = 18;
 }
 
 enum PluginAdditionalProperties {

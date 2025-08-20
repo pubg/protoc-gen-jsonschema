@@ -18,9 +18,16 @@ func GetPluginOptions(params pgs.Parameters) *PluginOptions {
 	options.OutputFileSuffix = params.StrDefault("output_file_suffix", ".schema.json")
 	options.PrettyJsonOutput, _ = params.BoolDefault("pretty_json_output", true)
 	options.MandatoryNullable, _ = params.BoolDefault("mandatory_nullable", false)
-	options.Int64AsString, _ = params.BoolDefault("int64_as_string", false)
 	options.PreserveProtoFieldNames, _ = params.BoolDefault("preserve_proto_field_names", false)
+	options.RespectProtojsonPresence, _ = params.BoolDefault("respect_protojson_presence", false)
 
+	if _, ok := params["int64_as_string"]; ok {
+		options.RespectProtojsonInt64, _ = params.Bool("int64_as_string")
+	} else {
+		options.RespectProtojsonInt64, _ = params.BoolDefault("respect_protojson_int64", false)
+	}
+
+	// Default Value
 	options.AdditionalProperties = PluginAdditionalProperties_DoNothing
 	for additionalPropertiesIter, index := range PluginAdditionalProperties_value {
 		if params.Str("additional_properties") == additionalPropertiesIter {

@@ -204,7 +204,9 @@ default: Draft202012 example: - --jsonschema_opt=draft=Draft202012 |
 | mandatory_nullable | [bool](#bool) |  | mandatory_nullable determines whether this plugin should treat optional field as nullable. Many programming languages do not differentiate between undefined and null. However, scripting languages like JavaScript and TypeScript can distinguish between them. By default, optional field is treated as nullable and undefined.
 
 default: false example: - --jsonschema_opt=mandatory_nullable=true - --jsonschema_opt=mandatory_nullable=false |
-| int64_as_string | [bool](#bool) |  | int64_as_string determines whether int64 field treat as string. Depends on Javascript specification, The JS stores integer to only 53bits. So, if you want to use int64 field in JS, you should use string type. References:
+| int64_as_string | [bool](#bool) |  | Deprecated: use `respect_protojson_int64` instead. It&#39;s has same functionality. Just change the name to be more clear.
+
+Old Description: int64_as_string determines whether int64 field treat as string. Depends on Javascript specification, The JS stores integer to only 53bits. So, if you want to use int64 field in JS, you should use string type. References:
 
 default: false example: - --jsonschema_opt=int64_as_string=true - --jsonschema_opt=int64_as_string=false |
 | preserve_proto_field_names | [bool](#bool) |  | preserve_proto_field_names is used to determine if output json field names should be identical to the proto field names. Otherwise field names either use the value of the `json_name` field option or they are automatically converted to lowerCamelCase. This default behaviour mirrors the behaviour of Protobuf&#39;s canonical JSON format (ProtoJSON).
@@ -213,6 +215,12 @@ default: false example: - --jsonschema_opt=preserve_proto_field_names=true - --j
 | additional_properties | [PluginAdditionalProperties](#pubg-jsonschema-PluginAdditionalProperties) |  | additional_properties option can control all message&#39;s additional_properties property. If you want set additional properties for all messages, use always_true or always_false. If you want to set additional properties for not defined messages, use default_true or default_false.
 
 default: &#39;DoNothing&#39; example: - --jsonschema_opt=additional_properties=AlwaysTrue - --jsonschema_opt=additional_properties=AlwaysFalse - --jsonschema_opt=additional_properties=DefaultTrue - --jsonschema_opt=additional_properties=DefaultFalse - --jsonschema_opt=additional_properties=DoNothing |
+| respect_protojson_presence | [bool](#bool) |  | This options is used to determine if the plugin should respect the presence of fields in the ProtoJSON format. If set to true and fields that does have presence, plugin will generate the `required` keyword in the output schema for those fields.
+
+default: false example: - --jsonschema_opt=respect_protojson_presence=true - --jsonschema_opt=respect_protojson_presence=false |
+| respect_protojson_int64 | [bool](#bool) |  | This options is used to determine if the plugin should respect the int64 fields in the ProtoJSON format. If set to true, int64 fields will be treated as strings in the output schema, otherwise they will be treated as numbers.
+
+default: false example: - --jsonschema_opt=respect_protojson_int64=true - --jsonschema_opt=respect_protojson_int64=false |
 
 
 
