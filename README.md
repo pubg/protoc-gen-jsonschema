@@ -1,6 +1,6 @@
 # protoc-gen-jsonschema
 
-`protoc-gen-jsonschema` is a plugin that converts `protocol buffer` files into `JSON Schema`. While it primarily focuses on the protobuf standard, it also supports certain non-standard specifications, such as those used by Kubernetes, Node.js, and ArgoCD. Instead of aiming to cover the entire JSON Schema specification, the plugin is specifically designed to translate [ProtoJSON](https://protobuf.dev/programming-guides/json/) specifications. It supports JSON Schema versions `draft-04`, `draft-06`, `draft-07`, `draft-2019-09`, and `draft-2020-12`. as well as support protocol buffer `syntax proto2`, `syntax proto3`.
+`protoc-gen-jsonschema` is a plugin that converts `protocol buffer` files into `JSON Schema`. While it primarily focuses on the protobuf standard, it also supports certain non-standard specifications, such as those used by Kubernetes, Node.js, and ArgoCD. Rather than trying to cover the entire JSON Schema specification, the plugin is intentionally designed to focus on [ProtoJSON](https://protobuf.dev/programming-guides/json/) and the patterns most frequently used in practice. It supports JSON Schema versions `draft-04`, `draft-06`, `draft-07`, `draft-2019-09`, and `draft-2020-12`. as well as support protocol buffer `syntax proto2`, `syntax proto3`.
 
 If you’d like to support another specification, contributions are always welcome! Feel free to submit a PR.
 
@@ -15,7 +15,7 @@ Alternatively, you can download a pre-built binary from [GitHub Release](https:/
 
 # Usage
 
-Refer to the [Plugin Options](#plguin-options) section below for various options available for this plugin.
+Refer to the [Plugin Options](#plugin-options) section below for various options available for this plugin.
 
 ### I'm not sure which options to use
 This plugin provides default options that are ready to use. For testing or generating a basic json-schema file, the following command is sufficient without extra options.
