@@ -1,0 +1,11 @@
+name: "proto-version-edition-2023"
+description: "It should generate schema for proto version edition 2023"
+
+inputFiles: ["test.proto"]
+inputParameters: {}
+
+expectResultFiles: ["test.schema.json"]
+expectResultIsNull: false
+expectFail: false
+
+expectedBehaviorDescription: ""

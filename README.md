@@ -1,8 +1,8 @@
 # protoc-gen-jsonschema
 
-`protoc-gen-jsonschema` is a plugin that converts `protocol buffer` files into `JSON Schema`. While it primarily focuses on the protobuf standard, it also supports certain non-standard specifications, such as those used by Kubernetes, Node.js, and ArgoCD. Instead of aiming to cover the entire JSON Schema specification, the plugin is specifically designed to translate [ProtoJSON](https://protobuf.dev/programming-guides/json/) specifications. It supports JSON Schema versions `draft-04`, `draft-06`, `draft-07`, `draft-2019-09`, and `draft-2020-12`. as well as support protocol buffer `syntax proto2`, `syntax proto3`, and `edition 2023`.
+`protoc-gen-jsonschema` is a plugin that converts `protocol buffer` files into `JSON Schema`. While it primarily focuses on the protobuf standard, it also supports certain non-standard specifications, such as those used by Kubernetes, Node.js, and ArgoCD. Instead of aiming to cover the entire JSON Schema specification, the plugin is specifically designed to translate [ProtoJSON](https://protobuf.dev/programming-guides/json/) specifications. It supports JSON Schema versions `draft-04`, `draft-06`, `draft-07`, `draft-2019-09`, and `draft-2020-12`. as well as support protocol buffer `syntax proto2`, `syntax proto3`.
 
-If you’d like to support other specification, contributions are always welcome! Feel free to submit a PR.
+If you’d like to support another specification, contributions are always welcome! Feel free to submit a PR.
 
 # Installation
 
@@ -11,7 +11,7 @@ If you have go runtime, you can `go install` it.
 go install github.com/pubg/protoc-gen-jsonschema
 ```
 
-Alternatively, you can download pre-built binary from [Github Release](https://github.com/pubg/protoc-gen-jsonschema/releases).
+Alternatively, you can download a pre-built binary from [GitHub Release](https://github.com/pubg/protoc-gen-jsonschema/releases).
 
 # Usage
 
@@ -175,7 +175,14 @@ Check out the [Options](./options.md) file to see auto-generated options.
 | google.protobuf.Any                             |
 | google.protobuf.NullValue                       |
 
-If you'd like contribute well-known types, Please check [generator](./pkg/modules/1_middleend_generator.go) file.
+If you'd like to contribute well-known types, Please check [the generator](./pkg/modules/1_middleend_generator.go) file.
 
 # Output Examples
 You can find basic example cases in the `./examples` directory and more complex cases in `./testdata/cases.`
+
+# Development Environment
+You should install `protoc` and `protoc-gen-go` to your development environment. Below are required tool versions.
+- protoc: 32.0
+- protoc-gen-go: 1.36.7
+- go: 1.24.3
+- protoc-gen-doc: latest

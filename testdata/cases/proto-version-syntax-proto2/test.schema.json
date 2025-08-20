@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/.tests.Values",
+  "$defs": {
+    ".tests.Enum": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "ONE",
+        "TWO",
+        "THREE"
+      ]
+    },
+    ".tests.Values": {
+      "properties": {
+        "stringValue": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.string_value"
+            }
+          ]
+        },
+        "int32Value": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.int32_value"
+            }
+          ]
+        },
+        "int64Value": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.int64_value"
+            }
+          ]
+        },
+        "stringValue2": {
+          "$ref": "#/$defs/.tests.Values.string_value2"
+        },
+        "int32Value2": {
+          "$ref": "#/$defs/.tests.Values.int32_value2"
+        },
+        "nestedValue": {
+          "$ref": "#/$defs/.tests.Values.nested_value"
+        },
+        "enumValue": {
+          "$ref": "#/$defs/.tests.Values.enum_value"
+        },
+        "optionalNestedValue": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.optional_nested_value"
+            }
+          ]
+        },
+        "optionalEnumValue": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/.tests.Values.optional_enum_value"
+            }
+          ]
+        }
+      },
+      "type": "object",
+      "required": [
+        "stringValue2",
+        "int32Value2",
+        "nestedValue",
+        "enumValue"
+      ]
+    },
+    ".tests.Values.string_value": {
+      "type": "string"
+    },
+    ".tests.Values.int32_value": {
+      "type": "integer"
+    },
+    ".tests.Values.int64_value": {
+      "type": "integer"
+    },
+    ".tests.Values.string_value2": {
+      "type": "string"
+    },
+    ".tests.Values.int32_value2": {
+      "type": "integer"
+    },
+    ".tests.Values.nested_value": {
+      "$ref": "#/$defs/.tests.Nested"
+    },
+    ".tests.Values.enum_value": {
+      "$ref": "#/$defs/.tests.Enum"
+    },
+    ".tests.Values.optional_nested_value": {
+      "$ref": "#/$defs/.tests.Nested"
+    },
+    ".tests.Values.optional_enum_value": {
+      "$ref": "#/$defs/.tests.Enum"
+    },
+    ".tests.Nested": {
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/.tests.Nested.value"
+        }
+      },
+      "type": "object",
+      "required": [
+        "value"
+      ]
+    },
+    ".tests.Nested.value": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}
