@@ -35,7 +35,7 @@ func buildFromMessage(pluginOptions *proto.PluginOptions, message pgs.Message, m
 			}}
 		}
 
-		if !field.InRealOneOf() && !field.HasOptionalKeyword() && !field.Type().IsRepeated() && !field.Type().IsMap() {
+		if isRequiredField(pluginOptions, field) {
 			// If field is not a member of oneOf
 			schema.Required = append(schema.Required, propName)
 		}
@@ -59,6 +59,16 @@ func buildFromMessage(pluginOptions *proto.PluginOptions, message pgs.Message, m
 		schema.AllOf = append(schema.AllOf, &jsonschema.Schema{OneOf: combinedSchemas})
 	}
 	return schema
+}
+
+func isRequiredField(pluginOptions *proto.PluginOptions, field pgs.Field) bool {
+	if pluginOptions.GetRespectProtojsonPresence() {
+		// To see the below link for more details
+		// https://github.com/protocolbuffers/protobuf/blob/main/docs/implementing_proto3_presence.md#to-test-whether-a-field-should-have-presence
+		return !field.InRealOneOf() && field.HasPresence()
+	} else {
+		return !field.InRealOneOf() && !field.HasOptionalKeyword() && !field.Type().IsRepeated() && !field.Type().IsMap()
+	}
 }
 
 func buildFromWellKnownMessage(pluginOptions *proto.PluginOptions, message pgs.Message, mo *proto.MessageOptions) *jsonschema.Schema {
@@ -200,7 +210,7 @@ func buildFromMapField(pluginOptions *proto.PluginOptions, field pgs.Field, fo *
 	value := field.Type().Element()
 	protoType := value.ProtoType()
 	if protoType.IsInt() {
-		if pluginOptions.GetInt64AsString() && isInt64(protoType) {
+		if pluginOptions.GetRespectProtojsonInt64() && isInt64(protoType) {
 			schema.Type = "string"
 			schema.Format = "int64"
 		} else {
@@ -233,7 +243,7 @@ func buildFromScalaField(pluginOptions *proto.PluginOptions, field pgs.Field, fo
 
 	protoType := field.Type().ProtoType()
 	if protoType.IsInt() {
-		if pluginOptions.GetInt64AsString() && isInt64(protoType) {
+		if pluginOptions.GetRespectProtojsonInt64() && isInt64(protoType) {
 			schema.Type = "string"
 			schema.Format = "int64"
 		} else {

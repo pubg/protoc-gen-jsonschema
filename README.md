@@ -1,6 +1,6 @@
 # protoc-gen-jsonschema
 
-`protoc-gen-jsonschema` is a plugin that converts `protocol buffer` files into `JSON Schema`. While it primarily focuses on the protobuf standard, it also supports certain non-standard specifications, such as those used by Kubernetes, Node.js, and ArgoCD. Instead of aiming to cover the entire JSON Schema specification, the plugin is specifically designed to translate [ProtoJSON](https://protobuf.dev/programming-guides/json/) specifications. It supports JSON Schema versions `draft-04`, `draft-06`, `draft-07`, `draft-2019-09`, and `draft-2020-12`. as well as support protocol buffer `syntax proto2`, `syntax proto3`.
+`protoc-gen-jsonschema` is a plugin that converts `protocol buffer` files into `JSON Schema`. While it primarily focuses on the protobuf standard, it also supports certain non-standard specifications, such as those used by Kubernetes, Node.js, and ArgoCD. Rather than trying to cover the entire JSON Schema specification, the plugin is intentionally designed to focus on [ProtoJSON](https://protobuf.dev/programming-guides/json/) and the patterns most frequently used in practice. It supports JSON Schema versions `draft-04`, `draft-06`, `draft-07`, `draft-2019-09`, and `draft-2020-12`. as well as support protocol buffer `syntax proto2`, `syntax proto3`.
 
 If you’d like to support another specification, contributions are always welcome! Feel free to submit a PR.
 
@@ -15,7 +15,7 @@ Alternatively, you can download a pre-built binary from [GitHub Release](https:/
 
 # Usage
 
-Refer to the [Plugin Options](#plguin-options) section below for various options available for this plugin.
+Refer to the [Plugin Options](#plugin-options) section below for various options available for this plugin.
 
 ### I'm not sure which options to use
 This plugin provides default options that are ready to use. For testing or generating a basic json-schema file, the following command is sufficient without extra options.
@@ -34,12 +34,12 @@ protoc --jsonschema_out=. --jsonschema_opt=pretty_json_output=false *.proto
 ```
 
 ### I'd like to comply with the protobuf JSON mapping standard
-By default, this plugin does not comply to the Protobuf standard because most plugins and other JSON libraries do not address integers larger than a 53-bit value. To ensure greater compatibility with other libraries, this plugin converts int64 values to integers instead of strings. However, to comply with the Protobuf standard, int64 values should be converted to strings. Below options will assist you.
+By default, this plugin does not comply with the Protobuf standard because most plugins and other JSON libraries do not address integers larger than a 53-bit value. To ensure greater compatibility with other libraries, this plugin converts int64 values to integers instead of strings. However, to comply with the Protobuf standard, int64 values should be converted to strings. The below options will assist you.
 ```
-protoc --jsonschema_out=. --jsonschema_opt=int64_as_string=true *.proto
+protoc --jsonschema_out=. --jsonschema_opt=respect_protojson_int64=true --jsonschema_opt=respect_protojson_presence=true *.proto
 ```
 
-### I'm not satisfied with the plugin's options. I want to customize every fields
+### I'm not satisfied with the plugin's options. I want to customize every field
 This plugin offers options for fields, messages, and enums. You can utilize these options in the jsonschema.proto file within your proto.
 ```
 cp jsonschema.proto examples/jsonschema.proto
@@ -106,6 +106,10 @@ example:
 
 ### int64_as_string
 ```
+Deprecated: use `respect_protojson_int64` instead. It's has same functionality.
+Just change the name to be more clear.
+
+Old Description:
 int64_as_string determines whether int64 field treat as string.
 Depends on Javascript specification, The JS stores integer to only 53bits.
 So, if you want to use int64 field in JS, you should use string type.
@@ -144,6 +148,30 @@ example:
   - --jsonschema_opt=additional_properties=DefaultTrue
   - --jsonschema_opt=additional_properties=DefaultFalse
   - --jsonschema_opt=additional_properties=DoNothing
+```
+
+### respect_protojson_presence
+```
+This options is used to determine if the plugin should respect the presence of fields
+in the ProtoJSON format. If set to true and fields that does have presence, plugin will
+generate the `required` keyword in the output schema for those fields.
+
+default: false
+example:
+  - --jsonschema_opt=respect_protojson_presence=true
+  - --jsonschema_opt=respect_protojson_presence=false
+```
+
+### respect_protojson_int64
+```
+This options is used to determine if the plugin should respect the int64 fields
+in the ProtoJSON format. If set to true, int64 fields will be treated as strings
+in the output schema, otherwise they will be treated as numbers.
+
+default: false
+example:
+  - --jsonschema_opt=respect_protojson_int64=true
+  - --jsonschema_opt=respect_protojson_int64=false
 ```
 
 ### Protobuf Options

@@ -249,6 +249,10 @@ type PluginOptions struct {
 	// - --jsonschema_opt=mandatory_nullable=false
 	MandatoryNullable bool `protobuf:"varint,13,opt,name=mandatory_nullable,json=mandatoryNullable,proto3" json:"mandatory_nullable,omitempty"`
 	// *
+	// Deprecated: use `respect_protojson_int64` instead. It's has same functionality.
+	// Just change the name to be more clear.
+	//
+	// Old Description:
 	// int64_as_string determines whether int64 field treat as string.
 	// Depends on Javascript specification, The JS stores integer to only 53bits.
 	// So, if you want to use int64 field in JS, you should use string type.
@@ -284,8 +288,28 @@ type PluginOptions struct {
 	// - --jsonschema_opt=additional_properties=DefaultFalse
 	// - --jsonschema_opt=additional_properties=DoNothing
 	AdditionalProperties PluginAdditionalProperties `protobuf:"varint,16,opt,name=additional_properties,json=additionalProperties,proto3,enum=pubg.jsonschema.PluginAdditionalProperties" json:"additional_properties,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	// *
+	// This options is used to determine if the plugin should respect the presence of fields
+	// in the ProtoJSON format. If set to true and fields that does have presence, plugin will
+	// generate the `required` keyword in the output schema for those fields.
+	//
+	// default: false
+	// example:
+	// - --jsonschema_opt=respect_protojson_presence=true
+	// - --jsonschema_opt=respect_protojson_presence=false
+	RespectProtojsonPresence bool `protobuf:"varint,17,opt,name=respect_protojson_presence,json=respectProtojsonPresence,proto3" json:"respect_protojson_presence,omitempty"`
+	// *
+	// This options is used to determine if the plugin should respect the int64 fields
+	// in the ProtoJSON format. If set to true, int64 fields will be treated as strings
+	// in the output schema, otherwise they will be treated as numbers.
+	//
+	// default: false
+	// example:
+	// - --jsonschema_opt=respect_protojson_int64=true
+	// - --jsonschema_opt=respect_protojson_int64=false
+	RespectProtojsonInt64 bool `protobuf:"varint,18,opt,name=respect_protojson_int64,json=respectProtojsonInt64,proto3" json:"respect_protojson_int64,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *PluginOptions) Reset() {
@@ -379,6 +403,20 @@ func (x *PluginOptions) GetAdditionalProperties() PluginAdditionalProperties {
 		return x.AdditionalProperties
 	}
 	return PluginAdditionalProperties_DefaultAdditionalProperties
+}
+
+func (x *PluginOptions) GetRespectProtojsonPresence() bool {
+	if x != nil {
+		return x.RespectProtojsonPresence
+	}
+	return false
+}
+
+func (x *PluginOptions) GetRespectProtojsonInt64() bool {
+	if x != nil {
+		return x.RespectProtojsonInt64
+	}
+	return false
 }
 
 type FileOptions struct {
@@ -1135,7 +1173,7 @@ var File_jsonschema_proto protoreflect.FileDescriptor
 
 const file_jsonschema_proto_rawDesc = "" +
 	"\n" +
-	"\x10jsonschema.proto\x12\x0fpubg.jsonschema\x1a google/protobuf/descriptor.proto\x1a\x19google/protobuf/any.proto\"\xe9\x03\n" +
+	"\x10jsonschema.proto\x12\x0fpubg.jsonschema\x1a google/protobuf/descriptor.proto\x1a\x19google/protobuf/any.proto\"\xdf\x04\n" +
 	"\rPluginOptions\x12)\n" +
 	"\x10visibility_level\x18\x01 \x01(\rR\x0fvisibilityLevel\x12-\n" +
 	"\x12entrypoint_message\x18\x02 \x01(\tR\x11entrypointMessage\x12,\n" +
@@ -1146,7 +1184,9 @@ const file_jsonschema_proto_rawDesc = "" +
 	"\x12mandatory_nullable\x18\r \x01(\bR\x11mandatoryNullable\x12&\n" +
 	"\x0fint64_as_string\x18\x0e \x01(\bR\rint64AsString\x12;\n" +
 	"\x1apreserve_proto_field_names\x18\x0f \x01(\bR\x17preserveProtoFieldNames\x12`\n" +
-	"\x15additional_properties\x18\x10 \x01(\x0e2+.pubg.jsonschema.PluginAdditionalPropertiesR\x14additionalProperties\"\x9f\x01\n" +
+	"\x15additional_properties\x18\x10 \x01(\x0e2+.pubg.jsonschema.PluginAdditionalPropertiesR\x14additionalProperties\x12<\n" +
+	"\x1arespect_protojson_presence\x18\x11 \x01(\bR\x18respectProtojsonPresence\x126\n" +
+	"\x17respect_protojson_int64\x18\x12 \x01(\bR\x15respectProtojsonInt64\"\x9f\x01\n" +
 	"\vFileOptions\x12)\n" +
 	"\x10visibility_level\x18\x01 \x01(\rR\x0fvisibilityLevel\x12-\n" +
 	"\x12entrypoint_message\x18\x02 \x01(\tR\x11entrypointMessage\x12\x14\n" +
