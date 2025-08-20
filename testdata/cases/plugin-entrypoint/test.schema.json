@@ -34,15 +34,15 @@
       "exclusiveMaximum": 20,
       "exclusiveMinimum": 10
     },
-    ".tests.Values2.string": {
-      "type": "string",
-      "pattern": "^[a-zA-Z0-9]+$"
-    },
     ".tests.Values2.map": {
       "additionalProperties": {
         "type": "string"
       },
       "type": "object"
+    },
+    ".tests.Values2.string": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9]+$"
     }
   },
   "type": "object"

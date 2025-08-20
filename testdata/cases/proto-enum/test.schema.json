@@ -9,20 +9,6 @@
         "FOODefault1"
       ]
     },
-    ".tests.MapToNumber": {
-      "type": "number",
-      "enum": [
-        0,
-        1
-      ]
-    },
-    ".tests.MapToString": {
-      "type": "string",
-      "enum": [
-        "FOOMapToString0",
-        "FOOMapToString1"
-      ]
-    },
     ".tests.MapToCustom": {
       "type": "string",
       "enum": [
@@ -36,6 +22,20 @@
         "foo",
         123,
         "FOOMapToCustomIncomplete2"
+      ]
+    },
+    ".tests.MapToNumber": {
+      "type": "number",
+      "enum": [
+        0,
+        1
+      ]
+    },
+    ".tests.MapToString": {
+      "type": "string",
+      "enum": [
+        "FOOMapToString0",
+        "FOOMapToString1"
       ]
     },
     ".tests.Values": {
@@ -79,11 +79,8 @@
     ".tests.Values.default": {
       "$ref": "#/$defs/.tests.Default"
     },
-    ".tests.Values.map_to_number": {
-      "$ref": "#/$defs/.tests.MapToNumber"
-    },
-    ".tests.Values.map_to_string": {
-      "$ref": "#/$defs/.tests.MapToString"
+    ".tests.Values.inline_enum": {
+      "$ref": "#/$defs/.tests.Values.InlineEnum"
     },
     ".tests.Values.map_to_custom": {
       "$ref": "#/$defs/.tests.MapToCustom"
@@ -91,8 +88,11 @@
     ".tests.Values.map_to_custom_incomplete": {
       "$ref": "#/$defs/.tests.MapToCustomIncomplete"
     },
-    ".tests.Values.inline_enum": {
-      "$ref": "#/$defs/.tests.Values.InlineEnum"
+    ".tests.Values.map_to_number": {
+      "$ref": "#/$defs/.tests.MapToNumber"
+    },
+    ".tests.Values.map_to_string": {
+      "$ref": "#/$defs/.tests.MapToString"
     }
   },
   "type": "object"

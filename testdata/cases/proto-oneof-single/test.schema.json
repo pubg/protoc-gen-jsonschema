@@ -109,23 +109,23 @@
         "count"
       ]
     },
-    ".samples.Values.value": {
-      "type": "string"
+    ".samples.Values.bool_value": {
+      "type": "boolean"
     },
     ".samples.Values.count": {
+      "type": "integer"
+    },
+    ".samples.Values.double_value": {
+      "type": "number"
+    },
+    ".samples.Values.int_value": {
       "type": "integer"
     },
     ".samples.Values.string_value": {
       "type": "string"
     },
-    ".samples.Values.int_value": {
-      "type": "integer"
-    },
-    ".samples.Values.bool_value": {
-      "type": "boolean"
-    },
-    ".samples.Values.double_value": {
-      "type": "number"
+    ".samples.Values.value": {
+      "type": "string"
     }
   },
   "type": "object"

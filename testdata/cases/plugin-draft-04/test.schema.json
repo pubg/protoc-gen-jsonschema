@@ -25,6 +25,12 @@
         "int64"
       ]
     },
+    ".tests.Values.int64": {
+      "type": "integer",
+      "maximum": 10,
+      "exclusiveMaximum": true,
+      "description": "Exclusive maximum should convert to maximum: 10 and exclusive_maximum: true"
+    },
     ".tests.Values.string1": {
       "type": "string",
       "description": "default option"
@@ -40,12 +46,6 @@
       "maxLength": 0,
       "minLength": 0,
       "description": "min/max with zero value"
-    },
-    ".tests.Values.int64": {
-      "type": "integer",
-      "maximum": 10,
-      "exclusiveMaximum": true,
-      "description": "Exclusive maximum should convert to maximum: 10 and exclusive_maximum: true"
     }
   },
   "type": "object"

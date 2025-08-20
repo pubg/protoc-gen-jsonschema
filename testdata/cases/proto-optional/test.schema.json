@@ -11,6 +11,20 @@
         "THREE"
       ]
     },
+    ".tests.Nested": {
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/.tests.Nested.value"
+        }
+      },
+      "type": "object",
+      "required": [
+        "value"
+      ]
+    },
+    ".tests.Nested.value": {
+      "type": "string"
+    },
     ".tests.Values": {
       "allOf": [
         {
@@ -186,45 +200,31 @@
         "enumValue"
       ]
     },
-    ".tests.Values.string_value": {
-      "type": "string"
+    ".tests.Values.enum_value": {
+      "$ref": "#/$defs/.tests.Enum"
     },
     ".tests.Values.int32_value": {
+      "type": "integer"
+    },
+    ".tests.Values.int32_value2": {
       "type": "integer"
     },
     ".tests.Values.int64_value": {
       "type": "integer"
     },
-    ".tests.Values.string_value2": {
-      "type": "string"
-    },
-    ".tests.Values.int32_value2": {
-      "type": "integer"
-    },
     ".tests.Values.nested_value": {
-      "$ref": "#/$defs/.tests.Nested"
-    },
-    ".tests.Values.enum_value": {
-      "$ref": "#/$defs/.tests.Enum"
-    },
-    ".tests.Values.optional_nested_value": {
       "$ref": "#/$defs/.tests.Nested"
     },
     ".tests.Values.optional_enum_value": {
       "$ref": "#/$defs/.tests.Enum"
     },
-    ".tests.Nested": {
-      "properties": {
-        "value": {
-          "$ref": "#/$defs/.tests.Nested.value"
-        }
-      },
-      "type": "object",
-      "required": [
-        "value"
-      ]
+    ".tests.Values.optional_nested_value": {
+      "$ref": "#/$defs/.tests.Nested"
     },
-    ".tests.Nested.value": {
+    ".tests.Values.string_value": {
+      "type": "string"
+    },
+    ".tests.Values.string_value2": {
       "type": "string"
     }
   },

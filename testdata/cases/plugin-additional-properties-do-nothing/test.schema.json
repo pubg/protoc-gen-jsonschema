@@ -2,27 +2,6 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$ref": "#/$defs/.tests.Values",
   "$defs": {
-    ".tests.Values": {
-      "properties": {
-        "messages": {
-          "$ref": "#/$defs/.tests.Values.messages"
-        },
-        "messages2": {
-          "$ref": "#/$defs/.tests.Values.messages2"
-        }
-      },
-      "type": "object",
-      "required": [
-        "messages",
-        "messages2"
-      ]
-    },
-    ".tests.Values.messages": {
-      "$ref": "#/$defs/.tests.MandatorySetAdditionalPropertiesToFalse"
-    },
-    ".tests.Values.messages2": {
-      "$ref": "#/$defs/.tests.MandatorySetAdditionalPropertiesToTrue"
-    },
     ".tests.MandatorySetAdditionalPropertiesToFalse": {
       "properties": {
         "val1": {
@@ -76,6 +55,27 @@
         "type": "integer"
       },
       "type": "array"
+    },
+    ".tests.Values": {
+      "properties": {
+        "messages": {
+          "$ref": "#/$defs/.tests.Values.messages"
+        },
+        "messages2": {
+          "$ref": "#/$defs/.tests.Values.messages2"
+        }
+      },
+      "type": "object",
+      "required": [
+        "messages",
+        "messages2"
+      ]
+    },
+    ".tests.Values.messages": {
+      "$ref": "#/$defs/.tests.MandatorySetAdditionalPropertiesToFalse"
+    },
+    ".tests.Values.messages2": {
+      "$ref": "#/$defs/.tests.MandatorySetAdditionalPropertiesToTrue"
     }
   },
   "type": "object"

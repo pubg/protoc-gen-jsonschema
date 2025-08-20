@@ -2,20 +2,6 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$ref": "#/$defs/.tests.Values",
   "$defs": {
-    ".tests.Values": {
-      "properties": {
-        "entry": {
-          "$ref": "#/$defs/.tests.Values.entry"
-        }
-      },
-      "type": "object",
-      "required": [
-        "entry"
-      ]
-    },
-    ".tests.Values.entry": {
-      "$ref": "#/$defs/.tests.SelfReference"
-    },
     ".tests.SelfReference": {
       "properties": {
         "self": {
@@ -29,6 +15,20 @@
       "description": "message CircularDependentTwoDepth {\n  CircularDependentTwoDepth0 child = 1;\n}\n\nmessage CircularDependentTwoDepth0 {\n  CircularDependentTwoDepth parent = 1;\n}"
     },
     ".tests.SelfReference.self": {
+      "$ref": "#/$defs/.tests.SelfReference"
+    },
+    ".tests.Values": {
+      "properties": {
+        "entry": {
+          "$ref": "#/$defs/.tests.Values.entry"
+        }
+      },
+      "type": "object",
+      "required": [
+        "entry"
+      ]
+    },
+    ".tests.Values.entry": {
       "$ref": "#/$defs/.tests.SelfReference"
     }
   },
