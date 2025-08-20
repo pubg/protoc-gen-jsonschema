@@ -1,5 +1,7 @@
 package jsonschema
 
+import "slices"
+
 type Registry struct {
 	schemasByName SchemaMap
 }
@@ -28,6 +30,17 @@ func (r *Registry) GetKeys() []string {
 
 func (r *Registry) DeleteSchema(id string) {
 	r.schemasByName.Delete(id)
+}
+
+func (r *Registry) SortSchemas() {
+	sortedKeys := slices.Clone(r.GetKeys())
+	slices.Sort(sortedKeys)
+
+	for _, key := range sortedKeys {
+		schema := r.GetSchema(key)
+		r.DeleteSchema(key)
+		r.AddSchema(key, schema)
+	}
 }
 
 func DeepCopyRegistry(registry *Registry) *Registry {

@@ -57,5 +57,5 @@ dump-testdata:
     --debug_opt=dump_binary=true \
     --debug_opt=file_binary=request.pb.bin \
     -I ./ \
-    -I ./testdata/cases/jsonschema-object \
-    ./testdata/cases/jsonschema-object/test.proto
+    -I ./testdata/cases/plugin-consist-output \
+    ./testdata/cases/plugin-consist-output/test.proto

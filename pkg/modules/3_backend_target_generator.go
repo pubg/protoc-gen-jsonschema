@@ -18,11 +18,12 @@ type BackendTargetGenerator interface {
 var _ BackendTargetGenerator = (*MultiDraftGenerator)(nil)
 
 type MultiDraftGenerator struct {
+	module        *pgs.ModuleBase
 	pluginOptions *proto.PluginOptions
 }
 
-func NewMultiDraftGenerator(pluginOptions *proto.PluginOptions) *MultiDraftGenerator {
-	return &MultiDraftGenerator{pluginOptions: pluginOptions}
+func NewMultiDraftGenerator(module *pgs.ModuleBase, pluginOptions *proto.PluginOptions) *MultiDraftGenerator {
+	return &MultiDraftGenerator{module: module, pluginOptions: pluginOptions}
 }
 
 const draft04Version = "http://json-schema.org/draft-04/schema#"

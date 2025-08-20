@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package tests;
+
+import "jsonschema.proto";
+import "moreprotos/config.proto";
+
+option go_package = "github.com/pubg/fooo";
+
+option (pubg.jsonschema.file) = {entrypoint_message: "Wrapper"};
+
+message Wrapper {
+	cloud.ilsa.config.InstanceConfig bar = 1;
+}

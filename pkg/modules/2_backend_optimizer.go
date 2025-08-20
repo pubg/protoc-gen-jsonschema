@@ -15,12 +15,13 @@ type BackendOptimizer interface {
 var _ BackendOptimizer = (*OptimizerImpl)(nil)
 
 type OptimizerImpl struct {
+	module        *pgs.ModuleBase
 	schemaByRef   jsonschema.SchemaMap
 	pluginOptions *proto.PluginOptions
 }
 
-func NewOptimizerImpl(pluginOptions *proto.PluginOptions) *OptimizerImpl {
-	return &OptimizerImpl{schemaByRef: jsonschema.NewOrderedSchemaMap(), pluginOptions: pluginOptions}
+func NewOptimizerImpl(module *pgs.ModuleBase, pluginOptions *proto.PluginOptions) *OptimizerImpl {
+	return &OptimizerImpl{module: module, schemaByRef: jsonschema.NewOrderedSchemaMap(), pluginOptions: pluginOptions}
 }
 
 const linkedFromEntrypoint = "linkedFromEntrypoint"
@@ -39,9 +40,7 @@ func (o *OptimizerImpl) optimizeDefinitions(registry *jsonschema.Registry) {
 	var deleteKeys []string
 	for _, key := range registry.GetKeys() {
 		schema := registry.GetSchema(key)
-		if schema.GetExtrasItem(linkedFromEntrypoint) == nil {
-			deleteKeys = append(deleteKeys, key)
-		} else if schema.GetExtrasItem(linkedFromEntrypoint).(bool) == false {
+		if schema.GetExtrasItem(linkedFromEntrypoint) == nil || schema.GetExtrasItem(linkedFromEntrypoint).(bool) == false {
 			deleteKeys = append(deleteKeys, key)
 		}
 	}
@@ -66,7 +65,7 @@ func (o *OptimizerImpl) getEntrypointMessage(messages []pgs.Message, fileOptions
 	return nil
 }
 
-// return true if first visit to schema
+// return true if the first visit to schema
 func (o *OptimizerImpl) checkAndMarkSchemaToVisitable(registry *jsonschema.Registry, ref string) bool {
 	schema := registry.GetSchema(ref)
 	if schema == nil {
